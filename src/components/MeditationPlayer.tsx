@@ -26,6 +26,25 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
   const [completed, setCompleted] = useState(false);
   const [resolvedSound] = useState<AmbientSound>(() => resolveSound(sound));
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
+  const [breathPhase, setBreathPhase] = useState(0);
+  const breathTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  // Breathing cycle controller
+  useEffect(() => {
+    if (!playing) {
+      setBreathPhase(0);
+      return;
+    }
+    let phase = 0;
+    setBreathPhase(0);
+    const tick = () => {
+      phase = (phase + 1) % BREATH_PHASES.length;
+      setBreathPhase(phase);
+      breathTimerRef.current = setTimeout(tick, BREATH_PHASES[phase].duration);
+    };
+    breathTimerRef.current = setTimeout(tick, BREATH_PHASES[0].duration);
+    return () => clearTimeout(breathTimerRef.current);
+  }, [playing]);
 
   const playBell = useCallback(() => {
     try {
