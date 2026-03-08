@@ -18,6 +18,7 @@ export interface MoodEntry {
   note?: string;
   sessionMinutes?: number;
   sound?: SoundType;
+  savedQuote?: { text: string; author: string };
 }
 
 interface MeditationState {
