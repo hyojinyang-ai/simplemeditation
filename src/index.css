@@ -62,8 +62,8 @@
     --shadow-glow: 0 0 30px -5px hsl(145 30% 42% / 0.15);
 
     /* Fonts */
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'DM Sans', sans-serif;
+    --font-display: 'Sora', sans-serif;
+    --font-body: 'Inter', sans-serif;
 
     --sidebar-background: 38 28% 94%;
     --sidebar-foreground: 30 20% 18%;
