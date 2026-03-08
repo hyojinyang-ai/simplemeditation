@@ -1,4 +1,9 @@
 import { create } from 'zustand';
+import {
+  Frown, BatteryLow, Minus, Zap, AlertTriangle,
+  CloudRain, Waves, TreePine, Bell, Disc3, Music, Shuffle,
+  Smile, Wind, Heart, Sun, Sparkles,
+} from 'lucide-react';
 
 export type PreMood = 'stressed' | 'tired' | 'neutral' | 'energized' | 'anxious';
 export type PostMood = 'calm' | 'relieved' | 'peaceful' | 'grateful' | 'refreshed';
@@ -40,30 +45,30 @@ export const useMeditationStore = create<MeditationState>((set) => ({
     }),
 }));
 
-export const preMoodConfig: Record<PreMood, { emoji: string; label: string; color: string }> = {
-  stressed: { emoji: '😰', label: 'Stressed', color: 'bg-zen-rose-light text-zen-rose' },
-  tired: { emoji: '😴', label: 'Tired', color: 'bg-zen-lavender-light text-zen-lavender' },
-  neutral: { emoji: '😐', label: 'Neutral', color: 'bg-zen-sky-light text-zen-sky' },
-  energized: { emoji: '⚡', label: 'Energized', color: 'bg-zen-green-light text-zen-green' },
-  anxious: { emoji: '😟', label: 'Anxious', color: 'bg-zen-blue-light text-zen-blue' },
+export const preMoodConfig: Record<PreMood, { icon: typeof Frown; label: string; color: string }> = {
+  stressed: { icon: Frown, label: 'Stressed', color: 'bg-zen-rose-light text-zen-rose' },
+  tired: { icon: BatteryLow, label: 'Tired', color: 'bg-zen-lavender-light text-zen-lavender' },
+  neutral: { icon: Minus, label: 'Neutral', color: 'bg-zen-sky-light text-zen-sky' },
+  energized: { icon: Zap, label: 'Energized', color: 'bg-zen-green-light text-zen-green' },
+  anxious: { icon: AlertTriangle, label: 'Anxious', color: 'bg-zen-blue-light text-zen-blue' },
 };
 
-export const postMoodConfig: Record<PostMood, { emoji: string; label: string; color: string }> = {
-  calm: { emoji: '😌', label: 'Calm', color: 'bg-zen-blue-light text-zen-blue' },
-  relieved: { emoji: '😮‍💨', label: 'Relieved', color: 'bg-zen-sky-light text-zen-sky' },
-  peaceful: { emoji: '🕊️', label: 'Peaceful', color: 'bg-zen-lavender-light text-zen-lavender' },
-  grateful: { emoji: '🙏', label: 'Grateful', color: 'bg-zen-green-light text-zen-green' },
-  refreshed: { emoji: '✨', label: 'Refreshed', color: 'bg-zen-rose-light text-zen-rose' },
+export const postMoodConfig: Record<PostMood, { icon: typeof Smile; label: string; color: string }> = {
+  calm: { icon: Smile, label: 'Calm', color: 'bg-zen-blue-light text-zen-blue' },
+  relieved: { icon: Wind, label: 'Relieved', color: 'bg-zen-sky-light text-zen-sky' },
+  peaceful: { icon: Heart, label: 'Peaceful', color: 'bg-zen-lavender-light text-zen-lavender' },
+  grateful: { icon: Sun, label: 'Grateful', color: 'bg-zen-green-light text-zen-green' },
+  refreshed: { icon: Sparkles, label: 'Refreshed', color: 'bg-zen-rose-light text-zen-rose' },
 };
 
-export const soundConfig: Record<SoundType, { emoji: string; label: string }> = {
-  'singing-bowl': { emoji: '🔔', label: 'Singing Bowl' },
-  'gong': { emoji: '🥁', label: 'Gong' },
-  'ambient-pad': { emoji: '🎵', label: 'Ambient Pad' },
-  'nature': { emoji: '🌲', label: 'Nature' },
-  'rain': { emoji: '🌧️', label: 'Rain' },
-  'ocean': { emoji: '🌊', label: 'Ocean' },
-  'random': { emoji: '🎲', label: 'Surprise Me' },
+export const soundConfig: Record<SoundType, { icon: typeof Bell; label: string }> = {
+  'singing-bowl': { icon: Bell, label: 'Singing Bowl' },
+  'gong': { icon: Disc3, label: 'Gong' },
+  'ambient-pad': { icon: Music, label: 'Ambient Pad' },
+  'nature': { icon: TreePine, label: 'Nature' },
+  'rain': { icon: CloudRain, label: 'Rain' },
+  'ocean': { icon: Waves, label: 'Ocean' },
+  'random': { icon: Shuffle, label: 'Surprise Me' },
 };
 
 export const stoicQuotes = [

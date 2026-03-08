@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useMeditationStore, preMoodConfig, postMoodConfig } from '@/lib/meditation-store';
 import { format } from 'date-fns';
+import { BookOpen } from 'lucide-react';
 import heroImg from '@/assets/hero-nature.jpg';
 
 const TrackerPage = () => {
@@ -9,21 +10,20 @@ const TrackerPage = () => {
 
   return (
     <div className="min-h-screen relative pb-24">
-      {/* Background */}
       <div className="absolute inset-0 -z-10">
-        <img src={heroImg} alt="" className="w-full h-48 object-cover opacity-20" />
+        <img src={heroImg} alt="" className="w-full h-48 object-cover opacity-15" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/90 to-background" />
       </div>
 
       <div className="px-4 pt-8 max-w-md mx-auto space-y-5">
         <div>
-          <h1 className="text-3xl font-display font-semibold">Journal</h1>
-          <p className="text-muted-foreground text-sm mt-0.5">Your meditation journey</p>
+          <h1 className="text-3xl font-display font-medium tracking-tight">Journal</h1>
+          <p className="text-muted-foreground text-sm mt-1">Your meditation journey</p>
         </div>
 
         {sorted.length === 0 && (
           <div className="text-center py-16 space-y-3">
-            <span className="text-5xl">🧘</span>
+            <BookOpen size={36} strokeWidth={1.5} className="mx-auto text-muted-foreground" />
             <p className="text-muted-foreground text-sm">No sessions yet. Complete a meditation to start tracking.</p>
           </div>
         )}
@@ -31,6 +31,7 @@ const TrackerPage = () => {
         {sorted.map((entry, i) => {
           const preConfig = preMoodConfig[entry.preMood];
           const postConfig = entry.postMood ? postMoodConfig[entry.postMood] : null;
+          const PreIcon = preConfig.icon;
           return (
             <motion.div
               key={entry.id}
@@ -52,18 +53,21 @@ const TrackerPage = () => {
 
               <div className="flex items-center gap-2">
                 <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-medium ${preConfig.color}`}>
-                  <span>{preConfig.emoji}</span>
+                  <PreIcon size={14} strokeWidth={1.5} />
                   {preConfig.label}
                 </div>
-                {postConfig && (
-                  <>
-                    <span className="text-muted-foreground text-xs">→</span>
-                    <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-medium ${postConfig.color}`}>
-                      <span>{postConfig.emoji}</span>
-                      {postConfig.label}
-                    </div>
-                  </>
-                )}
+                {postConfig && (() => {
+                  const PostIcon = postConfig.icon;
+                  return (
+                    <>
+                      <span className="text-muted-foreground text-xs">→</span>
+                      <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-medium ${postConfig.color}`}>
+                        <PostIcon size={14} strokeWidth={1.5} />
+                        {postConfig.label}
+                      </div>
+                    </>
+                  );
+                })()}
               </div>
 
               {entry.note && (

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Leaf } from 'lucide-react';
 import MoodCheck from '@/components/MoodCheck';
 import SessionPicker from '@/components/SessionPicker';
 import SoundPicker from '@/components/SoundPicker';
@@ -8,7 +9,6 @@ import Reflection from '@/components/Reflection';
 import StoicQuote from '@/components/StoicQuote';
 import { PreMood, PostMood, SoundType, useMeditationStore, getRandomQuote } from '@/lib/meditation-store';
 import heroImg from '@/assets/hero-nature.jpg';
-import meditationIllustration from '@/assets/meditation-illustration.png';
 
 type Step = 'mood' | 'session' | 'sound' | 'play' | 'reflect' | 'quote';
 
@@ -62,51 +62,44 @@ const Index = () => {
       {isMeditating ? (
         <div className="absolute inset-0 gradient-meditation" />
       ) : (
-        <>
-          {/* Nature hero image */}
-          <div className="absolute inset-0">
-            <img
-              src={heroImg}
-              alt=""
-              className="w-full h-full object-cover opacity-30"
-            />
-            <div className="absolute inset-0 gradient-hero opacity-80" />
-          </div>
-        </>
+        <div className="absolute inset-0">
+          <img src={heroImg} alt="" className="w-full h-full object-cover opacity-20" />
+          <div className="absolute inset-0 gradient-hero opacity-85" />
+        </div>
       )}
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-sm">
         {showHero && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-6"
+            className="text-center mb-8"
           >
             {(step === 'mood' || step === 'quote') && (
-              <motion.img
-                src={meditationIllustration}
-                alt="Meditation"
-                className="w-24 h-24 mx-auto mb-3 animate-float"
-                initial={{ opacity: 0, scale: 0.8 }}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-              />
+                className="mb-4"
+              >
+                <Leaf size={32} strokeWidth={1.5} className="mx-auto text-accent animate-float" />
+              </motion.div>
             )}
-            <h1 className="text-4xl font-display font-semibold tracking-tight text-foreground">
+            <h1 className="text-4xl font-display font-medium tracking-tight text-foreground">
               Stillness
             </h1>
-            <p className="text-muted-foreground text-sm mt-1">Find your calm</p>
+            <p className="text-muted-foreground text-sm mt-1.5 tracking-wide">Find your calm</p>
           </motion.div>
         )}
 
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.25 }}
           >
             {step === 'mood' && <MoodCheck onSelect={handleMoodSelect} selected={preMood} />}
             {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} />}
