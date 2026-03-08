@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useMeditationStore, preMoodConfig, postMoodConfig } from '@/lib/meditation-store';
 import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
-import heroImg from '@/assets/hero-nature.jpg';
+
 import StepHeader from '@/components/StepHeader';
 import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
 import PullToRefresh from '@/components/PullToRefresh';
@@ -19,10 +19,6 @@ const TrackerPage = () => {
 
   return (
     <div ref={containerRef} className="min-h-screen relative pb-24 overflow-auto">
-      <div className="absolute inset-0 -z-10">
-        <img src={heroImg} alt="" className="w-full h-48 object-cover opacity-15" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/90 to-background" />
-      </div>
 
       <div className="px-4 max-w-md mx-auto space-y-5">
         <StepHeader title="Journal" subtitle="Your meditation journey" sticky />
