@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MoodCheck from '@/components/MoodCheck';
 import SessionPicker from '@/components/SessionPicker';
@@ -20,6 +20,15 @@ const Index = () => {
   const [saved, setSaved] = useState(false);
   const [lastEntryId, setLastEntryId] = useState<string>();
   const { addEntry, entries } = useMeditationStore();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const isHome = step === 'mood' || step === 'quote';
+
+  useEffect(() => {
+    if (isHome && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [isHome]);
 
   const handleMoodSelect = (m: PreMood) => {
     setPreMood(m);
@@ -73,7 +82,6 @@ const Index = () => {
 
   const isMeditating = step === 'play';
   const showHero = !isMeditating;
-  const isHome = step === 'mood' || step === 'quote';
 
   return (
     <div className="min-h-[100dvh] relative flex flex-col items-center justify-center px-4 pb-16 overflow-hidden">
@@ -108,6 +116,7 @@ const Index = () => {
                 className="w-52 h-52 mx-auto mt-4 mb-1 rounded-full overflow-hidden bg-background"
               >
                 <video
+                  ref={videoRef}
                   src="/videos/hero.mp4"
                   autoPlay
                   loop
