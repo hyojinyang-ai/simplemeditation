@@ -30,6 +30,7 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
+                whileTap={{ scale: 0.88, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
                 onClick={() => setSelected(mood)}
                 className={`flex flex-col items-center gap-1.5 p-2.5 rounded-2xl transition-all min-w-[54px] ${
                   selected === mood
