@@ -116,6 +116,7 @@ const Index = () => {
                 className="w-52 h-52 mx-auto mt-4 mb-1 rounded-full overflow-hidden bg-background"
               >
                 <video
+                  ref={videoRef}
                   src="/videos/hero.mp4"
                   autoPlay
                   loop
