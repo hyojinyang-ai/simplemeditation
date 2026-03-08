@@ -20,6 +20,14 @@ const Index = () => {
   const [saved, setSaved] = useState(false);
   const [lastEntryId, setLastEntryId] = useState<string>();
   const { addEntry, entries } = useMeditationStore();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (isHome && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [step]);
 
   const handleMoodSelect = (m: PreMood) => {
     setPreMood(m);
