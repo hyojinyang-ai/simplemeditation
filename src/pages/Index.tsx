@@ -109,7 +109,7 @@ const Index = () => {
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-contain scale-90"
+                  className="w-full h-full object-contain scale-90 mix-blend-multiply"
                 />
               </motion.div>
             )}
