@@ -146,12 +146,6 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
         >
           {/* Ambient floating visuals behind the player */}
           {playing && <AmbientVisuals sound={resolvedSound} />}
-          {/* Back button - only before playing */}
-          {onBack && (
-            <button onClick={onBack} className="self-start flex items-center gap-1 text-sm text-foreground/50 hover:text-foreground/80 transition-colors">
-              <ChevronLeft size={16} /> Change sound
-            </button>
-          )}
           {/* Pulsating circles + progress ring */}
           <div className="relative w-64 h-64 flex items-center justify-center">
             {/* Pulsating rings synced to breathing cycle */}

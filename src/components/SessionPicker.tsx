@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Clock, ChevronLeft } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 interface SessionPickerProps {
   onSelect: (minutes: number) => void;
