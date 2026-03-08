@@ -50,7 +50,6 @@ export const preMoodConfig: Record<PreMood, { icon: typeof Frown; label: string;
   stressed: { icon: Frown, label: 'Stressed', color: 'bg-zen-rose-light text-zen-rose' },
   tired: { icon: BatteryLow, label: 'Tired', color: 'bg-zen-lavender-light text-zen-lavender' },
   neutral: { icon: Minus, label: 'Neutral', color: 'bg-zen-sky-light text-zen-sky' },
-  energized: { icon: Zap, label: 'Energized', color: 'bg-zen-green-light text-zen-green' },
   anxious: { icon: AlertTriangle, label: 'Anxious', color: 'bg-zen-blue-light text-zen-blue' },
 };
 
