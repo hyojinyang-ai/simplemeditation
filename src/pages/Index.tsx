@@ -101,7 +101,7 @@ const Index = () => {
                   opacity: { delay: 0.2, duration: 0.4 },
                   scale: { delay: 0.2, type: 'spring', stiffness: 120 },
                 }}
-                className="w-56 h-56 mx-auto mb-3 rounded-2xl overflow-hidden shadow-lg"
+                className="w-48 h-48 mx-auto mb-3 rounded-full overflow-hidden shadow-lg"
               >
                 <video
                   src="/videos/hero.mp4"
@@ -109,7 +109,7 @@ const Index = () => {
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-cover"
+                  className="w-[140%] h-[140%] object-cover -translate-x-[14%] -translate-y-[14%]"
                 />
               </motion.div>
             )}
