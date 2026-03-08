@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, CheckCircle, ChevronLeft } from 'lucide-react';
+import { Play, Pause, CheckCircle } from 'lucide-react';
 import { ambientEngine, resolveSound, AmbientSound } from '@/lib/ambient-engine';
 import { SoundType } from '@/lib/meditation-store';
 import AmbientVisuals from './AmbientVisuals';
