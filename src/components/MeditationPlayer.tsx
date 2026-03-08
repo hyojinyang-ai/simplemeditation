@@ -118,7 +118,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
           className="flex flex-col items-center gap-10 pt-8"
         >
           {/* Back button - only before playing */}
-          {onBack && !playing && remaining === totalSeconds && (
+          {onBack && (
             <button onClick={onBack} className="self-start flex items-center gap-1 text-sm text-primary-foreground/50 hover:text-primary-foreground/80 transition-colors">
               <ChevronLeft size={16} /> Change sound
             </button>
