@@ -11,7 +11,7 @@ const StepHeader = ({ title, onBack }: StepHeaderProps) => {
     <motion.div
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex items-center justify-center relative py-3"
+      className="flex items-center justify-center relative py-3 mb-2 border-b border-border/40 backdrop-blur-md"
     >
       {onBack && (
         <button
