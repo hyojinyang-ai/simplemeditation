@@ -86,7 +86,7 @@ const Index = () => {
   const showHero = !isMeditating;
 
   return (
-    <div className="min-h-[100dvh] relative flex flex-col items-center justify-center px-4 pb-16 overflow-hidden">
+    <div className="min-h-[100dvh] relative flex flex-col pb-16 overflow-hidden">
       {/* Background — hide hero image on home, show on other steps */}
       {!isHome && (
         <div className="absolute inset-0">
@@ -95,56 +95,60 @@ const Index = () => {
         </div>
       )}
 
+      {/* Sticky Header */}
+      <div className="relative z-20 px-4 max-w-sm w-full mx-auto">
+        {step === 'mood' && <StepHeader title="Stillness" subtitle="Begin your practice" sticky />}
+        {step === 'session' && <StepHeader title="Meditation" subtitle="Choose your session" onBack={() => setStep('mood')} sticky />}
+        {step === 'sound' && <StepHeader title="Meditation" subtitle="Pick a soundscape" onBack={() => setStep('session')} sticky />}
+        {step === 'play' && <StepHeader title="Meditation" subtitle="Breathe deeply" onBack={() => setStep('sound')} sticky />}
+        {step === 'reflect' && <StepHeader title="Reflection" subtitle="How do you feel now?" sticky />}
+        {step === 'quote' && <StepHeader title="Stillness" subtitle="A thought to carry with you" sticky />}
+      </div>
+
       {/* Content */}
-      <div className="relative z-10 w-full max-w-sm">
-        {/* Step Header */}
-        {step === 'mood' && <StepHeader title="Stillness" subtitle="Begin your practice" />}
-        {step === 'session' && <StepHeader title="Meditation" subtitle="Choose your session" onBack={() => setStep('mood')} />}
-        {step === 'sound' && <StepHeader title="Meditation" subtitle="Pick a soundscape" onBack={() => setStep('session')} />}
-        {step === 'play' && <StepHeader title="Meditation" subtitle="Breathe deeply" onBack={() => setStep('sound')} />}
-        {step === 'reflect' && <StepHeader title="Reflection" subtitle="How do you feel now?" />}
-        {step === 'quote' && <StepHeader title="Stillness" subtitle="A thought to carry with you" />}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4">
+        <div className="w-full max-w-sm">
+          {isHome && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                opacity: { delay: 0.2, duration: 0.4 },
+                scale: { delay: 0.2, type: 'spring', stiffness: 120 },
+              }}
+              className="w-52 h-52 mx-auto mt-2 mb-1 rounded-full overflow-hidden bg-background"
+            >
+              <video
+                ref={videoRef}
+                src="/videos/hero.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-contain scale-90 mix-blend-multiply"
+              />
+            </motion.div>
+          )}
 
-        {isHome && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ 
-              opacity: { delay: 0.2, duration: 0.4 },
-              scale: { delay: 0.2, type: 'spring', stiffness: 120 },
-            }}
-            className="w-52 h-52 mx-auto mt-2 mb-1 rounded-full overflow-hidden bg-background"
-          >
-            <video
-              ref={videoRef}
-              src="/videos/hero.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-contain scale-90 mix-blend-multiply"
-            />
-          </motion.div>
-        )}
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, y: 12, scale: 0.97, filter: 'blur(4px)' }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: -8, scale: 0.97, filter: 'blur(4px)' }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {step === 'mood' && <MoodCheck onSelect={handleMoodSelect} selected={preMood} />}
-            {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} />}
-            {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} />}
-            {step === 'play' && minutes && sound && (
-              <MeditationPlayer minutes={minutes} sound={sound} onComplete={handleMeditationComplete} />
-            )}
-            {step === 'reflect' && <Reflection onSubmit={handleReflection} />}
-            {step === 'quote' && <StoicQuote quote={quote} onContinue={handleReset} onSave={handleSaveQuote} saved={saved} />}
-          </motion.div>
-        </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, y: 12, scale: 0.97, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -8, scale: 0.97, filter: 'blur(4px)' }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {step === 'mood' && <MoodCheck onSelect={handleMoodSelect} selected={preMood} />}
+              {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} />}
+              {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} />}
+              {step === 'play' && minutes && sound && (
+                <MeditationPlayer minutes={minutes} sound={sound} onComplete={handleMeditationComplete} />
+              )}
+              {step === 'reflect' && <Reflection onSubmit={handleReflection} />}
+              {step === 'quote' && <StoicQuote quote={quote} onContinue={handleReset} onSave={handleSaveQuote} saved={saved} />}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
