@@ -26,6 +26,7 @@ const SessionPicker = ({ onSelect, selected }: SessionPickerProps) => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.08 }}
+            whileTap={{ scale: 0.9, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
             onClick={() => onSelect(session.minutes)}
             className={`flex flex-col items-center gap-2.5 p-5 rounded-2xl transition-all duration-200 ${
               selected === session.minutes

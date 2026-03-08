@@ -55,7 +55,7 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
             className="w-full glass rounded-2xl p-4 text-sm resize-none h-20 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-muted-foreground/50"
           />
           <motion.button
-            whileTap={{ scale: 0.97 }}
+            whileTap={{ scale: 0.94, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
             onClick={() => onSubmit(selected, note || undefined)}
             className="w-full py-3.5 rounded-2xl gradient-calm text-primary-foreground text-sm font-medium tracking-wide"
           >

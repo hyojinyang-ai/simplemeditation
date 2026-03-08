@@ -40,7 +40,7 @@ const StoicQuote = ({ quote, onContinue }: StoicQuoteProps) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        whileTap={{ scale: 0.97 }}
+        whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
         onClick={onContinue}
         className="inline-flex items-center gap-2 px-8 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide hover:bg-muted/50 transition-all"
       >

@@ -24,6 +24,7 @@ const SoundPicker = ({ onSelect, selected }: SoundPickerProps) => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.04 }}
+              whileTap={{ scale: 0.9, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
               onClick={() => onSelect(sound)}
               className={`flex flex-col items-center gap-2 py-4 px-2 rounded-2xl transition-all duration-200 ${
                 selected === sound

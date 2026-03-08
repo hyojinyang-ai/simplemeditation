@@ -174,3 +174,18 @@
     @apply bg-card/85 backdrop-blur-2xl border border-border/40;
   }
 }
+
+/* Haptic tap keyframes */
+@keyframes haptic-bump {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.92); }
+  70% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes haptic-press {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  80% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
