@@ -163,7 +163,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
 
             {/* Progress ring */}
             <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 256 256">
-              <circle cx="128" cy="128" r="115" fill="none" stroke="hsl(230 60% 56% / 0.08)" strokeWidth="2" />
+              <circle cx="128" cy="128" r="115" fill="none" stroke="hsl(145 30% 42% / 0.08)" strokeWidth="2" />
               <circle
                 cx="128" cy="128" r="115"
                 fill="none"
@@ -176,8 +176,8 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
               />
               <defs>
                 <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="hsl(220, 65%, 58%)" />
-                  <stop offset="100%" stopColor="hsl(260, 45%, 65%)" />
+                  <stop offset="0%" stopColor="hsl(145, 30%, 42%)" />
+                  <stop offset="100%" stopColor="hsl(160, 25%, 55%)" />
                 </linearGradient>
               </defs>
             </svg>
