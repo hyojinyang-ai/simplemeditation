@@ -29,7 +29,7 @@ const AmbientVisuals = forwardRef<HTMLDivElement>((_, ref) => {
   );
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+    <div ref={ref} className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
       {/* Floating orbs */}
       {orbs.map((orb) => (
         <motion.div
