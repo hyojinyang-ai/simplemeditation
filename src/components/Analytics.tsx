@@ -4,6 +4,7 @@ import { subDays, startOfDay, format } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { Activity, Clock, Flame, FileText, BarChart3 } from 'lucide-react';
 import heroImg from '@/assets/hero-nature.jpg';
+import StepHeader from '@/components/StepHeader';
 
 const CHART_COLORS = [
   'hsl(220, 65%, 58%)',
@@ -71,11 +72,8 @@ const Analytics = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/90 to-background" />
       </div>
 
-      <div className="px-4 pt-8 max-w-md mx-auto space-y-5">
-        <div>
-          <h1 className="text-3xl font-display font-medium tracking-tight">Insights</h1>
-          <p className="text-muted-foreground text-sm mt-1">Your mindfulness journey</p>
-        </div>
+      <div className="px-4 max-w-md mx-auto space-y-5">
+        <StepHeader title="Insights" subtitle="Your mindfulness journey" />
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-3">

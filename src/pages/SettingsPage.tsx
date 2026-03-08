@@ -1,20 +1,15 @@
 import { useTheme } from 'next-themes';
-import { Moon, Sun, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Moon, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
+import StepHeader from '@/components/StepHeader';
 
 const SettingsPage = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="min-h-[100dvh] px-4 pt-12 pb-24">
+    <div className="min-h-[100dvh] px-4 pb-24">
       <div className="max-w-sm mx-auto">
-        <div className="flex items-center gap-3 mb-8">
-          <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft size={20} strokeWidth={1.5} />
-          </Link>
-          <h1 className="text-2xl font-display font-semibold text-foreground">Settings</h1>
-        </div>
+        <StepHeader title="Settings" subtitle="Customize your experience" />
 
         <motion.div
           initial={{ opacity: 0, y: 10 }}

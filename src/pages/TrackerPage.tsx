@@ -4,6 +4,7 @@ import { useMeditationStore, preMoodConfig, postMoodConfig } from '@/lib/meditat
 import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
 import heroImg from '@/assets/hero-nature.jpg';
+import StepHeader from '@/components/StepHeader';
 
 type Tab = 'sessions' | 'quotes';
 
@@ -20,11 +21,8 @@ const TrackerPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/90 to-background" />
       </div>
 
-      <div className="px-4 pt-8 max-w-md mx-auto space-y-5">
-        <div>
-          <h1 className="text-3xl font-display font-medium tracking-tight">Journal</h1>
-          <p className="text-muted-foreground text-sm mt-1">Your meditation journey</p>
-        </div>
+      <div className="px-4 max-w-md mx-auto space-y-5">
+        <StepHeader title="Journal" subtitle="Your meditation journey" />
 
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-2xl bg-muted/40">
