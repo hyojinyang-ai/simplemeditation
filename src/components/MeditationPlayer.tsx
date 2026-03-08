@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, RotateCcw } from 'lucide-react';
+import AmbientPicker from './AmbientPicker';
+import { AmbientSound, ambientEngine } from '@/lib/ambient-engine';
 
 interface MeditationPlayerProps {
   minutes: number;
@@ -12,13 +14,13 @@ const MeditationPlayer = ({ minutes, onComplete }: MeditationPlayerProps) => {
   const [remaining, setRemaining] = useState(totalSeconds);
   const [playing, setPlaying] = useState(false);
   const [completed, setCompleted] = useState(false);
-  const audioRef = useRef<AudioContext | null>(null);
+  const [ambientSound, setAmbientSound] = useState<AmbientSound>('rain');
+  const [bowlEnabled, setBowlEnabled] = useState(true);
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
 
   const playBell = useCallback(() => {
     try {
       const ctx = new AudioContext();
-      audioRef.current = ctx;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';
@@ -30,6 +32,20 @@ const MeditationPlayer = ({ minutes, onComplete }: MeditationPlayerProps) => {
       osc.start();
       osc.stop(ctx.currentTime + 2);
     } catch {}
+  }, []);
+
+  // Start/stop ambient audio when playing state changes
+  useEffect(() => {
+    if (playing) {
+      ambientEngine.start(ambientSound, bowlEnabled);
+    } else {
+      ambientEngine.stop();
+    }
+  }, [playing, ambientSound, bowlEnabled]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => { ambientEngine.stop(); };
   }, []);
 
   useEffect(() => {
@@ -71,7 +87,7 @@ const MeditationPlayer = ({ minutes, onComplete }: MeditationPlayerProps) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex flex-col items-center gap-8"
+      className="flex flex-col items-center gap-6"
     >
       <AnimatePresence mode="wait">
         {completed ? (
@@ -116,20 +132,29 @@ const MeditationPlayer = ({ minutes, onComplete }: MeditationPlayerProps) => {
       </AnimatePresence>
 
       {!completed && (
-        <div className="flex gap-4">
-          <button
-            onClick={() => setPlaying(!playing)}
-            className="w-16 h-16 rounded-full gradient-calm flex items-center justify-center text-primary-foreground shadow-soft transition-transform hover:scale-105"
-          >
-            {playing ? <Pause size={24} /> : <Play size={24} className="ml-1" />}
-          </button>
-          <button
-            onClick={reset}
-            className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-accent transition-colors self-center"
-          >
-            <RotateCcw size={18} />
-          </button>
-        </div>
+        <>
+          <AmbientPicker
+            selected={ambientSound}
+            onSelect={setAmbientSound}
+            bowlEnabled={bowlEnabled}
+            onToggleBowl={() => setBowlEnabled((b) => !b)}
+          />
+
+          <div className="flex gap-4">
+            <button
+              onClick={() => setPlaying(!playing)}
+              className="w-16 h-16 rounded-full gradient-calm flex items-center justify-center text-primary-foreground shadow-soft transition-transform hover:scale-105"
+            >
+              {playing ? <Pause size={24} /> : <Play size={24} className="ml-1" />}
+            </button>
+            <button
+              onClick={reset}
+              className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-accent transition-colors self-center"
+            >
+              <RotateCcw size={18} />
+            </button>
+          </div>
+        </>
       )}
     </motion.div>
   );
