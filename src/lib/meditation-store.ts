@@ -5,7 +5,7 @@ import {
   Smile, Wind, Heart, Sun, Sparkles,
 } from 'lucide-react';
 
-export type PreMood = 'stressed' | 'tired' | 'neutral' | 'energized' | 'anxious';
+export type PreMood = 'stressed' | 'tired' | 'neutral' | 'anxious';
 export type PostMood = 'calm' | 'relieved' | 'peaceful' | 'grateful' | 'refreshed';
 export type Mood = PreMood | PostMood;
 export type SoundType = 'singing-bowl' | 'gong' | 'ambient-pad' | 'nature' | 'rain' | 'ocean' | 'random';
