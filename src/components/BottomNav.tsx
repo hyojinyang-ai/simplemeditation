@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, BarChart3, History } from 'lucide-react';
+import { Home, BarChart3, History, Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 const BottomNav = () => {
   const { pathname } = useLocation();
+  const { theme, setTheme } = useTheme();
 
   const links = [
     { to: '/', icon: Home, label: 'Meditate' },
@@ -21,10 +23,17 @@ const BottomNav = () => {
               pathname === to ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            <Icon size={20} />
+            <Icon size={20} strokeWidth={1.5} />
             <span className="text-[10px] font-medium">{label}</span>
           </Link>
         ))}
+        <button
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          className="flex flex-col items-center gap-0.5 px-4 py-2 rounded-xl transition-colors text-muted-foreground hover:text-foreground"
+        >
+          {theme === 'dark' ? <Sun size={20} strokeWidth={1.5} /> : <Moon size={20} strokeWidth={1.5} />}
+          <span className="text-[10px] font-medium">{theme === 'dark' ? 'Light' : 'Night'}</span>
+        </button>
       </div>
     </nav>
   );
