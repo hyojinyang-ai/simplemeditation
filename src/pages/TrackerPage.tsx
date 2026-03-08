@@ -22,7 +22,7 @@ const TrackerPage = () => {
       </div>
 
       <div className="px-4 max-w-md mx-auto space-y-5">
-        <StepHeader title="Journal" subtitle="Your meditation journey" />
+        <StepHeader title="Journal" subtitle="Your meditation journey" sticky />
 
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-2xl bg-muted/40">
