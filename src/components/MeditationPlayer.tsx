@@ -213,7 +213,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
 
           {/* Play/Pause */}
           <motion.button
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.85, transition: { type: 'spring', stiffness: 600, damping: 15 } }}
             onClick={() => setPlaying(!playing)}
             className="w-14 h-14 rounded-full gradient-calm flex items-center justify-center text-primary-foreground"
           >

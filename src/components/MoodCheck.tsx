@@ -25,6 +25,7 @@ const MoodCheck = ({ onSelect, selected }: MoodCheckProps) => {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06, type: 'spring', stiffness: 180 }}
+                whileTap={{ scale: 0.88, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
                 onClick={() => onSelect(mood)}
                 className={`flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-200 min-w-[58px] ${
                   selected === mood
