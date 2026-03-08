@@ -15,9 +15,10 @@ const MoodCheck = ({ onSelect, selected }: MoodCheckProps) => {
         <h2 className="text-2xl font-display font-medium tracking-tight">How are you feeling?</h2>
         <p className="text-muted-foreground text-sm">Check in with yourself</p>
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="flex gap-2">
         {moods.map(([mood, config], i) => {
           const Icon = config.icon;
+          const isSelected = selected === mood;
           return (
             <motion.button
               key={mood}
@@ -26,14 +27,14 @@ const MoodCheck = ({ onSelect, selected }: MoodCheckProps) => {
               transition={{ delay: i * 0.06, type: 'spring', stiffness: 180 }}
               whileTap={{ scale: 0.95, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
               onClick={() => onSelect(mood)}
-              className={`flex items-center gap-3 p-4 rounded-2xl transition-all duration-200 glass-strong ${
-                selected === mood
-                  ? `${config.color} ring-2 ring-primary/30 scale-[1.02]`
-                  : 'hover:bg-muted/50 hover:scale-[1.01]'
+              className={`flex-1 flex flex-col items-center gap-1.5 py-3 px-2 rounded-2xl transition-all duration-200 ${
+                isSelected
+                  ? 'bg-primary text-primary-foreground ring-2 ring-primary/30 scale-[1.02]'
+                  : 'glass-strong hover:bg-muted/50 hover:scale-[1.01]'
               }`}
             >
-              <Icon size={22} strokeWidth={1.5} />
-              <span className="text-sm font-medium tracking-wide">{config.label}</span>
+              <Icon size={20} strokeWidth={1.5} />
+              <span className="text-xs font-medium tracking-wide">{config.label}</span>
             </motion.button>
           );
         })}
