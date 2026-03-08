@@ -11,10 +11,7 @@ const SoundPicker = ({ onSelect, selected }: SoundPickerProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="text-center space-y-1.5">
-        <h2 className="text-2xl font-display font-medium tracking-tight">Pick your sound</h2>
-        <p className="text-muted-foreground text-sm">Choose what resonates with you</p>
-      </div>
+      <div className="grid grid-cols-3 gap-2.5">
       <div className="grid grid-cols-3 gap-2.5">
         {sounds.map(([sound, config], i) => {
           const Icon = config.icon;

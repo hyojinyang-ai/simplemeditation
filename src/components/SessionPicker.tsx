@@ -15,10 +15,7 @@ const sessions = [
 const SessionPicker = ({ onSelect, selected }: SessionPickerProps) => {
   return (
     <div className="space-y-6">
-      <div className="text-center space-y-1.5">
-        <h2 className="text-2xl font-display font-medium tracking-tight">Choose your session</h2>
-        <p className="text-muted-foreground text-sm">Short sessions, big impact</p>
-      </div>
+      <div className="grid grid-cols-3 gap-3">
       <div className="grid grid-cols-3 gap-3">
         {sessions.map((session, i) => (
           <motion.button
