@@ -3,7 +3,7 @@ import { useMeditationStore, preMoodConfig, postMoodConfig, PreMood, PostMood, p
 import { subDays, startOfDay, format } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { Activity, Clock, Flame, FileText, BarChart3 } from 'lucide-react';
-import heroImg from '@/assets/hero-nature.jpg';
+
 import StepHeader from '@/components/StepHeader';
 import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
 import PullToRefresh from '@/components/PullToRefresh';

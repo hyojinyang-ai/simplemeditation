@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useMeditationStore, preMoodConfig, postMoodConfig } from '@/lib/meditation-store';
 import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
-import heroImg from '@/assets/hero-nature.jpg';
+
 import StepHeader from '@/components/StepHeader';
 import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
 import PullToRefresh from '@/components/PullToRefresh';
