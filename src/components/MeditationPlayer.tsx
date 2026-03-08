@@ -18,7 +18,6 @@ interface MeditationPlayerProps {
   minutes: number;
   sound: SoundType;
   onComplete: () => void;
-  onBack?: () => void;
 }
 
 const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlayerProps) => {
