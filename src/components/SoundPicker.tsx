@@ -1,11 +1,9 @@
 import { motion } from 'framer-motion';
-import { ChevronLeft } from 'lucide-react';
 import { SoundType, soundConfig } from '@/lib/meditation-store';
 
 interface SoundPickerProps {
   onSelect: (sound: SoundType) => void;
   selected?: SoundType;
-  onBack?: () => void;
 }
 
 const SoundPicker = ({ onSelect, selected, onBack }: SoundPickerProps) => {
