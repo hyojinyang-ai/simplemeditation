@@ -195,7 +195,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
 
             {/* Timer text + breathing guide */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-5xl font-display font-light tabular-nums tracking-tight text-primary-foreground">
+              <span className="text-5xl font-display font-light tabular-nums tracking-tight text-foreground">
                 {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
               </span>
               {!playing && remaining === totalSeconds && (
