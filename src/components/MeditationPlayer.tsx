@@ -20,7 +20,7 @@ interface MeditationPlayerProps {
   onComplete: () => void;
 }
 
-const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlayerProps) => {
+const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps) => {
   const totalSeconds = minutes * 60;
   const [remaining, setRemaining] = useState(totalSeconds);
   const [playing, setPlaying] = useState(false);
