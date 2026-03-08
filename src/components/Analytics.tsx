@@ -5,6 +5,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pi
 import { Activity, Clock, Flame, FileText, BarChart3 } from 'lucide-react';
 import heroImg from '@/assets/hero-nature.jpg';
 import StepHeader from '@/components/StepHeader';
+import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
+import PullToRefresh from '@/components/PullToRefresh';
 
 const CHART_COLORS = [
   'hsl(220, 65%, 58%)',
