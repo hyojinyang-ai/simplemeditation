@@ -1,15 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, BarChart3, History, Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { Home, BarChart3, History, Settings } from 'lucide-react';
 
 const BottomNav = () => {
   const { pathname } = useLocation();
-  const { theme, setTheme } = useTheme();
 
   const links = [
     { to: '/', icon: Home, label: 'Meditate' },
     { to: '/tracker', icon: History, label: 'Journal' },
     { to: '/analytics', icon: BarChart3, label: 'Insights' },
+    { to: '/settings', icon: Settings, label: 'Settings' },
   ];
 
   return (
@@ -27,13 +26,6 @@ const BottomNav = () => {
             <span className="text-[10px] font-medium">{label}</span>
           </Link>
         ))}
-        <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="flex flex-col items-center gap-0.5 px-4 py-2 rounded-xl transition-colors text-muted-foreground hover:text-foreground"
-        >
-          {theme === 'dark' ? <Sun size={20} strokeWidth={1.5} /> : <Moon size={20} strokeWidth={1.5} />}
-          <span className="text-[10px] font-medium">{theme === 'dark' ? 'Light' : 'Night'}</span>
-        </button>
       </div>
       <p className="text-center text-[8px] text-muted-foreground/40 pb-1">
         Sounds by <a href="https://www.freesoundslibrary.com" target="_blank" rel="noopener noreferrer" className="underline">Free Sound Library</a> · CC BY 4.0
