@@ -4,7 +4,6 @@ import { Clock, ChevronLeft } from 'lucide-react';
 interface SessionPickerProps {
   onSelect: (minutes: number) => void;
   selected?: number;
-  onBack?: () => void;
 }
 
 const sessions = [
