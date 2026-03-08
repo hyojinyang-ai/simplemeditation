@@ -90,5 +90,5 @@ export const stoicQuotes = [
 ];
 
 export const getRandomQuote = () => stoicQuotes[Math.floor(Math.random() * stoicQuotes.length)];
-export const preMoodToValue: Record<PreMood, number> = { stressed: 1, anxious: 2, tired: 2, neutral: 3, energized: 5 };
+export const preMoodToValue: Record<PreMood, number> = { stressed: 1, anxious: 2, tired: 2, neutral: 3 };
 export const postMoodToValue: Record<PostMood, number> = { calm: 4, relieved: 4, peaceful: 5, grateful: 5, refreshed: 5 };

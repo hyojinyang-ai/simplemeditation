@@ -15,30 +15,28 @@ const MoodCheck = ({ onSelect, selected }: MoodCheckProps) => {
         <h2 className="text-2xl font-display font-medium tracking-tight">How are you feeling?</h2>
         <p className="text-muted-foreground text-sm">Check in with yourself</p>
       </div>
-      <div className="glass-strong rounded-3xl p-6">
-        <div className="flex justify-center gap-3">
-          {moods.map(([mood, config], i) => {
-            const Icon = config.icon;
-            return (
-              <motion.button
-                key={mood}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.06, type: 'spring', stiffness: 180 }}
-                whileTap={{ scale: 0.88, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
-                onClick={() => onSelect(mood)}
-                className={`flex flex-col items-center gap-2 p-3 rounded-2xl transition-all duration-200 min-w-[58px] ${
-                  selected === mood
-                    ? `${config.color} ring-2 ring-primary/30 scale-110`
-                    : 'hover:bg-muted/50 hover:scale-105'
-                }`}
-              >
-                <Icon size={22} strokeWidth={1.5} />
-                <span className="text-[10px] font-medium tracking-wide">{config.label}</span>
-              </motion.button>
-            );
-          })}
-        </div>
+      <div className="grid grid-cols-2 gap-3">
+        {moods.map(([mood, config], i) => {
+          const Icon = config.icon;
+          return (
+            <motion.button
+              key={mood}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06, type: 'spring', stiffness: 180 }}
+              whileTap={{ scale: 0.95, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
+              onClick={() => onSelect(mood)}
+              className={`flex items-center gap-3 p-4 rounded-2xl transition-all duration-200 glass-strong ${
+                selected === mood
+                  ? `${config.color} ring-2 ring-primary/30 scale-[1.02]`
+                  : 'hover:bg-muted/50 hover:scale-[1.01]'
+              }`}
+            >
+              <Icon size={22} strokeWidth={1.5} />
+              <span className="text-sm font-medium tracking-wide">{config.label}</span>
+            </motion.button>
+          );
+        })}
       </div>
     </div>
   );
