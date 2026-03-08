@@ -22,7 +22,7 @@ const MoodTracker = () => {
           const avgMood = dayEntries.length > 0
             ? dayEntries.reduce((sum, e) => sum + preMoodToValue[e.preMood], 0) / dayEntries.length
             : 0;
-          const moodLevel: PreMood | null = avgMood >= 4 ? 'energized' : avgMood >= 3 ? 'neutral' : avgMood >= 2 ? 'tired' : avgMood > 0 ? 'stressed' : null;
+          const moodLevel: PreMood | null = avgMood >= 3 ? 'neutral' : avgMood >= 2 ? 'tired' : avgMood > 0 ? 'stressed' : null;
 
           return (
             <motion.div
