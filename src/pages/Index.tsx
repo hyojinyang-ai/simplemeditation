@@ -82,7 +82,6 @@ const Index = () => {
 
   const isMeditating = step === 'play';
   const showHero = !isMeditating;
-  const isHome = step === 'mood' || step === 'quote';
 
   return (
     <div className="min-h-[100dvh] relative flex flex-col items-center justify-center px-4 pb-16 overflow-hidden">
