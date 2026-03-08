@@ -105,7 +105,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
           if (r <= 1) {
             setPlaying(false);
             setCompleted(true);
-            playBell();
+            playCompletionFeedback();
             return 0;
           }
           return r - 1;
