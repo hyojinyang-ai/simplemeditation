@@ -1,4 +1,4 @@
-// Ambient sound engine using real audio files
+// Ambient sound engine with meditation music layer
 export type AmbientSound = 'singing-bowl' | 'gong' | 'ambient-pad' | 'nature' | 'rain' | 'ocean';
 
 const SOUND_FILES: Record<AmbientSound, string> = {
@@ -10,9 +10,101 @@ const SOUND_FILES: Record<AmbientSound, string> = {
   'ocean': '/sounds/ocean.mp3',
 };
 
+// Generative meditation drone frequencies (Hz) — peaceful harmonic intervals
+const DRONE_NOTES = [
+  { freq: 136.1, label: 'Om' },       // C#3 – Om frequency
+  { freq: 174.0, label: 'Solfeggio' }, // Solfeggio healing
+  { freq: 256.0, label: 'C4' },
+  { freq: 341.3, label: 'F4' },
+  { freq: 384.0, label: 'G4' },
+];
+
+class MeditationDrone {
+  private ctx: AudioContext | null = null;
+  private oscillators: OscillatorNode[] = [];
+  private masterGain: GainNode | null = null;
+  private lfo: OscillatorNode | null = null;
+
+  start(volume = 0.12) {
+    this.stop();
+    try {
+      const ctx = new AudioContext();
+      this.ctx = ctx;
+
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0, ctx.currentTime);
+      master.gain.linearRampToValueAtTime(volume, ctx.currentTime + 3);
+      master.connect(ctx.destination);
+      this.masterGain = master;
+
+      // Subtle LFO for gentle volume modulation
+      const lfo = ctx.createOscillator();
+      const lfoGain = ctx.createGain();
+      lfo.type = 'sine';
+      lfo.frequency.setValueAtTime(0.06, ctx.currentTime); // Very slow wobble
+      lfoGain.gain.setValueAtTime(0.015, ctx.currentTime);
+      lfo.connect(lfoGain);
+      lfoGain.connect(master.gain);
+      lfo.start();
+      this.lfo = lfo;
+
+      // Pick 3 harmonically related notes
+      const baseIdx = Math.floor(Math.random() * 2); // 0 or 1
+      const notes = [DRONE_NOTES[baseIdx], DRONE_NOTES[baseIdx + 2], DRONE_NOTES[baseIdx + 3]];
+
+      notes.forEach((note, i) => {
+        // Main oscillator — soft sine
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(note.freq, ctx.currentTime);
+        // Slight detuning for warmth
+        osc.detune.setValueAtTime((i - 1) * 4, ctx.currentTime);
+        gain.gain.setValueAtTime(i === 0 ? 0.5 : 0.3, ctx.currentTime);
+        osc.connect(gain);
+        gain.connect(master);
+        osc.start();
+        this.oscillators.push(osc);
+
+        // Sub-harmonic layer
+        const sub = ctx.createOscillator();
+        const subGain = ctx.createGain();
+        sub.type = 'sine';
+        sub.frequency.setValueAtTime(note.freq / 2, ctx.currentTime);
+        subGain.gain.setValueAtTime(0.15, ctx.currentTime);
+        sub.connect(subGain);
+        subGain.connect(master);
+        sub.start();
+        this.oscillators.push(sub);
+      });
+    } catch {}
+  }
+
+  setVolume(vol: number) {
+    if (this.masterGain && this.ctx) {
+      this.masterGain.gain.linearRampToValueAtTime(vol, this.ctx.currentTime + 0.5);
+    }
+  }
+
+  stop() {
+    if (this.masterGain && this.ctx) {
+      this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 2);
+    }
+    setTimeout(() => {
+      this.oscillators.forEach((o) => { try { o.stop(); } catch {} });
+      this.oscillators = [];
+      if (this.lfo) { try { this.lfo.stop(); } catch {} this.lfo = null; }
+      if (this.ctx) { try { this.ctx.close(); } catch {} this.ctx = null; }
+      this.masterGain = null;
+    }, 2200);
+  }
+}
+
 class AmbientEngine {
   private audio: HTMLAudioElement | null = null;
   private fadeInterval: ReturnType<typeof setInterval> | null = null;
+  private drone = new MeditationDrone();
+  private _soundVolume = 0.7; // ambient sound at 70%, drone fills the rest
 
   start(sound: AmbientSound) {
     this.stop();
@@ -21,19 +113,21 @@ class AmbientEngine {
     audio.loop = true;
     audio.volume = 0;
     audio.play().catch(() => {});
-
     this.audio = audio;
 
-    // Fade in over 1s
+    // Fade in ambient sound
     let vol = 0;
     this.fadeInterval = setInterval(() => {
-      vol = Math.min(vol + 0.05, 1);
+      vol = Math.min(vol + 0.035, this._soundVolume);
       audio.volume = vol;
-      if (vol >= 1 && this.fadeInterval) {
+      if (vol >= this._soundVolume && this.fadeInterval) {
         clearInterval(this.fadeInterval);
         this.fadeInterval = null;
       }
     }, 50);
+
+    // Start meditation drone layer
+    this.drone.start(0.1);
   }
 
   stop() {
@@ -45,10 +139,8 @@ class AmbientEngine {
     if (this.audio) {
       const audio = this.audio;
       let vol = audio.volume;
-
-      // Fade out over 0.5s
       const fadeOut = setInterval(() => {
-        vol = Math.max(vol - 0.1, 0);
+        vol = Math.max(vol - 0.07, 0);
         audio.volume = vol;
         if (vol <= 0) {
           clearInterval(fadeOut);
@@ -56,9 +148,10 @@ class AmbientEngine {
           audio.src = '';
         }
       }, 50);
-
       this.audio = null;
     }
+
+    this.drone.stop();
   }
 }
 
