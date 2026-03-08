@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import meditationIllustration from '@/assets/meditation-illustration.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf } from 'lucide-react';
 import MoodCheck from '@/components/MoodCheck';
