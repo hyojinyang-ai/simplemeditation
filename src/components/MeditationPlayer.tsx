@@ -113,7 +113,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [playing, remaining, playBell]);
+  }, [playing, remaining, playCompletionFeedback]);
 
   useEffect(() => {
     if (completed) {

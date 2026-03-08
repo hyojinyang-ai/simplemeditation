@@ -1,14 +1,21 @@
 import { motion } from 'framer-motion';
-import { Leaf, ArrowRight } from 'lucide-react';
+import { Leaf, ArrowRight, Bookmark } from 'lucide-react';
 
 interface StoicQuoteProps {
   quote: { text: string; author: string };
   onContinue: () => void;
+  onSave?: () => void;
+  saved?: boolean;
 }
 
-const StoicQuote = ({ quote, onContinue }: StoicQuoteProps) => {
+const StoicQuote = ({ quote, onContinue, onSave, saved }: StoicQuoteProps) => {
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }} className="text-center space-y-8">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="text-center space-y-6 max-h-[70dvh] overflow-y-auto scrollbar-hide"
+    >
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -24,7 +31,7 @@ const StoicQuote = ({ quote, onContinue }: StoicQuoteProps) => {
           transition={{ delay: 0.5 }}
           className="text-lg font-display italic leading-relaxed tracking-tight"
         >
-          "{quote.text}"
+          &ldquo;{quote.text}&rdquo;
         </motion.p>
         <motion.p
           initial={{ opacity: 0 }}
@@ -36,17 +43,33 @@ const StoicQuote = ({ quote, onContinue }: StoicQuoteProps) => {
         </motion.p>
       </div>
 
-      <motion.button
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
-        onClick={onContinue}
-        className="inline-flex items-center gap-2 px-8 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide hover:bg-muted/50 transition-all"
+        className="flex items-center justify-center gap-3"
       >
-        Begin again
-        <ArrowRight size={14} strokeWidth={1.5} />
-      </motion.button>
+        {onSave && (
+          <motion.button
+            whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
+            onClick={onSave}
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide transition-all ${
+              saved ? 'text-accent' : 'text-foreground hover:bg-muted/50'
+            }`}
+          >
+            <Bookmark size={14} strokeWidth={1.5} className={saved ? 'fill-accent' : ''} />
+            {saved ? 'Saved' : 'Save'}
+          </motion.button>
+        )}
+        <motion.button
+          whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
+          onClick={onContinue}
+          className="inline-flex items-center gap-2 px-8 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide hover:bg-muted/50 transition-all"
+        >
+          Begin again
+          <ArrowRight size={14} strokeWidth={1.5} />
+        </motion.button>
+      </motion.div>
     </motion.div>
   );
 };
