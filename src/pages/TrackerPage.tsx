@@ -5,6 +5,8 @@ import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
 import heroImg from '@/assets/hero-nature.jpg';
 import StepHeader from '@/components/StepHeader';
+import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
+import PullToRefresh from '@/components/PullToRefresh';
 
 type Tab = 'sessions' | 'quotes';
 
