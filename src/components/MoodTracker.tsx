@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { useMeditationStore, moodConfig, Mood } from '@/lib/meditation-store';
-import { format, subDays, startOfDay } from 'date-fns';
+import { useMeditationStore, preMoodConfig, PreMood } from '@/lib/meditation-store';
+import { subDays, startOfDay, format } from 'date-fns';
 
 const MoodTracker = () => {
   const { entries } = useMeditationStore();
@@ -12,7 +12,7 @@ const MoodTracker = () => {
     return { date, entries: dayEntries };
   });
 
-  const moodToValue: Record<Mood, number> = { great: 5, good: 4, okay: 3, low: 2, bad: 1 };
+  const preMoodToValue: Record<PreMood, number> = { stressed: 1, anxious: 2, tired: 2, neutral: 3, energized: 5 };
 
   return (
     <div className="space-y-4">
@@ -20,9 +20,9 @@ const MoodTracker = () => {
       <div className="grid grid-cols-7 gap-2">
         {last7Days.map(({ date, entries: dayEntries }, i) => {
           const avgMood = dayEntries.length > 0
-            ? dayEntries.reduce((sum, e) => sum + moodToValue[e.mood], 0) / dayEntries.length
+            ? dayEntries.reduce((sum, e) => sum + preMoodToValue[e.preMood], 0) / dayEntries.length
             : 0;
-          const moodLevel = avgMood >= 4.5 ? 'great' : avgMood >= 3.5 ? 'good' : avgMood >= 2.5 ? 'okay' : avgMood >= 1.5 ? 'low' : avgMood > 0 ? 'bad' : null;
+          const moodLevel: PreMood | null = avgMood >= 4 ? 'energized' : avgMood >= 3 ? 'neutral' : avgMood >= 2 ? 'tired' : avgMood > 0 ? 'stressed' : null;
 
           return (
             <motion.div
@@ -34,9 +34,9 @@ const MoodTracker = () => {
             >
               <span className="text-xs text-muted-foreground">{format(date, 'EEE')}</span>
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${
-                moodLevel ? moodConfig[moodLevel].color : 'bg-muted'
+                moodLevel ? preMoodConfig[moodLevel].color : 'bg-muted'
               }`}>
-                {moodLevel ? moodConfig[moodLevel].emoji : '·'}
+                {moodLevel ? preMoodConfig[moodLevel].emoji : '·'}
               </div>
               <span className="text-[10px] text-muted-foreground">{dayEntries.length}x</span>
             </motion.div>

@@ -1,7 +1,6 @@
-import MoodTracker from '@/components/MoodTracker';
-import { useMeditationStore, moodConfig } from '@/lib/meditation-store';
-import { format } from 'date-fns';
 import { motion } from 'framer-motion';
+import { useMeditationStore, preMoodConfig, postMoodConfig } from '@/lib/meditation-store';
+import { format } from 'date-fns';
 
 const TrackerPage = () => {
   const { entries } = useMeditationStore();
@@ -9,42 +8,60 @@ const TrackerPage = () => {
 
   return (
     <div className="min-h-screen bg-background px-4 pt-8 pb-24 max-w-md mx-auto space-y-6">
-      <h1 className="text-3xl font-display font-semibold">Mood Tracker</h1>
-      <MoodTracker />
+      <h1 className="text-3xl font-display font-semibold">Journal</h1>
+      <p className="text-muted-foreground text-sm -mt-3">Your meditation journey</p>
 
-      <div className="space-y-3">
-        <h3 className="text-lg font-display">Recent Check-ins</h3>
-        {sorted.length === 0 && (
-          <p className="text-muted-foreground text-sm py-8 text-center">No entries yet. Complete a session to start tracking.</p>
-        )}
-        {sorted.slice(0, 20).map((entry, i) => {
-          const config = moodConfig[entry.mood];
-          return (
-            <motion.div
-              key={entry.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04 }}
-              className="flex items-center gap-3 bg-card rounded-xl p-3 shadow-card"
-            >
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg ${config.color}`}>
-                {config.emoji}
-              </div>
-              <div className="flex-1">
-                <div className="text-sm font-medium">{config.label}</div>
-                <div className="text-xs text-muted-foreground">
-                  {format(new Date(entry.timestamp), 'MMM d, h:mm a')}
-                </div>
-              </div>
+      {sorted.length === 0 && (
+        <div className="text-center py-16 space-y-3">
+          <span className="text-5xl">🧘</span>
+          <p className="text-muted-foreground text-sm">No sessions yet. Complete a meditation to start tracking.</p>
+        </div>
+      )}
+
+      {sorted.map((entry, i) => {
+        const preConfig = preMoodConfig[entry.preMood];
+        const postConfig = entry.postMood ? postMoodConfig[entry.postMood] : null;
+        return (
+          <motion.div
+            key={entry.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.04 }}
+            className="bg-card rounded-2xl p-4 shadow-card space-y-3"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-muted-foreground">
+                {format(new Date(entry.timestamp), 'MMM d, yyyy · h:mm a')}
+              </span>
               {entry.sessionMinutes && (
-                <div className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-lg">
+                <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-lg">
                   {entry.sessionMinutes} min
-                </div>
+                </span>
               )}
-            </motion.div>
-          );
-        })}
-      </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium ${preConfig.color}`}>
+                <span>{preConfig.emoji}</span>
+                {preConfig.label}
+              </div>
+              {postConfig && (
+                <>
+                  <span className="text-muted-foreground text-xs">→</span>
+                  <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium ${postConfig.color}`}>
+                    <span>{postConfig.emoji}</span>
+                    {postConfig.label}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {entry.note && (
+              <p className="text-sm text-muted-foreground italic">"{entry.note}"</p>
+            )}
+          </motion.div>
+        );
+      })}
     </div>
   );
 };
