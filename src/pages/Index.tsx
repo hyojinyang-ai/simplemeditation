@@ -104,7 +104,7 @@ const Index = () => {
                   scale: { delay: 0.2, type: 'spring', stiffness: 120 },
                   y: { delay: 0.6, duration: 3, repeat: Infinity, ease: 'easeInOut' }
                 }}
-                className="w-40 h-40 mx-auto mb-2 object-contain"
+                className="w-40 h-40 mx-auto mb-2 object-cover rounded-full"
               />
             )}
             <h1 className="text-3xl font-display font-medium tracking-tight text-foreground">
