@@ -72,11 +72,8 @@ const Analytics = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/90 to-background" />
       </div>
 
-      <div className="px-4 pt-8 max-w-md mx-auto space-y-5">
-        <div>
-          <h1 className="text-3xl font-display font-medium tracking-tight">Insights</h1>
-          <p className="text-muted-foreground text-sm mt-1">Your mindfulness journey</p>
-        </div>
+      <div className="px-4 max-w-md mx-auto space-y-5">
+        <StepHeader title="Insights" subtitle="Your mindfulness journey" />
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-3">

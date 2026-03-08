@@ -98,12 +98,12 @@ const Index = () => {
       {/* Content */}
       <div className="relative z-10 w-full max-w-sm">
         {/* Step Header */}
-        {step === 'mood' && <StepHeader title="Stillness" />}
-        {step === 'session' && <StepHeader title="Meditation" onBack={() => setStep('mood')} />}
-        {step === 'sound' && <StepHeader title="Meditation" onBack={() => setStep('session')} />}
-        {step === 'play' && <StepHeader title="Meditation" onBack={() => setStep('sound')} />}
-        {step === 'reflect' && <StepHeader title="Reflection" />}
-        {step === 'quote' && <StepHeader title="Stillness" />}
+        {step === 'mood' && <StepHeader title="Stillness" subtitle="Begin your practice" />}
+        {step === 'session' && <StepHeader title="Meditation" subtitle="Choose your session" onBack={() => setStep('mood')} />}
+        {step === 'sound' && <StepHeader title="Meditation" subtitle="Pick a soundscape" onBack={() => setStep('session')} />}
+        {step === 'play' && <StepHeader title="Meditation" subtitle="Breathe deeply" onBack={() => setStep('sound')} />}
+        {step === 'reflect' && <StepHeader title="Reflection" subtitle="How do you feel now?" />}
+        {step === 'quote' && <StepHeader title="Stillness" subtitle="A thought to carry with you" />}
 
         {isHome && (
           <motion.div
