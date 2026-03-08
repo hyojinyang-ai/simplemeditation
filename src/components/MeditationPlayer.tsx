@@ -4,6 +4,15 @@ import { Play, Pause, CheckCircle } from 'lucide-react';
 import { ambientEngine, resolveSound, AmbientSound } from '@/lib/ambient-engine';
 import { SoundType } from '@/lib/meditation-store';
 
+const BREATH_PHASES = [
+  { label: 'Inhale', duration: 4000 },
+  { label: 'Hold', duration: 2000 },
+  { label: 'Exhale', duration: 4000 },
+  { label: 'Hold', duration: 2000 },
+] as const;
+
+const TOTAL_CYCLE = BREATH_PHASES.reduce((s, p) => s + p.duration, 0); // 12s
+
 interface MeditationPlayerProps {
   minutes: number;
   sound: SoundType;
