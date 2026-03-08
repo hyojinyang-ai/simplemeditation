@@ -133,10 +133,10 @@ const Index = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.25 }}
+            initial={{ opacity: 0, y: 12, scale: 0.97, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -8, scale: 0.97, filter: 'blur(4px)' }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
             {step === 'mood' && <MoodCheck onSelect={handleMoodSelect} selected={preMood} />}
             {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} onBack={() => setStep('mood')} />}
