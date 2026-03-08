@@ -137,7 +137,7 @@ const Index = () => {
               <MeditationPlayer minutes={minutes} sound={sound} onComplete={handleMeditationComplete} onBack={() => setStep('sound')} />
             )}
             {step === 'reflect' && <Reflection onSubmit={handleReflection} />}
-            {step === 'quote' && <StoicQuote quote={quote} onContinue={handleReset} />}
+            {step === 'quote' && <StoicQuote quote={quote} onContinue={handleReset} onSave={handleSaveQuote} saved={saved} />}
           </motion.div>
         </AnimatePresence>
       </div>
