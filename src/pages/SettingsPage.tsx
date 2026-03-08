@@ -1,7 +1,7 @@
 import { useTheme } from 'next-themes';
-import { Moon, Sun, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Moon, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
+import StepHeader from '@/components/StepHeader';
 
 const SettingsPage = () => {
   const { theme, setTheme } = useTheme();
