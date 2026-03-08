@@ -1,21 +1,21 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, RotateCcw } from 'lucide-react';
-import AmbientPicker from './AmbientPicker';
-import { AmbientSound, ambientEngine } from '@/lib/ambient-engine';
+import { Play, Pause } from 'lucide-react';
+import { ambientEngine, resolveSound, AmbientSound } from '@/lib/ambient-engine';
+import { SoundType } from '@/lib/meditation-store';
 
 interface MeditationPlayerProps {
   minutes: number;
+  sound: SoundType;
   onComplete: () => void;
 }
 
-const MeditationPlayer = ({ minutes, onComplete }: MeditationPlayerProps) => {
+const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps) => {
   const totalSeconds = minutes * 60;
   const [remaining, setRemaining] = useState(totalSeconds);
   const [playing, setPlaying] = useState(false);
   const [completed, setCompleted] = useState(false);
-  const [ambientSound, setAmbientSound] = useState<AmbientSound>('rain');
-  const [bowlEnabled, setBowlEnabled] = useState(true);
+  const [resolvedSound] = useState<AmbientSound>(() => resolveSound(sound));
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
 
   const playBell = useCallback(() => {
@@ -26,27 +26,23 @@ const MeditationPlayer = ({ minutes, onComplete }: MeditationPlayerProps) => {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(528, ctx.currentTime);
       gain.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 3);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start();
-      osc.stop(ctx.currentTime + 2);
+      osc.stop(ctx.currentTime + 3);
     } catch {}
   }, []);
 
-  // Start/stop ambient audio when playing state changes
   useEffect(() => {
     if (playing) {
-      ambientEngine.start(ambientSound, bowlEnabled);
+      ambientEngine.start(resolvedSound);
     } else {
       ambientEngine.stop();
     }
-  }, [playing, ambientSound, bowlEnabled]);
+  }, [playing, resolvedSound]);
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => { ambientEngine.stop(); };
-  }, []);
+  useEffect(() => () => { ambientEngine.stop(); }, []);
 
   useEffect(() => {
     if (playing && remaining > 0) {
@@ -67,7 +63,7 @@ const MeditationPlayer = ({ minutes, onComplete }: MeditationPlayerProps) => {
 
   useEffect(() => {
     if (completed) {
-      const timer = setTimeout(onComplete, 2500);
+      const timer = setTimeout(onComplete, 2000);
       return () => clearTimeout(timer);
     }
   }, [completed, onComplete]);
@@ -75,88 +71,78 @@ const MeditationPlayer = ({ minutes, onComplete }: MeditationPlayerProps) => {
   const progress = 1 - remaining / totalSeconds;
   const mins = Math.floor(remaining / 60);
   const secs = remaining % 60;
-  const circumference = 2 * Math.PI * 120;
-
-  const reset = () => {
-    setPlaying(false);
-    setRemaining(totalSeconds);
-    setCompleted(false);
-  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="flex flex-col items-center gap-6"
-    >
-      <AnimatePresence mode="wait">
-        {completed ? (
-          <motion.div
-            key="done"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="text-center space-y-2"
-          >
-            <span className="text-6xl">🧘</span>
-            <h2 className="text-2xl font-display">Namaste</h2>
-            <p className="text-muted-foreground text-sm">Session complete</p>
-          </motion.div>
-        ) : (
-          <motion.div key="timer" className="relative">
-            <svg width="280" height="280" className="-rotate-90">
+    <AnimatePresence mode="wait">
+      {completed ? (
+        <motion.div
+          key="done"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="text-center space-y-3 py-12"
+        >
+          <span className="text-6xl">🧘</span>
+          <h2 className="text-2xl font-display">Session Complete</h2>
+        </motion.div>
+      ) : (
+        <motion.div
+          key="player"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex flex-col items-center gap-6"
+        >
+          {/* Breathing orb */}
+          <div className="relative w-64 h-64 flex items-center justify-center">
+            {/* Background ring */}
+            <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 256 256">
+              <circle cx="128" cy="128" r="115" fill="none" stroke="hsl(var(--muted))" strokeWidth="4" />
               <circle
-                cx="140" cy="140" r="120"
-                fill="none"
-                stroke="hsl(var(--muted))"
-                strokeWidth="6"
-              />
-              <motion.circle
-                cx="140" cy="140" r="120"
+                cx="128" cy="128" r="115"
                 fill="none"
                 stroke="hsl(var(--primary))"
-                strokeWidth="6"
+                strokeWidth="4"
                 strokeLinecap="round"
-                strokeDasharray={circumference}
-                strokeDashoffset={circumference * (1 - progress)}
-                transition={{ duration: 0.5 }}
+                strokeDasharray={2 * Math.PI * 115}
+                strokeDashoffset={2 * Math.PI * 115 * (1 - progress)}
+                className="transition-all duration-1000"
               />
             </svg>
+
+            {/* Breathing orb */}
+            <div className={`w-28 h-28 rounded-full gradient-calm opacity-40 ${playing ? 'animate-breathe' : ''}`} />
+
+            {/* Timer */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className={`w-16 h-16 rounded-full bg-primary/10 mb-4 ${playing ? 'animate-breathe' : ''}`} />
-              <span className="text-5xl font-display tabular-nums">
+              <span className="text-4xl font-display tabular-nums tracking-tight">
                 {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
               </span>
+              {!playing && remaining === totalSeconds && (
+                <span className="text-xs text-muted-foreground mt-2">Tap play to begin</span>
+              )}
+              {playing && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0.4, 0.8, 0.4] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                  className="text-xs text-muted-foreground mt-2"
+                >
+                  Close your eyes & breathe
+                </motion.span>
+              )}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {!completed && (
-        <>
-          <AmbientPicker
-            selected={ambientSound}
-            onSelect={setAmbientSound}
-            bowlEnabled={bowlEnabled}
-            onToggleBowl={() => setBowlEnabled((b) => !b)}
-          />
-
-          <div className="flex gap-4">
-            <button
-              onClick={() => setPlaying(!playing)}
-              className="w-16 h-16 rounded-full gradient-calm flex items-center justify-center text-primary-foreground shadow-soft transition-transform hover:scale-105"
-            >
-              {playing ? <Pause size={24} /> : <Play size={24} className="ml-1" />}
-            </button>
-            <button
-              onClick={reset}
-              className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-accent transition-colors self-center"
-            >
-              <RotateCcw size={18} />
-            </button>
           </div>
-        </>
+
+          {/* Play/Pause */}
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setPlaying(!playing)}
+            className="w-16 h-16 rounded-full gradient-calm flex items-center justify-center text-primary-foreground shadow-soft"
+          >
+            {playing ? <Pause size={24} /> : <Play size={24} className="ml-1" />}
+          </motion.button>
+        </motion.div>
       )}
-    </motion.div>
+    </AnimatePresence>
   );
 };
 
