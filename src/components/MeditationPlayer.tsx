@@ -118,23 +118,38 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
         >
           {/* Pulsating circles + progress ring */}
           <div className="relative w-64 h-64 flex items-center justify-center">
-            {/* Pulsating rings synced to breathing (4s cycle) */}
+            {/* Pulsating rings synced to breathing cycle */}
             {playing && (
               <>
                 <motion.div
+                  key={`ring1-${breathPhase}`}
                   className="absolute inset-0 rounded-full border border-primary/10"
-                  animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.1, 0.3] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={
+                    breathPhase === 0 || breathPhase === 2
+                      ? { scale: [1, breathPhase === 0 ? 1.15 : 1, breathPhase === 2 ? 0.95 : 1], opacity: [0.3, 0.15, 0.3] }
+                      : { scale: 1, opacity: 0.2 }
+                  }
+                  transition={{ duration: BREATH_PHASES[breathPhase].duration / 1000, ease: 'easeInOut' }}
                 />
                 <motion.div
+                  key={`ring2-${breathPhase}`}
                   className="absolute inset-4 rounded-full border border-primary/15"
-                  animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.05, 0.2] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                  animate={
+                    breathPhase === 0 || breathPhase === 2
+                      ? { scale: [1, breathPhase === 0 ? 1.1 : 1, breathPhase === 2 ? 0.97 : 1], opacity: [0.2, 0.08, 0.2] }
+                      : { scale: 1, opacity: 0.12 }
+                  }
+                  transition={{ duration: BREATH_PHASES[breathPhase].duration / 1000, ease: 'easeInOut', delay: 0.15 }}
                 />
                 <motion.div
+                  key={`ring3-${breathPhase}`}
                   className="absolute inset-8 rounded-full border border-accent/10"
-                  animate={{ scale: [1, 1.08, 1], opacity: [0.25, 0.08, 0.25] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                  animate={
+                    breathPhase === 0 || breathPhase === 2
+                      ? { scale: [1, breathPhase === 0 ? 1.08 : 1, breathPhase === 2 ? 0.98 : 1], opacity: [0.25, 0.1, 0.25] }
+                      : { scale: 1, opacity: 0.15 }
+                  }
+                  transition={{ duration: BREATH_PHASES[breathPhase].duration / 1000, ease: 'easeInOut', delay: 0.3 }}
                 />
               </>
             )}
@@ -161,9 +176,17 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
             </svg>
 
             {/* Breathing orb */}
-            <div className={`w-24 h-24 rounded-full gradient-calm opacity-20 ${playing ? 'animate-breathe' : ''}`} />
+            <motion.div
+              className="w-24 h-24 rounded-full gradient-calm opacity-20"
+              animate={
+                playing
+                  ? { scale: breathPhase === 0 ? 1.2 : breathPhase === 2 ? 0.85 : 1 }
+                  : { scale: 1 }
+              }
+              transition={{ duration: BREATH_PHASES[breathPhase]?.duration / 1000 || 1, ease: 'easeInOut' }}
+            />
 
-            {/* Timer text */}
+            {/* Timer text + breathing guide */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-5xl font-display font-light tabular-nums tracking-tight text-primary-foreground">
                 {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
@@ -172,14 +195,18 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
                 <span className="text-xs text-primary-foreground/40 mt-2 tracking-wide">Tap play to begin</span>
               )}
               {playing && (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0.2, 0.5, 0.2] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                  className="text-xs text-primary-foreground/50 mt-2 tracking-wide"
-                >
-                  Breathe & listen
-                </motion.span>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={breathPhase}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 0.7, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-sm text-primary-foreground/60 mt-2 tracking-widest uppercase font-light"
+                  >
+                    {BREATH_PHASES[breathPhase].label}
+                  </motion.span>
+                </AnimatePresence>
               )}
             </div>
           </div>
