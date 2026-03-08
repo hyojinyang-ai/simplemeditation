@@ -73,7 +73,7 @@ const Analytics = () => {
       </div>
 
       <div className="px-4 max-w-md mx-auto space-y-5">
-        <StepHeader title="Insights" subtitle="Your mindfulness journey" />
+        <StepHeader title="Insights" subtitle="Your mindfulness journey" sticky />
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-3">
