@@ -12,7 +12,7 @@ const MoodTracker = () => {
     return { date, entries: dayEntries };
   });
 
-  const preMoodToValue: Record<PreMood, number> = { stressed: 1, anxious: 2, tired: 2, neutral: 3, energized: 5 };
+  const preMoodToValue: Record<string, number> = { stressed: 1, anxious: 2, tired: 2, neutral: 3 };
 
   return (
     <div className="space-y-4">
