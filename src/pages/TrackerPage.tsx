@@ -5,17 +5,20 @@ import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
 import heroImg from '@/assets/hero-nature.jpg';
 import StepHeader from '@/components/StepHeader';
+import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
+import PullToRefresh from '@/components/PullToRefresh';
 
 type Tab = 'sessions' | 'quotes';
 
 const TrackerPage = () => {
   const { entries } = useMeditationStore();
   const [tab, setTab] = useState<Tab>('sessions');
+  const { containerRef, pullDistance, refreshing, threshold } = usePullToRefresh();
   const sorted = [...entries].sort((a, b) => b.timestamp - a.timestamp);
   const savedQuotes = sorted.filter(e => e.savedQuote);
 
   return (
-    <div className="min-h-screen relative pb-24">
+    <div ref={containerRef} className="min-h-screen relative pb-24 overflow-auto">
       <div className="absolute inset-0 -z-10">
         <img src={heroImg} alt="" className="w-full h-48 object-cover opacity-15" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/90 to-background" />
@@ -23,6 +26,7 @@ const TrackerPage = () => {
 
       <div className="px-4 max-w-md mx-auto space-y-5">
         <StepHeader title="Journal" subtitle="Your meditation journey" sticky />
+        <PullToRefresh pullDistance={pullDistance} refreshing={refreshing} threshold={threshold} />
 
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-2xl bg-muted/40">
