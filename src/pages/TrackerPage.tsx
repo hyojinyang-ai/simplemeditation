@@ -13,6 +13,7 @@ type Tab = 'sessions' | 'quotes';
 const TrackerPage = () => {
   const { entries } = useMeditationStore();
   const [tab, setTab] = useState<Tab>('sessions');
+  const { containerRef, pullDistance, refreshing, threshold } = usePullToRefresh();
   const sorted = [...entries].sort((a, b) => b.timestamp - a.timestamp);
   const savedQuotes = sorted.filter(e => e.savedQuote);
 
