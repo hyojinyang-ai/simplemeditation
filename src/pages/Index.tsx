@@ -11,6 +11,7 @@ import heroImg from '@/assets/hero-nature.jpg';
 
 type Step = 'mood' | 'session' | 'sound' | 'play' | 'reflect' | 'quote';
 
+
 const Index = () => {
   const [step, setStep] = useState<Step>('mood');
   const [preMood, setPreMood] = useState<PreMood>();
