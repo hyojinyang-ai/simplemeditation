@@ -97,37 +97,33 @@ const Index = () => {
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-sm">
-        {showHero && (
+        {/* Step Header */}
+        {step === 'mood' && <StepHeader title="Stillness" />}
+        {step === 'session' && <StepHeader title="Meditation" onBack={() => setStep('mood')} />}
+        {step === 'sound' && <StepHeader title="Meditation" onBack={() => setStep('session')} />}
+        {step === 'play' && <StepHeader title="Meditation" onBack={() => setStep('sound')} />}
+        {step === 'reflect' && <StepHeader title="Reflection" />}
+        {step === 'quote' && <StepHeader title="Stillness" />}
+
+        {isHome && (
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-4"
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ 
+              opacity: { delay: 0.2, duration: 0.4 },
+              scale: { delay: 0.2, type: 'spring', stiffness: 120 },
+            }}
+            className="w-52 h-52 mx-auto mt-2 mb-1 rounded-full overflow-hidden bg-background"
           >
-            <h1 className="text-3xl font-display font-medium tracking-tight text-foreground">
-              Stillness
-            </h1>
-            <p className="text-muted-foreground text-xs mt-1 tracking-wide">Find your calm</p>
-            {isHome && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  opacity: { delay: 0.2, duration: 0.4 },
-                  scale: { delay: 0.2, type: 'spring', stiffness: 120 },
-                }}
-                className="w-52 h-52 mx-auto mt-4 mb-1 rounded-full overflow-hidden bg-background"
-              >
-                <video
-                  ref={videoRef}
-                  src="/videos/hero.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-contain scale-90 mix-blend-multiply"
-                />
-              </motion.div>
-            )}
+            <video
+              ref={videoRef}
+              src="/videos/hero.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-contain scale-90 mix-blend-multiply"
+            />
           </motion.div>
         )}
 
@@ -140,10 +136,10 @@ const Index = () => {
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
             {step === 'mood' && <MoodCheck onSelect={handleMoodSelect} selected={preMood} />}
-            {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} onBack={() => setStep('mood')} />}
-            {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} onBack={() => setStep('session')} />}
+            {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} />}
+            {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} />}
             {step === 'play' && minutes && sound && (
-              <MeditationPlayer minutes={minutes} sound={sound} onComplete={handleMeditationComplete} onBack={() => setStep('sound')} />
+              <MeditationPlayer minutes={minutes} sound={sound} onComplete={handleMeditationComplete} />
             )}
             {step === 'reflect' && <Reflection onSubmit={handleReflection} />}
             {step === 'quote' && <StoicQuote quote={quote} onContinue={handleReset} onSave={handleSaveQuote} saved={saved} />}
