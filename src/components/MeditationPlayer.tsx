@@ -209,7 +209,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
                     animate={{ opacity: 0.7, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.4 }}
-                    className="text-sm text-primary-foreground/60 mt-2 tracking-widest uppercase font-light"
+                    className="text-sm text-foreground/60 mt-2 tracking-widest uppercase font-light"
                   >
                     {BREATH_PHASES[breathPhase].label}
                   </motion.span>
