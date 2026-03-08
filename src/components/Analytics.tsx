@@ -69,7 +69,7 @@ const Analytics = () => {
   ];
 
   return (
-    <div className="min-h-screen relative pb-24">
+    <div ref={containerRef} className="min-h-screen relative pb-24 overflow-auto">
       <div className="absolute inset-0 -z-10">
         <img src={heroImg} alt="" className="w-full h-48 object-cover opacity-15" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/90 to-background" />
@@ -77,6 +77,7 @@ const Analytics = () => {
 
       <div className="px-4 max-w-md mx-auto space-y-5">
         <StepHeader title="Insights" subtitle="Your mindfulness journey" sticky />
+        <PullToRefresh pullDistance={pullDistance} refreshing={refreshing} threshold={threshold} />
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-3">
