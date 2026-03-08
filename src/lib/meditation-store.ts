@@ -5,7 +5,7 @@ import {
   Smile, Wind, Heart, Sun, Sparkles,
 } from 'lucide-react';
 
-export type PreMood = 'stressed' | 'tired' | 'neutral' | 'energized' | 'anxious';
+export type PreMood = 'stressed' | 'tired' | 'neutral' | 'anxious';
 export type PostMood = 'calm' | 'relieved' | 'peaceful' | 'grateful' | 'refreshed';
 export type Mood = PreMood | PostMood;
 export type SoundType = 'singing-bowl' | 'gong' | 'ambient-pad' | 'nature' | 'rain' | 'ocean' | 'random';
@@ -50,7 +50,6 @@ export const preMoodConfig: Record<PreMood, { icon: typeof Frown; label: string;
   stressed: { icon: Frown, label: 'Stressed', color: 'bg-zen-rose-light text-zen-rose' },
   tired: { icon: BatteryLow, label: 'Tired', color: 'bg-zen-lavender-light text-zen-lavender' },
   neutral: { icon: Minus, label: 'Neutral', color: 'bg-zen-sky-light text-zen-sky' },
-  energized: { icon: Zap, label: 'Energized', color: 'bg-zen-green-light text-zen-green' },
   anxious: { icon: AlertTriangle, label: 'Anxious', color: 'bg-zen-blue-light text-zen-blue' },
 };
 
@@ -91,5 +90,5 @@ export const stoicQuotes = [
 ];
 
 export const getRandomQuote = () => stoicQuotes[Math.floor(Math.random() * stoicQuotes.length)];
-export const preMoodToValue: Record<PreMood, number> = { stressed: 1, anxious: 2, tired: 2, neutral: 3, energized: 5 };
+export const preMoodToValue: Record<PreMood, number> = { stressed: 1, anxious: 2, tired: 2, neutral: 3 };
 export const postMoodToValue: Record<PostMood, number> = { calm: 4, relieved: 4, peaceful: 5, grateful: 5, refreshed: 5 };
