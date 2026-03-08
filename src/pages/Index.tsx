@@ -7,6 +7,8 @@ import MeditationPlayer from '@/components/MeditationPlayer';
 import Reflection from '@/components/Reflection';
 import StoicQuote from '@/components/StoicQuote';
 import { PreMood, PostMood, SoundType, useMeditationStore, getRandomQuote } from '@/lib/meditation-store';
+import heroImg from '@/assets/hero-nature.jpg';
+import meditationIllustration from '@/assets/meditation-illustration.png';
 
 type Step = 'mood' | 'session' | 'sound' | 'play' | 'reflect' | 'quote';
 
@@ -51,35 +53,61 @@ const Index = () => {
     setSound(undefined);
   };
 
-  const stepVariants = {
-    initial: { opacity: 0, x: 30 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -30 },
-  };
-
-  // Calming gradient for meditation screen
   const isMeditating = step === 'play';
+  const showHero = !isMeditating;
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center px-4 pb-20 transition-all duration-1000 ${
-      isMeditating
-        ? 'bg-gradient-to-b from-[hsl(200,30%,15%)] via-[hsl(220,25%,12%)] to-[hsl(240,20%,10%)]'
-        : 'gradient-hero'
-    }`}>
-      {!isMeditating && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-4xl font-display font-semibold tracking-tight">Stillness</h1>
-          <p className="text-muted-foreground text-sm mt-1">Find your calm</p>
-        </motion.div>
+    <div className="min-h-screen relative flex flex-col items-center justify-center px-4 pb-20 overflow-hidden">
+      {/* Background layers */}
+      {isMeditating ? (
+        <div className="absolute inset-0 gradient-meditation" />
+      ) : (
+        <>
+          {/* Nature hero image */}
+          <div className="absolute inset-0">
+            <img
+              src={heroImg}
+              alt=""
+              className="w-full h-full object-cover opacity-30"
+            />
+            <div className="absolute inset-0 gradient-hero opacity-80" />
+          </div>
+        </>
       )}
 
-      <div className={`w-full max-w-sm ${isMeditating ? 'text-[hsl(40,30%,92%)]' : ''}`}>
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-sm">
+        {showHero && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-6"
+          >
+            {(step === 'mood' || step === 'quote') && (
+              <motion.img
+                src={meditationIllustration}
+                alt="Meditation"
+                className="w-24 h-24 mx-auto mb-3 animate-float"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+              />
+            )}
+            <h1 className="text-4xl font-display font-semibold tracking-tight text-foreground">
+              Stillness
+            </h1>
+            <p className="text-muted-foreground text-sm mt-1">Find your calm</p>
+          </motion.div>
+        )}
+
         <AnimatePresence mode="wait">
-          <motion.div key={step} variants={stepVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.3 }}>
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -30 }}
+            transition={{ duration: 0.3 }}
+          >
             {step === 'mood' && <MoodCheck onSelect={handleMoodSelect} selected={preMood} />}
             {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} />}
             {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} />}

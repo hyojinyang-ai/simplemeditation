@@ -7,12 +7,7 @@ interface StoicQuoteProps {
 
 const StoicQuote = ({ quote, onContinue }: StoicQuoteProps) => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="text-center space-y-6"
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="text-center space-y-6">
       <motion.div
         initial={{ scale: 0.8 }}
         animate={{ scale: 1 }}
@@ -22,7 +17,7 @@ const StoicQuote = ({ quote, onContinue }: StoicQuoteProps) => {
         🌿
       </motion.div>
 
-      <div className="space-y-3 px-2">
+      <div className="glass-strong rounded-3xl p-6 space-y-3">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -47,7 +42,7 @@ const StoicQuote = ({ quote, onContinue }: StoicQuoteProps) => {
         transition={{ delay: 1.2 }}
         whileTap={{ scale: 0.97 }}
         onClick={onContinue}
-        className="px-8 py-3 rounded-xl bg-card shadow-card text-sm font-medium hover:shadow-soft transition-all"
+        className="px-8 py-3 rounded-2xl glass-strong text-sm font-medium hover:shadow-soft transition-all"
       >
         Begin again ✨
       </motion.button>

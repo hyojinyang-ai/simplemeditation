@@ -15,24 +15,26 @@ const MoodCheck = ({ onSelect, selected }: MoodCheckProps) => {
         <h2 className="text-2xl font-display">How are you feeling?</h2>
         <p className="text-muted-foreground text-sm">Check in with yourself before your session</p>
       </div>
-      <div className="flex justify-center gap-2">
-        {moods.map(([mood, config], i) => (
-          <motion.button
-            key={mood}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.08, type: 'spring', stiffness: 200 }}
-            onClick={() => onSelect(mood)}
-            className={`flex flex-col items-center gap-1.5 p-3 rounded-2xl transition-all duration-200 min-w-[64px] ${
-              selected === mood
-                ? `${config.color} ring-2 ring-primary/50 scale-110 shadow-soft`
-                : 'hover:bg-muted hover:scale-105'
-            }`}
-          >
-            <span className="text-3xl">{config.emoji}</span>
-            <span className="text-[11px] font-medium leading-tight">{config.label}</span>
-          </motion.button>
-        ))}
+      <div className="glass-strong rounded-3xl p-5">
+        <div className="flex justify-center gap-2">
+          {moods.map(([mood, config], i) => (
+            <motion.button
+              key={mood}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08, type: 'spring', stiffness: 200 }}
+              onClick={() => onSelect(mood)}
+              className={`flex flex-col items-center gap-1.5 p-3 rounded-2xl transition-all duration-200 min-w-[60px] ${
+                selected === mood
+                  ? `${config.color} ring-2 ring-primary/40 scale-110 shadow-soft`
+                  : 'hover:bg-muted/60 hover:scale-105'
+              }`}
+            >
+              <span className="text-3xl">{config.emoji}</span>
+              <span className="text-[11px] font-medium leading-tight">{config.label}</span>
+            </motion.button>
+          ))}
+        </div>
       </div>
     </div>
   );
