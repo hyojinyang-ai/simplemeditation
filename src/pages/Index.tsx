@@ -19,7 +19,9 @@ const Index = () => {
   const [minutes, setMinutes] = useState<number>();
   const [sound, setSound] = useState<SoundType>();
   const [quote] = useState(() => getRandomQuote());
-  const { addEntry } = useMeditationStore();
+  const [saved, setSaved] = useState(false);
+  const [lastEntryId, setLastEntryId] = useState<string>();
+  const { addEntry, entries } = useMeditationStore();
 
   const handleMoodSelect = (m: PreMood) => {
     setPreMood(m);
@@ -43,8 +45,23 @@ const Index = () => {
   const handleReflection = (postMood: PostMood, note?: string) => {
     if (preMood && minutes) {
       addEntry({ preMood, postMood, note, sessionMinutes: minutes, sound });
+      // Get the latest entry id
+      const store = useMeditationStore.getState();
+      setLastEntryId(store.entries[store.entries.length - 1]?.id);
     }
     setStep('quote');
+  };
+
+  const handleSaveQuote = () => {
+    if (lastEntryId) {
+      const store = useMeditationStore.getState();
+      const updated = store.entries.map(e =>
+        e.id === lastEntryId ? { ...e, savedQuote: quote } : e
+      );
+      localStorage.setItem('zen-mood-entries-v2', JSON.stringify(updated));
+      useMeditationStore.setState({ entries: updated });
+      setSaved(true);
+    }
   };
 
   const handleReset = () => {
@@ -52,6 +69,8 @@ const Index = () => {
     setPreMood(undefined);
     setMinutes(undefined);
     setSound(undefined);
+    setSaved(false);
+    setLastEntryId(undefined);
   };
 
   const isMeditating = step === 'play';
