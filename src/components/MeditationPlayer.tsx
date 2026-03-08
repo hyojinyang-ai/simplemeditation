@@ -48,19 +48,46 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
     return () => clearTimeout(breathTimerRef.current);
   }, [playing]);
 
-  const playBell = useCallback(() => {
+  const playCompletionFeedback = useCallback(() => {
+    // Vibration feedback
+    try {
+      if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200, 100, 300]);
+      }
+    } catch {}
+
+    // Chime sound — two harmonious tones
     try {
       const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(528, ctx.currentTime);
-      gain.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 3);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 3);
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.35, ctx.currentTime);
+      master.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4);
+      master.connect(ctx.destination);
+
+      // First chime tone (C5)
+      const osc1 = ctx.createOscillator();
+      const g1 = ctx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(528, ctx.currentTime);
+      g1.gain.setValueAtTime(0.4, ctx.currentTime);
+      g1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 3);
+      osc1.connect(g1);
+      g1.connect(master);
+      osc1.start();
+      osc1.stop(ctx.currentTime + 3);
+
+      // Second chime tone (E5) — delayed
+      const osc2 = ctx.createOscillator();
+      const g2 = ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(660, ctx.currentTime + 0.6);
+      g2.gain.setValueAtTime(0, ctx.currentTime);
+      g2.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.6);
+      g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4);
+      osc2.connect(g2);
+      g2.connect(master);
+      osc2.start(ctx.currentTime + 0.5);
+      osc2.stop(ctx.currentTime + 4);
     } catch {}
   }, []);
 
