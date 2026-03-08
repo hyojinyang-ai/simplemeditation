@@ -18,6 +18,7 @@ const CHART_COLORS = [
 
 const Analytics = () => {
   const { entries } = useMeditationStore();
+  const { containerRef, pullDistance, refreshing, threshold } = usePullToRefresh();
 
   const totalSessions = entries.filter((e) => e.sessionMinutes).length;
   const totalMinutes = entries.reduce((sum, e) => sum + (e.sessionMinutes || 0), 0);
