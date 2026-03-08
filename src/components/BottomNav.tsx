@@ -35,6 +35,9 @@ const BottomNav = () => {
           <span className="text-[10px] font-medium">{theme === 'dark' ? 'Light' : 'Night'}</span>
         </button>
       </div>
+      <p className="text-center text-[8px] text-muted-foreground/40 pb-1">
+        Sounds by <a href="https://www.freesoundslibrary.com" target="_blank" rel="noopener noreferrer" className="underline">Free Sound Library</a> · CC BY 4.0
+      </p>
     </nav>
   );
 };
