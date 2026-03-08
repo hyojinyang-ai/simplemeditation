@@ -82,8 +82,6 @@ const Index = () => {
     setLastEntryId(undefined);
   };
 
-  const isMeditating = step === 'play';
-  const showHero = !isMeditating;
 
   return (
     <div className="min-h-[100dvh] relative flex flex-col pb-16 overflow-hidden">
