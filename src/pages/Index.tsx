@@ -101,7 +101,7 @@ const Index = () => {
                   opacity: { delay: 0.2, duration: 0.4 },
                   scale: { delay: 0.2, type: 'spring', stiffness: 120 },
                 }}
-                className="w-52 h-52 mx-auto mb-3 rounded-full overflow-hidden shadow-lg"
+                className="w-52 h-52 mx-auto mb-3 rounded-full overflow-hidden shadow-lg bg-background"
               >
                 <video
                   src="/videos/hero.mp4"
