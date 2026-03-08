@@ -7,9 +7,9 @@ const SettingsPage = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="min-h-[100dvh] px-4 pb-24">
-      <div className="max-w-sm mx-auto">
-        <StepHeader title="Settings" subtitle="Customize your experience" />
+    <div className="min-h-[100dvh] pb-24">
+      <div className="px-4 max-w-md mx-auto">
+        <StepHeader title="Settings" subtitle="Customize your experience" sticky />
 
         <motion.div
           initial={{ opacity: 0, y: 10 }}

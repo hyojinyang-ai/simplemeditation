@@ -7,7 +7,7 @@ import MeditationPlayer from '@/components/MeditationPlayer';
 import Reflection from '@/components/Reflection';
 import StoicQuote from '@/components/StoicQuote';
 import { PreMood, PostMood, SoundType, useMeditationStore, getRandomQuote } from '@/lib/meditation-store';
-import heroImg from '@/assets/hero-nature.jpg';
+
 import StepHeader from '@/components/StepHeader';
 
 type Step = 'mood' | 'session' | 'sound' | 'play' | 'reflect' | 'quote';
