@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MoodCheck from '@/components/MoodCheck';
 import SessionPicker from '@/components/SessionPicker';
