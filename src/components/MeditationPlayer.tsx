@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, CheckCircle, ChevronLeft } from 'lucide-react';
 import { ambientEngine, resolveSound, AmbientSound } from '@/lib/ambient-engine';
 import { SoundType } from '@/lib/meditation-store';
+import AmbientVisuals from './AmbientVisuals';
 
 const BREATH_PHASES = [
   { label: 'Inhale', duration: 4000 },
