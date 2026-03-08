@@ -94,29 +94,19 @@ const Index = () => {
             className="text-center mb-4"
           >
             {isHome && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+              <motion.img
+                src="/logo.png"
+                alt="Stillness cat logo"
+                initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="mb-2"
-              >
-                <Leaf size={28} strokeWidth={1.5} className="mx-auto text-accent animate-float" />
-              </motion.div>
+                transition={{ delay: 0.2, type: 'spring', stiffness: 120 }}
+                className="w-40 h-40 mx-auto mb-2 object-contain drop-shadow-lg"
+              />
             )}
             <h1 className="text-3xl font-display font-medium tracking-tight text-foreground">
               Stillness
             </h1>
             <p className="text-muted-foreground text-xs mt-1 tracking-wide">Find your calm</p>
-            {isHome && (
-              <motion.img
-                src={meditationIllustration}
-                alt="Meditation illustration"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="w-32 h-32 mx-auto mt-3 object-contain"
-              />
-            )}
           </motion.div>
         )}
 
