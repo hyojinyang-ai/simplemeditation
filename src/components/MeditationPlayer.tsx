@@ -108,7 +108,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
           className="text-center space-y-4 py-12"
         >
           <CheckCircle size={48} strokeWidth={1.5} className="mx-auto text-accent" />
-          <h2 className="text-2xl font-display font-medium text-primary-foreground tracking-tight">Session Complete</h2>
+          <h2 className="text-2xl font-display font-medium text-foreground tracking-tight">Session Complete</h2>
         </motion.div>
       ) : (
         <motion.div
