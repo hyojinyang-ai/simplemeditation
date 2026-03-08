@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 
 /** Slow-moving ambient particles/orbs for the meditation screen */
-const AmbientVisuals = () => {
+const AmbientVisuals = forwardRef<HTMLDivElement>((_, ref) => {
   const orbs = useMemo(() =>
     Array.from({ length: 6 }, (_, i) => ({
       id: i,
@@ -29,7 +29,7 @@ const AmbientVisuals = () => {
   );
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+    <div ref={ref} className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
       {/* Floating orbs */}
       {orbs.map((orb) => (
         <motion.div
@@ -95,6 +95,8 @@ const AmbientVisuals = () => {
       />
     </div>
   );
-};
+});
+
+AmbientVisuals.displayName = 'AmbientVisuals';
 
 export default AmbientVisuals;
