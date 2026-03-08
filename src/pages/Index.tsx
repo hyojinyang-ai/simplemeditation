@@ -58,15 +58,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-center px-4 pb-20 overflow-hidden">
-      {/* Background layers */}
-      {isMeditating ? (
-        <div className="absolute inset-0 gradient-meditation" />
-      ) : (
-        <div className="absolute inset-0">
-          <img src={heroImg} alt="" className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 gradient-hero opacity-85" />
-        </div>
-      )}
+      {/* Background — always show illustration */}
+      <div className="absolute inset-0">
+        <img src={heroImg} alt="" className="w-full h-full object-cover opacity-20" />
+        <div className={`absolute inset-0 ${isMeditating ? 'gradient-meditation' : 'gradient-hero opacity-85'}`} />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-sm">

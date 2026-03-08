@@ -108,7 +108,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
           className="text-center space-y-4 py-12"
         >
           <CheckCircle size={48} strokeWidth={1.5} className="mx-auto text-accent" />
-          <h2 className="text-2xl font-display font-medium text-primary-foreground tracking-tight">Session Complete</h2>
+          <h2 className="text-2xl font-display font-medium text-foreground tracking-tight">Session Complete</h2>
         </motion.div>
       ) : (
         <motion.div
@@ -119,7 +119,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
         >
           {/* Back button - only before playing */}
           {onBack && (
-            <button onClick={onBack} className="self-start flex items-center gap-1 text-sm text-primary-foreground/50 hover:text-primary-foreground/80 transition-colors">
+            <button onClick={onBack} className="self-start flex items-center gap-1 text-sm text-foreground/50 hover:text-foreground/80 transition-colors">
               <ChevronLeft size={16} /> Change sound
             </button>
           )}
@@ -163,7 +163,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
 
             {/* Progress ring */}
             <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 256 256">
-              <circle cx="128" cy="128" r="115" fill="none" stroke="hsl(230 60% 56% / 0.08)" strokeWidth="2" />
+              <circle cx="128" cy="128" r="115" fill="none" stroke="hsl(145 30% 42% / 0.08)" strokeWidth="2" />
               <circle
                 cx="128" cy="128" r="115"
                 fill="none"
@@ -176,8 +176,8 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
               />
               <defs>
                 <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="hsl(220, 65%, 58%)" />
-                  <stop offset="100%" stopColor="hsl(260, 45%, 65%)" />
+                  <stop offset="0%" stopColor="hsl(145, 30%, 42%)" />
+                  <stop offset="100%" stopColor="hsl(160, 25%, 55%)" />
                 </linearGradient>
               </defs>
             </svg>
@@ -195,11 +195,11 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
 
             {/* Timer text + breathing guide */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-5xl font-display font-light tabular-nums tracking-tight text-primary-foreground">
+              <span className="text-5xl font-display font-light tabular-nums tracking-tight text-foreground">
                 {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
               </span>
               {!playing && remaining === totalSeconds && (
-                <span className="text-xs text-primary-foreground/40 mt-2 tracking-wide">Tap play to begin</span>
+                <span className="text-xs text-foreground/40 mt-2 tracking-wide">Tap play to begin</span>
               )}
               {playing && (
                 <AnimatePresence mode="wait">
@@ -209,7 +209,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
                     animate={{ opacity: 0.7, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.4 }}
-                    className="text-sm text-primary-foreground/60 mt-2 tracking-widest uppercase font-light"
+                    className="text-sm text-foreground/60 mt-2 tracking-widest uppercase font-light"
                   >
                     {BREATH_PHASES[breathPhase].label}
                   </motion.span>
