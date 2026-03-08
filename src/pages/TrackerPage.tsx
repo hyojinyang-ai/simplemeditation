@@ -4,6 +4,7 @@ import { useMeditationStore, preMoodConfig, postMoodConfig } from '@/lib/meditat
 import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
 import heroImg from '@/assets/hero-nature.jpg';
+import StepHeader from '@/components/StepHeader';
 
 type Tab = 'sessions' | 'quotes';
 
