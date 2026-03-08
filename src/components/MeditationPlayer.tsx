@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, CheckCircle, ChevronLeft } from 'lucide-react';
+import { Play, Pause, CheckCircle } from 'lucide-react';
 import { ambientEngine, resolveSound, AmbientSound } from '@/lib/ambient-engine';
 import { SoundType } from '@/lib/meditation-store';
 import AmbientVisuals from './AmbientVisuals';
@@ -18,10 +18,9 @@ interface MeditationPlayerProps {
   minutes: number;
   sound: SoundType;
   onComplete: () => void;
-  onBack?: () => void;
 }
 
-const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlayerProps) => {
+const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps) => {
   const totalSeconds = minutes * 60;
   const [remaining, setRemaining] = useState(totalSeconds);
   const [playing, setPlaying] = useState(false);
@@ -147,12 +146,6 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
         >
           {/* Ambient floating visuals behind the player */}
           {playing && <AmbientVisuals sound={resolvedSound} />}
-          {/* Back button - only before playing */}
-          {onBack && (
-            <button onClick={onBack} className="self-start flex items-center gap-1 text-sm text-foreground/50 hover:text-foreground/80 transition-colors">
-              <ChevronLeft size={16} /> Change sound
-            </button>
-          )}
           {/* Pulsating circles + progress ring */}
           <div className="relative w-64 h-64 flex items-center justify-center">
             {/* Pulsating rings synced to breathing cycle */}
