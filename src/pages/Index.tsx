@@ -98,9 +98,13 @@ const Index = () => {
                 src="/logo.png"
                 alt="Stillness cat logo"
                 initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, type: 'spring', stiffness: 120 }}
-                className="w-40 h-40 mx-auto mb-2 object-contain drop-shadow-lg"
+                animate={{ opacity: 1, scale: 1, y: [0, -6, 0] }}
+                transition={{ 
+                  opacity: { delay: 0.2, duration: 0.4 },
+                  scale: { delay: 0.2, type: 'spring', stiffness: 120 },
+                  y: { delay: 0.6, duration: 3, repeat: Infinity, ease: 'easeInOut' }
+                }}
+                className="w-40 h-40 mx-auto mb-2 object-contain"
               />
             )}
             <h1 className="text-3xl font-display font-medium tracking-tight text-foreground">
