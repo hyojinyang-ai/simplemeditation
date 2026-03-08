@@ -95,6 +95,8 @@ const AmbientVisuals = forwardRef<HTMLDivElement>((_, ref) => {
       />
     </div>
   );
-};
+});
+
+AmbientVisuals.displayName = 'AmbientVisuals';
 
 export default AmbientVisuals;
