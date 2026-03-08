@@ -21,13 +21,14 @@ const Index = () => {
   const [lastEntryId, setLastEntryId] = useState<string>();
   const { addEntry, entries } = useMeditationStore();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const isHome = step === 'mood' || step === 'quote';
 
   useEffect(() => {
     if (isHome && videoRef.current) {
       videoRef.current.currentTime = 0;
       videoRef.current.play().catch(() => {});
     }
-  }, [step]);
+  }, [isHome]);
 
   const handleMoodSelect = (m: PreMood) => {
     setPreMood(m);
