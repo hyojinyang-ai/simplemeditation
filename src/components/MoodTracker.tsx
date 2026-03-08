@@ -16,7 +16,7 @@ const MoodTracker = () => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-display">Your Week</h2>
+      <h2 className="text-2xl font-display font-medium tracking-tight">Your Week</h2>
       <div className="grid grid-cols-7 gap-2">
         {last7Days.map(({ date, entries: dayEntries }, i) => {
           const avgMood = dayEntries.length > 0
@@ -33,10 +33,10 @@ const MoodTracker = () => {
               className="flex flex-col items-center gap-1"
             >
               <span className="text-xs text-muted-foreground">{format(date, 'EEE')}</span>
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                 moodLevel ? preMoodConfig[moodLevel].color : 'bg-muted'
               }`}>
-                {moodLevel ? preMoodConfig[moodLevel].emoji : '·'}
+                {moodLevel ? (() => { const Icon = preMoodConfig[moodLevel].icon; return <Icon size={16} strokeWidth={1.5} />; })() : <span className="text-muted-foreground">·</span>}
               </div>
               <span className="text-[10px] text-muted-foreground">{dayEntries.length}x</span>
             </motion.div>
