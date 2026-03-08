@@ -199,7 +199,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
                 {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
               </span>
               {!playing && remaining === totalSeconds && (
-                <span className="text-xs text-primary-foreground/40 mt-2 tracking-wide">Tap play to begin</span>
+                <span className="text-xs text-foreground/40 mt-2 tracking-wide">Tap play to begin</span>
               )}
               {playing && (
                 <AnimatePresence mode="wait">
