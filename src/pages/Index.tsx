@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import meditationIllustration from '@/assets/meditation-illustration.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf } from 'lucide-react';
 import MoodCheck from '@/components/MoodCheck';
@@ -86,6 +87,16 @@ const Index = () => {
               Stillness
             </h1>
             <p className="text-muted-foreground text-sm mt-1.5 tracking-wide">Find your calm</p>
+            {(step === 'mood' || step === 'quote') && (
+              <motion.img
+                src={meditationIllustration}
+                alt="Meditation illustration"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="w-40 h-40 mx-auto mt-4 object-contain"
+              />
+            )}
           </motion.div>
         )}
 
