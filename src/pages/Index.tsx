@@ -102,10 +102,10 @@ const Index = () => {
             transition={{ duration: 0.25 }}
           >
             {step === 'mood' && <MoodCheck onSelect={handleMoodSelect} selected={preMood} />}
-            {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} />}
-            {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} />}
+            {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} onBack={() => setStep('mood')} />}
+            {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} onBack={() => setStep('session')} />}
             {step === 'play' && minutes && sound && (
-              <MeditationPlayer minutes={minutes} sound={sound} onComplete={handleMeditationComplete} />
+              <MeditationPlayer minutes={minutes} sound={sound} onComplete={handleMeditationComplete} onBack={() => setStep('sound')} />
             )}
             {step === 'reflect' && <Reflection onSubmit={handleReflection} />}
             {step === 'quote' && <StoicQuote quote={quote} onContinue={handleReset} />}

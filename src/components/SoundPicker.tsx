@@ -1,16 +1,23 @@
 import { motion } from 'framer-motion';
+import { ChevronLeft } from 'lucide-react';
 import { SoundType, soundConfig } from '@/lib/meditation-store';
 
 interface SoundPickerProps {
   onSelect: (sound: SoundType) => void;
   selected?: SoundType;
+  onBack?: () => void;
 }
 
-const SoundPicker = ({ onSelect, selected }: SoundPickerProps) => {
+const SoundPicker = ({ onSelect, selected, onBack }: SoundPickerProps) => {
   const sounds = Object.entries(soundConfig) as [SoundType, typeof soundConfig[SoundType]][];
 
   return (
     <div className="space-y-6">
+      {onBack && (
+        <button onClick={onBack} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <ChevronLeft size={16} /> Back
+        </button>
+      )}
       <div className="text-center space-y-1.5">
         <h2 className="text-2xl font-display font-medium tracking-tight">Pick your sound</h2>
         <p className="text-muted-foreground text-sm">Choose what resonates with you</p>
