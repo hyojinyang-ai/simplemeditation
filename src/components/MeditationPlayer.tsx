@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, CheckCircle } from 'lucide-react';
+import { Play, Pause, CheckCircle, ChevronLeft } from 'lucide-react';
 import { ambientEngine, resolveSound, AmbientSound } from '@/lib/ambient-engine';
 import { SoundType } from '@/lib/meditation-store';
 
@@ -17,9 +17,10 @@ interface MeditationPlayerProps {
   minutes: number;
   sound: SoundType;
   onComplete: () => void;
+  onBack?: () => void;
 }
 
-const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps) => {
+const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlayerProps) => {
   const totalSeconds = minutes * 60;
   const [remaining, setRemaining] = useState(totalSeconds);
   const [playing, setPlaying] = useState(false);
