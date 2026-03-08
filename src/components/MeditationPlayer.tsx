@@ -116,8 +116,10 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
           key="player"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex flex-col items-center gap-10 pt-8"
+          className="relative flex flex-col items-center gap-10 pt-8"
         >
+          {/* Ambient floating visuals behind the player */}
+          {playing && <AmbientVisuals />}
           {/* Back button - only before playing */}
           {onBack && (
             <button onClick={onBack} className="self-start flex items-center gap-1 text-sm text-foreground/50 hover:text-foreground/80 transition-colors">
