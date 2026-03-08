@@ -117,6 +117,12 @@ const MeditationPlayer = ({ minutes, sound, onComplete, onBack }: MeditationPlay
           animate={{ opacity: 1 }}
           className="flex flex-col items-center gap-10 pt-8"
         >
+          {/* Back button - only before playing */}
+          {onBack && !playing && remaining === totalSeconds && (
+            <button onClick={onBack} className="self-start flex items-center gap-1 text-sm text-primary-foreground/50 hover:text-primary-foreground/80 transition-colors">
+              <ChevronLeft size={16} /> Change sound
+            </button>
+          )}
           {/* Pulsating circles + progress ring */}
           <div className="relative w-64 h-64 flex items-center justify-center">
             {/* Pulsating rings synced to breathing cycle */}
