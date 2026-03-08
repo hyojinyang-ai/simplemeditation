@@ -87,13 +87,6 @@ const Index = () => {
 
   return (
     <div className="min-h-[100dvh] relative flex flex-col pb-16 overflow-hidden">
-      {/* Background — hide hero image on home, show on other steps */}
-      {!isHome && (
-        <div className="absolute inset-0">
-          <img src={heroImg} alt="" className="w-full h-full object-cover opacity-20" />
-          <div className={`absolute inset-0 ${isMeditating ? 'gradient-meditation' : 'gradient-hero opacity-85'}`} />
-        </div>
-      )}
 
       {/* Sticky Header */}
       <div className="relative z-20 px-4 max-w-sm w-full mx-auto">
