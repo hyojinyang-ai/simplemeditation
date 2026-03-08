@@ -1,11 +1,8 @@
 import { create } from 'zustand';
 
-// Pre-meditation moods
 export type PreMood = 'stressed' | 'tired' | 'neutral' | 'energized' | 'anxious';
-// Post-meditation moods
 export type PostMood = 'calm' | 'relieved' | 'peaceful' | 'grateful' | 'refreshed';
 export type Mood = PreMood | PostMood;
-
 export type SoundType = 'singing-bowl' | 'gong' | 'ambient-pad' | 'nature' | 'rain' | 'ocean' | 'random';
 
 export interface MoodEntry {
@@ -27,9 +24,7 @@ const loadEntries = (): MoodEntry[] => {
   try {
     const stored = localStorage.getItem('zen-mood-entries-v2');
     return stored ? JSON.parse(stored) : [];
-  } catch {
-    return [];
-  }
+  } catch { return []; }
 };
 
 export const useMeditationStore = create<MeditationState>((set) => ({
@@ -46,19 +41,19 @@ export const useMeditationStore = create<MeditationState>((set) => ({
 }));
 
 export const preMoodConfig: Record<PreMood, { emoji: string; label: string; color: string }> = {
-  stressed: { emoji: '😰', label: 'Stressed', color: 'bg-destructive/10 text-destructive' },
+  stressed: { emoji: '😰', label: 'Stressed', color: 'bg-zen-rose-light text-zen-rose' },
   tired: { emoji: '😴', label: 'Tired', color: 'bg-zen-lavender-light text-zen-lavender' },
-  neutral: { emoji: '😐', label: 'Neutral', color: 'bg-zen-sand text-zen-warm' },
-  energized: { emoji: '⚡', label: 'Energized', color: 'bg-zen-sage-light text-zen-sage' },
-  anxious: { emoji: '😟', label: 'Anxious', color: 'bg-zen-ocean-light text-zen-ocean' },
+  neutral: { emoji: '😐', label: 'Neutral', color: 'bg-zen-sky-light text-zen-sky' },
+  energized: { emoji: '⚡', label: 'Energized', color: 'bg-zen-green-light text-zen-green' },
+  anxious: { emoji: '😟', label: 'Anxious', color: 'bg-zen-blue-light text-zen-blue' },
 };
 
 export const postMoodConfig: Record<PostMood, { emoji: string; label: string; color: string }> = {
-  calm: { emoji: '😌', label: 'Calm', color: 'bg-zen-sage-light text-zen-sage' },
-  relieved: { emoji: '😮‍💨', label: 'Relieved', color: 'bg-zen-ocean-light text-zen-ocean' },
+  calm: { emoji: '😌', label: 'Calm', color: 'bg-zen-blue-light text-zen-blue' },
+  relieved: { emoji: '😮‍💨', label: 'Relieved', color: 'bg-zen-sky-light text-zen-sky' },
   peaceful: { emoji: '🕊️', label: 'Peaceful', color: 'bg-zen-lavender-light text-zen-lavender' },
-  grateful: { emoji: '🙏', label: 'Grateful', color: 'bg-zen-sand text-zen-warm' },
-  refreshed: { emoji: '✨', label: 'Refreshed', color: 'bg-zen-warm-light text-zen-warm' },
+  grateful: { emoji: '🙏', label: 'Grateful', color: 'bg-zen-green-light text-zen-green' },
+  refreshed: { emoji: '✨', label: 'Refreshed', color: 'bg-zen-rose-light text-zen-rose' },
 };
 
 export const soundConfig: Record<SoundType, { emoji: string; label: string }> = {
@@ -90,6 +85,5 @@ export const stoicQuotes = [
 ];
 
 export const getRandomQuote = () => stoicQuotes[Math.floor(Math.random() * stoicQuotes.length)];
-
 export const preMoodToValue: Record<PreMood, number> = { stressed: 1, anxious: 2, tired: 2, neutral: 3, energized: 5 };
 export const postMoodToValue: Record<PostMood, number> = { calm: 4, relieved: 4, peaceful: 5, grateful: 5, refreshed: 5 };

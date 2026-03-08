@@ -8,9 +8,7 @@ export default {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      screens: { "2xl": "1400px" },
     },
     extend: {
       fontFamily: {
@@ -52,15 +50,17 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         zen: {
-          sage: "hsl(var(--zen-sage))",
-          "sage-light": "hsl(var(--zen-sage-light))",
-          sand: "hsl(var(--zen-sand))",
-          ocean: "hsl(var(--zen-ocean))",
-          "ocean-light": "hsl(var(--zen-ocean-light))",
+          blue: "hsl(var(--zen-blue))",
+          "blue-light": "hsl(var(--zen-blue-light))",
+          "blue-deep": "hsl(var(--zen-blue-deep))",
           lavender: "hsl(var(--zen-lavender))",
           "lavender-light": "hsl(var(--zen-lavender-light))",
-          warm: "hsl(var(--zen-warm))",
-          "warm-light": "hsl(var(--zen-warm-light))",
+          green: "hsl(var(--zen-green))",
+          "green-light": "hsl(var(--zen-green-light))",
+          sky: "hsl(var(--zen-sky))",
+          "sky-light": "hsl(var(--zen-sky-light))",
+          rose: "hsl(var(--zen-rose))",
+          "rose-light": "hsl(var(--zen-rose-light))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -88,12 +88,20 @@ export default {
           to: { height: "0" },
         },
         breathe: {
-          "0%, 100%": { transform: "scale(1)", opacity: "0.6" },
-          "50%": { transform: "scale(1.15)", opacity: "1" },
+          "0%, 100%": { transform: "scale(1)", opacity: "0.5" },
+          "50%": { transform: "scale(1.2)", opacity: "0.9" },
         },
         "fade-in": {
           from: { opacity: "0", transform: "translateY(10px)" },
           to: { opacity: "1", transform: "translateY(0)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
         },
       },
       animation: {
@@ -101,6 +109,8 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         breathe: "breathe 4s ease-in-out infinite",
         "fade-in": "fade-in 0.5s ease-out",
+        float: "float 3s ease-in-out infinite",
+        shimmer: "shimmer 3s ease-in-out infinite",
       },
     },
   },

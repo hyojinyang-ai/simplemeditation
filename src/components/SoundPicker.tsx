@@ -21,16 +21,16 @@ const SoundPicker = ({ onSelect, selected }: SoundPickerProps) => {
             key={sound}
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: i * 0.06 }}
+            transition={{ delay: i * 0.05 }}
             onClick={() => onSelect(sound)}
             className={`flex flex-col items-center gap-1.5 py-4 px-2 rounded-2xl transition-all duration-200 ${
               selected === sound
-                ? 'bg-primary text-primary-foreground shadow-soft scale-105'
-                : 'bg-card shadow-card hover:shadow-soft hover:scale-[1.02]'
+                ? 'gradient-calm text-primary-foreground shadow-glow scale-105'
+                : 'glass-strong hover:shadow-soft hover:scale-[1.02]'
             }`}
           >
             <span className="text-2xl">{config.emoji}</span>
-            <span className={`text-xs font-medium ${selected === sound ? '' : ''}`}>{config.label}</span>
+            <span className="text-xs font-medium">{config.label}</span>
           </motion.button>
         ))}
       </div>

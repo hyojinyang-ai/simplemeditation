@@ -6,12 +6,12 @@ const BottomNav = () => {
 
   const links = [
     { to: '/', icon: Home, label: 'Meditate' },
-    { to: '/tracker', icon: History, label: 'Tracker' },
+    { to: '/tracker', icon: History, label: 'Journal' },
     { to: '/analytics', icon: BarChart3, label: 'Insights' },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-lg border-t border-border z-50">
+    <nav className="fixed bottom-0 left-0 right-0 glass-strong z-50 border-t border-border/30">
       <div className="max-w-md mx-auto flex justify-around py-2">
         {links.map(({ to, icon: Icon, label }) => (
           <Link

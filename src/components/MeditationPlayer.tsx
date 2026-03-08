@@ -35,11 +35,8 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
   }, []);
 
   useEffect(() => {
-    if (playing) {
-      ambientEngine.start(resolvedSound);
-    } else {
-      ambientEngine.stop();
-    }
+    if (playing) ambientEngine.start(resolvedSound);
+    else ambientEngine.stop();
   }, [playing, resolvedSound]);
 
   useEffect(() => () => { ambientEngine.stop(); }, []);
@@ -82,49 +79,54 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
           className="text-center space-y-3 py-12"
         >
           <span className="text-6xl">🧘</span>
-          <h2 className="text-2xl font-display">Session Complete</h2>
+          <h2 className="text-2xl font-display text-primary-foreground">Session Complete</h2>
         </motion.div>
       ) : (
         <motion.div
           key="player"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex flex-col items-center gap-6"
+          className="flex flex-col items-center gap-8 pt-8"
         >
-          {/* Breathing orb */}
+          {/* Breathing orb with gradient ring */}
           <div className="relative w-64 h-64 flex items-center justify-center">
-            {/* Background ring */}
             <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 256 256">
-              <circle cx="128" cy="128" r="115" fill="none" stroke="hsl(var(--muted))" strokeWidth="4" />
+              <circle cx="128" cy="128" r="115" fill="none" stroke="hsl(230 60% 56% / 0.15)" strokeWidth="4" />
               <circle
                 cx="128" cy="128" r="115"
                 fill="none"
-                stroke="hsl(var(--primary))"
+                stroke="url(#progressGrad)"
                 strokeWidth="4"
                 strokeLinecap="round"
                 strokeDasharray={2 * Math.PI * 115}
                 strokeDashoffset={2 * Math.PI * 115 * (1 - progress)}
                 className="transition-all duration-1000"
               />
+              <defs>
+                <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="hsl(220, 65%, 58%)" />
+                  <stop offset="100%" stopColor="hsl(260, 45%, 65%)" />
+                </linearGradient>
+              </defs>
             </svg>
 
             {/* Breathing orb */}
-            <div className={`w-28 h-28 rounded-full gradient-calm opacity-40 ${playing ? 'animate-breathe' : ''}`} />
+            <div className={`w-28 h-28 rounded-full gradient-calm opacity-30 ${playing ? 'animate-breathe' : ''}`} />
 
-            {/* Timer */}
+            {/* Timer text */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl font-display tabular-nums tracking-tight">
+              <span className="text-5xl font-display tabular-nums tracking-tight text-primary-foreground">
                 {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
               </span>
               {!playing && remaining === totalSeconds && (
-                <span className="text-xs text-muted-foreground mt-2">Tap play to begin</span>
+                <span className="text-xs text-primary-foreground/50 mt-2">Tap play to begin</span>
               )}
               {playing && (
                 <motion.span
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: [0.4, 0.8, 0.4] }}
+                  animate={{ opacity: [0.3, 0.7, 0.3] }}
                   transition={{ duration: 4, repeat: Infinity }}
-                  className="text-xs text-muted-foreground mt-2"
+                  className="text-xs text-primary-foreground/60 mt-2"
                 >
                   Close your eyes & breathe
                 </motion.span>
@@ -136,7 +138,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setPlaying(!playing)}
-            className="w-16 h-16 rounded-full gradient-calm flex items-center justify-center text-primary-foreground shadow-soft"
+            className="w-16 h-16 rounded-full gradient-calm flex items-center justify-center text-primary-foreground shadow-glow"
           >
             {playing ? <Pause size={24} /> : <Play size={24} className="ml-1" />}
           </motion.button>
