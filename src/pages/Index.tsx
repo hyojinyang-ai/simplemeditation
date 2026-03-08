@@ -89,7 +89,7 @@ const Index = () => {
     <div className="min-h-[100dvh] relative flex flex-col pb-16 overflow-hidden">
 
       {/* Sticky Header */}
-      <div className="relative z-20 px-4 max-w-sm w-full mx-auto">
+      <div className="relative z-20 px-4 max-w-md w-full mx-auto">
         {step === 'mood' && <StepHeader title="Stillness" subtitle="Begin your practice" sticky />}
         {step === 'session' && <StepHeader title="Meditation" subtitle="Choose your session" onBack={() => setStep('mood')} sticky />}
         {step === 'sound' && <StepHeader title="Meditation" subtitle="Pick a soundscape" onBack={() => setStep('session')} sticky />}
