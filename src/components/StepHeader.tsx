@@ -30,7 +30,7 @@ const StepHeader = ({ title, subtitle, onBack, sticky = false }: StepHeaderProps
     <motion.div
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`relative pt-4 pb-3 ${sticky ? 'sticky top-0 z-20 bg-background/80 backdrop-blur-lg' : ''}`}
+      className="relative pt-4 pb-3 sticky top-0 z-20 bg-background/80 backdrop-blur-lg"
       style={sticky ? { paddingBottom: headerPadding } : undefined}
     >
       {onBack && (
