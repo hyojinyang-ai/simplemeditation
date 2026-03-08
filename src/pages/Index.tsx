@@ -93,6 +93,10 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-4"
           >
+            <h1 className="text-3xl font-display font-medium tracking-tight text-foreground">
+              Stillness
+            </h1>
+            <p className="text-muted-foreground text-xs mt-1 tracking-wide">Find your calm</p>
             {isHome && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.85 }}
@@ -101,7 +105,7 @@ const Index = () => {
                   opacity: { delay: 0.2, duration: 0.4 },
                   scale: { delay: 0.2, type: 'spring', stiffness: 120 },
                 }}
-                className="w-52 h-52 mx-auto mb-3 rounded-full overflow-hidden bg-background"
+                className="w-52 h-52 mx-auto mt-4 mb-1 rounded-full overflow-hidden bg-background"
               >
                 <video
                   src="/videos/hero.mp4"
@@ -113,10 +117,6 @@ const Index = () => {
                 />
               </motion.div>
             )}
-            <h1 className="text-3xl font-display font-medium tracking-tight text-foreground">
-              Stillness
-            </h1>
-            <p className="text-muted-foreground text-xs mt-1 tracking-wide">Find your calm</p>
           </motion.div>
         )}
 
