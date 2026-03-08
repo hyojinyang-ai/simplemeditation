@@ -94,18 +94,24 @@ const Index = () => {
             className="text-center mb-4"
           >
             {isHome && (
-              <motion.img
-                src="/logo.png"
-                alt="Stillness cat logo"
+              <motion.div
                 initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1, y: [0, -6, 0] }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ 
                   opacity: { delay: 0.2, duration: 0.4 },
                   scale: { delay: 0.2, type: 'spring', stiffness: 120 },
-                  y: { delay: 0.6, duration: 3, repeat: Infinity, ease: 'easeInOut' }
                 }}
-                className="w-40 h-40 mx-auto mb-2 object-cover rounded-full"
-              />
+                className="w-56 h-56 mx-auto mb-3 rounded-2xl overflow-hidden shadow-lg"
+              >
+                <video
+                  src="/videos/hero.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
             )}
             <h1 className="text-3xl font-display font-medium tracking-tight text-foreground">
               Stillness
