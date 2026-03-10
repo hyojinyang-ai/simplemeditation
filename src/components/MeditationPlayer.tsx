@@ -142,25 +142,22 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
           key="player"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className={`relative flex flex-col items-center justify-between min-h-screen -mt-8 -mx-4 px-4 py-4 ${
-            resolvedSound === 'ambient-pad'
-              ? 'bg-gradient-to-b from-[#1a1a2e] via-[#16213e] to-[#0f3460]'
-              : 'bg-gradient-to-b from-white to-gray-50'
-          }`}
+          className="relative flex flex-col items-center -mt-8 -mx-4 px-4 py-8 pb-24 bg-gradient-to-b from-white to-gray-50 overflow-y-auto"
+          style={{ minHeight: 'calc(100vh - 140px)' }}
         >
           {/* Meditation Cat Image for specific sounds - at the top */}
           {resolvedSound === 'gong' && (
-            <div className="w-full flex flex-col items-center gap-2 flex-shrink-0 mt-8">
+            <div className="w-full flex flex-col items-center flex-shrink-0 mt-8">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="w-full flex items-center justify-center max-h-[30vh]"
+                className="w-full flex items-center justify-center h-[35vh]"
               >
                 <img
                   src="/images/meditation-cat-gong.png"
                   alt="Meditation Cat with Gong"
-                  className="w-full max-w-xs h-full object-contain"
+                  className="h-full w-auto object-cover"
                 />
               </motion.div>
               {playing && (
@@ -180,17 +177,17 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
             </div>
           )}
           {resolvedSound === 'singing-bowl' && (
-            <div className="w-full flex flex-col items-center gap-2 flex-shrink-0 mt-8">
+            <div className="w-full flex flex-col items-center flex-shrink-0 mt-8">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="w-full flex items-center justify-center max-h-[30vh]"
+                className="w-full flex items-center justify-center h-[35vh]"
               >
                 <img
                   src="/images/meditation-cat-bowl.png"
                   alt="Meditation Cat with Bowl"
-                  className="w-full max-w-xs h-full object-contain"
+                  className="h-full w-auto object-cover"
                 />
               </motion.div>
               {playing && (
@@ -210,17 +207,17 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
             </div>
           )}
           {resolvedSound === 'ambient-pad' && (
-            <div className="w-full flex flex-col items-center gap-2 flex-shrink-0 mt-8">
+            <div className="w-full flex flex-col items-center flex-shrink-0 mt-8">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="w-full flex items-center justify-center max-h-[30vh]"
+                className="w-full flex items-center justify-center h-[35vh]"
               >
                 <img
-                  src="/images/meditation-cat-cosmic.png"
+                  src="/images/meditation-cat-space.png"
                   alt="Meditation Cat in Cosmic Space"
-                  className="w-full max-w-xs h-full object-contain"
+                  className="h-full w-auto object-cover"
                 />
               </motion.div>
               {playing && (
@@ -231,7 +228,187 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
                     animate={{ opacity: 0.7, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.4 }}
-                    className="text-base text-white/80 tracking-widest uppercase font-light"
+                    className="text-base text-foreground/70 tracking-widest uppercase font-light"
+                  >
+                    {BREATH_PHASES[breathPhase].label}
+                  </motion.span>
+                </AnimatePresence>
+              )}
+            </div>
+          )}
+          {resolvedSound === 'nature' && (
+            <div className="w-full flex flex-col items-center flex-shrink-0 mt-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="w-full flex items-center justify-center h-[35vh]"
+              >
+                <img
+                  src="/images/meditation-cat-nature.png"
+                  alt="Meditation Cat in Nature"
+                  className="h-full w-auto object-cover"
+                />
+              </motion.div>
+              {playing && (
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={breathPhase}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 0.7, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-base text-foreground/70 tracking-widest uppercase font-light"
+                  >
+                    {BREATH_PHASES[breathPhase].label}
+                  </motion.span>
+                </AnimatePresence>
+              )}
+            </div>
+          )}
+          {resolvedSound === 'rain' && (
+            <div className="w-full flex flex-col items-center flex-shrink-0 mt-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="w-full flex items-center justify-center h-[35vh]"
+              >
+                <img
+                  src="/images/meditation-cat-rain.png"
+                  alt="Meditation Cat in Rain"
+                  className="h-full w-auto object-cover"
+                />
+              </motion.div>
+              {playing && (
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={breathPhase}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 0.7, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-base text-foreground/70 tracking-widest uppercase font-light"
+                  >
+                    {BREATH_PHASES[breathPhase].label}
+                  </motion.span>
+                </AnimatePresence>
+              )}
+            </div>
+          )}
+          {resolvedSound === 'ocean' && (
+            <div className="w-full flex flex-col items-center flex-shrink-0 mt-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="w-full flex items-center justify-center h-[35vh]"
+              >
+                <img
+                  src="/images/meditation-cat-ocean.png"
+                  alt="Meditation Cat by the Ocean"
+                  className="h-full w-auto object-cover"
+                />
+              </motion.div>
+              {playing && (
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={breathPhase}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 0.7, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-base text-foreground/70 tracking-widest uppercase font-light"
+                  >
+                    {BREATH_PHASES[breathPhase].label}
+                  </motion.span>
+                </AnimatePresence>
+              )}
+            </div>
+          )}
+          {resolvedSound === 'wind' && (
+            <div className="w-full flex flex-col items-center flex-shrink-0 mt-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="w-full flex items-center justify-center h-[35vh]"
+              >
+                <img
+                  src="/images/meditation-cat-wind.png"
+                  alt="Meditation Cat with Wind Chimes"
+                  className="h-full w-auto object-cover"
+                />
+              </motion.div>
+              {playing && (
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={breathPhase}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 0.7, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-base text-foreground/70 tracking-widest uppercase font-light"
+                  >
+                    {BREATH_PHASES[breathPhase].label}
+                  </motion.span>
+                </AnimatePresence>
+              )}
+            </div>
+          )}
+          {resolvedSound === 'birds' && (
+            <div className="w-full flex flex-col items-center flex-shrink-0 mt-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="w-full flex items-center justify-center h-[35vh]"
+              >
+                <img
+                  src="/images/meditation-cat-birds.png"
+                  alt="Meditation Cat with Birds"
+                  className="h-full w-auto object-cover"
+                />
+              </motion.div>
+              {playing && (
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={breathPhase}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 0.7, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-base text-foreground/70 tracking-widest uppercase font-light"
+                  >
+                    {BREATH_PHASES[breathPhase].label}
+                  </motion.span>
+                </AnimatePresence>
+              )}
+            </div>
+          )}
+          {resolvedSound === 'fireplace' && (
+            <div className="w-full flex flex-col items-center flex-shrink-0 mt-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="w-full flex items-center justify-center h-[35vh]"
+              >
+                <img
+                  src="/images/meditation-cat-fireplace.png"
+                  alt="Meditation Cat by the Fireplace"
+                  className="h-full w-auto object-cover"
+                />
+              </motion.div>
+              {playing && (
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={breathPhase}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 0.7, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
                     {BREATH_PHASES[breathPhase].label}
                   </motion.span>
@@ -243,24 +420,22 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
           {/* Ambient floating visuals behind the player */}
           {playing && <AmbientVisuals sound={resolvedSound} />}
 
-          {/* Timer - simple display without circles */}
-          <div className="flex flex-col items-center justify-center flex-shrink-0">
+          {/* Timer and Play/Pause - stacked vertically */}
+          <div className="flex flex-col items-center justify-center flex-shrink-0 mt-8 mb-20 gap-3">
             <span className="text-3xl sm:text-4xl font-display font-light tabular-nums tracking-tight text-foreground">
               {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
             </span>
             {!playing && remaining === totalSeconds && (
-              <span className="text-xs text-foreground/40 mt-2 tracking-wide">Tap play to begin</span>
+              <span className="text-xs text-foreground/40 tracking-wide">Tap play to begin</span>
             )}
+            <motion.button
+              whileTap={{ scale: 0.85, transition: { type: 'spring', stiffness: 600, damping: 15 } }}
+              onClick={() => setPlaying(!playing)}
+              className="w-14 h-14 rounded-full gradient-calm flex items-center justify-center text-primary-foreground flex-shrink-0 mt-1"
+            >
+              {playing ? <Pause size={20} strokeWidth={1.5} /> : <Play size={20} strokeWidth={1.5} className="ml-0.5" />}
+            </motion.button>
           </div>
-
-          {/* Play/Pause - positioned above bottom nav */}
-          <motion.button
-            whileTap={{ scale: 0.85, transition: { type: 'spring', stiffness: 600, damping: 15 } }}
-            onClick={() => setPlaying(!playing)}
-            className="w-14 h-14 rounded-full gradient-calm flex items-center justify-center text-primary-foreground flex-shrink-0 mb-20"
-          >
-            {playing ? <Pause size={20} strokeWidth={1.5} /> : <Play size={20} strokeWidth={1.5} className="ml-0.5" />}
-          </motion.button>
         </motion.div>
       )}
     </AnimatePresence>

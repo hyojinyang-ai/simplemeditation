@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { SoundType, soundConfig } from '@/lib/meditation-store';
-import { Volume2 } from 'lucide-react';
+import { Music2 } from 'lucide-react';
 
 interface SoundPickerProps {
   onSelect: (sound: SoundType) => void;
@@ -24,8 +24,8 @@ const SoundPicker = ({ onSelect, selected }: SoundPickerProps) => {
         }}
         className="flex items-center justify-center"
       >
-        <div className="w-20 h-20 rounded-full bg-gradient-calm flex items-center justify-center shadow-glow">
-          <Volume2 size={32} strokeWidth={1.5} className="text-primary-foreground" />
+        <div className="w-20 h-20 rounded-full bg-background flex items-center justify-center shadow-soft border border-border">
+          <Music2 size={32} strokeWidth={1.5} className="text-foreground" />
         </div>
       </motion.div>
 

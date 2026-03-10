@@ -84,7 +84,7 @@ const Index = () => {
 
 
   return (
-    <div className="min-h-[100dvh] relative flex flex-col pb-16 overflow-hidden">
+    <div className="min-h-[100dvh] relative flex flex-col overflow-hidden">
       {/* Sticky Header */}
       {step === 'mood' && <StepHeader title="Stillness" subtitle="Begin your practice" sticky />}
       {step === 'session' && <StepHeader title="Meditation" subtitle="Choose your session" onBack={() => setStep('mood')} sticky />}
@@ -94,7 +94,7 @@ const Index = () => {
       {step === 'quote' && <StepHeader title="Stillness" subtitle="A thought to carry with you" sticky />}
 
       {/* Content */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 pb-28">
         <div className="w-full max-w-sm">
           {isHome && (
             <motion.div
