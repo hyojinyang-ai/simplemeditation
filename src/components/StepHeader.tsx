@@ -13,7 +13,7 @@ const StepHeader = ({ title, subtitle, onBack, sticky = false }: StepHeaderProps
     <motion.div
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="sticky top-0 z-20 w-full pt-6 pb-4 px-4"
+      className="sticky top-0 z-20 w-full pt-6 pb-4 px-4 bg-background"
     >
       <div className="flex items-center justify-center relative max-w-md mx-auto">
         {onBack && (
