@@ -8,9 +8,9 @@ const SettingsPage = () => {
 
   return (
     <div className="min-h-[100dvh] pb-24">
-      <div className="px-4 max-w-md mx-auto">
-        <StepHeader title="Settings" subtitle="Customize your experience" sticky />
+      <StepHeader title="Settings" subtitle="Customize your experience" sticky />
 
+      <div className="px-4 max-w-md mx-auto mt-4">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -22,10 +22,10 @@ const SettingsPage = () => {
             <div className="flex gap-3">
               <button
                 onClick={() => setTheme('light')}
-                className={`flex-1 flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${
+                className={`flex-1 flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-300 ease-out ${
                   theme === 'light'
-                    ? 'border-primary bg-primary/10 text-primary'
-                    : 'border-border text-muted-foreground hover:border-primary/40'
+                    ? 'border-primary bg-primary/10 text-primary shadow-md scale-105'
+                    : 'border-border text-muted-foreground hover:border-primary/40 hover:scale-105 hover:shadow-sm'
                 }`}
               >
                 <Sun size={22} strokeWidth={1.5} />
@@ -33,10 +33,10 @@ const SettingsPage = () => {
               </button>
               <button
                 onClick={() => setTheme('dark')}
-                className={`flex-1 flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${
+                className={`flex-1 flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-300 ease-out ${
                   theme === 'dark'
-                    ? 'border-primary bg-primary/10 text-primary'
-                    : 'border-border text-muted-foreground hover:border-primary/40'
+                    ? 'border-primary bg-primary/10 text-primary shadow-md scale-105'
+                    : 'border-border text-muted-foreground hover:border-primary/40 hover:scale-105 hover:shadow-sm'
                 }`}
               >
                 <Moon size={22} strokeWidth={1.5} />

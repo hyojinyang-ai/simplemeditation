@@ -32,10 +32,10 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
                 transition={{ delay: i * 0.06 }}
                 whileTap={{ scale: 0.88, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
                 onClick={() => setSelected(mood)}
-                className={`flex flex-col items-center gap-1.5 p-2.5 rounded-2xl transition-all min-w-[54px] ${
+                className={`flex flex-col items-center gap-1.5 p-2.5 rounded-2xl transition-all duration-300 ease-out min-w-[54px] ${
                   selected === mood
-                    ? `${config.color} ring-2 ring-primary/30 scale-110`
-                    : 'hover:bg-muted/50 hover:scale-105'
+                    ? `${config.color} ring-2 ring-primary/30 scale-110 shadow-md`
+                    : 'hover:bg-muted/60 hover:scale-105 hover:shadow-sm'
                 }`}
               >
                 <Icon size={20} strokeWidth={1.5} />
@@ -57,7 +57,7 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
           <motion.button
             whileTap={{ scale: 0.94, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
             onClick={() => onSubmit(selected, note || undefined)}
-            className="w-full py-3.5 rounded-2xl gradient-calm text-primary-foreground text-sm font-medium tracking-wide"
+            className="w-full py-3.5 rounded-2xl gradient-calm text-primary-foreground text-sm font-medium tracking-wide transition-all duration-300 ease-out hover:shadow-lg hover:scale-[1.02]"
           >
             Save & Continue
           </motion.button>

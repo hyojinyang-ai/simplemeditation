@@ -27,10 +27,10 @@ const MoodCheck = ({ onSelect, selected }: MoodCheckProps) => {
               transition={{ delay: i * 0.06, type: 'spring', stiffness: 180 }}
               whileTap={{ scale: 0.95, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
               onClick={() => onSelect(mood)}
-              className={`flex-1 flex flex-col items-center gap-1.5 py-3 px-2 rounded-2xl transition-all duration-200 ${
+              className={`flex-1 flex flex-col items-center gap-1.5 py-3 px-2 rounded-2xl transition-all duration-300 ease-out ${
                 isSelected
-                  ? 'bg-primary text-primary-foreground ring-2 ring-primary/30 scale-[1.02]'
-                  : 'glass-strong hover:bg-muted/50 hover:scale-[1.01]'
+                  ? 'bg-primary text-primary-foreground ring-2 ring-primary/30 scale-[1.02] shadow-lg'
+                  : 'glass-strong hover:bg-muted/50 hover:scale-[1.03] hover:shadow-md'
               }`}
             >
               <Icon size={20} strokeWidth={1.5} />

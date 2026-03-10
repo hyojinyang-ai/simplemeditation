@@ -1,5 +1,5 @@
 // Ambient sound engine with meditation music layer
-export type AmbientSound = 'singing-bowl' | 'gong' | 'ambient-pad' | 'nature' | 'rain' | 'ocean';
+export type AmbientSound = 'singing-bowl' | 'gong' | 'ambient-pad' | 'nature' | 'rain' | 'ocean' | 'wind' | 'birds' | 'fireplace';
 
 const SOUND_FILES: Record<AmbientSound, string> = {
   'singing-bowl': '/sounds/singing-bowl.mp3',
@@ -8,6 +8,9 @@ const SOUND_FILES: Record<AmbientSound, string> = {
   'nature': '/sounds/nature.mp3',
   'rain': '/sounds/rain.mp3',
   'ocean': '/sounds/ocean.mp3',
+  'wind': '/sounds/wind.mp3',
+  'birds': '/sounds/birds.mp3',
+  'fireplace': '/sounds/fireplace.mp3',
 };
 
 // Generative meditation drone frequencies (Hz) — peaceful harmonic intervals
@@ -159,7 +162,7 @@ export const ambientEngine = new AmbientEngine();
 
 export const resolveSound = (sound: string): AmbientSound => {
   if (sound === 'random') {
-    const options: AmbientSound[] = ['singing-bowl', 'gong', 'ambient-pad', 'nature', 'rain', 'ocean'];
+    const options: AmbientSound[] = ['singing-bowl', 'gong', 'ambient-pad', 'nature', 'rain', 'ocean', 'wind', 'birds', 'fireplace'];
     return options[Math.floor(Math.random() * options.length)];
   }
   return sound as AmbientSound;

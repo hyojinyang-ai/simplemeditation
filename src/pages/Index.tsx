@@ -85,16 +85,13 @@ const Index = () => {
 
   return (
     <div className="min-h-[100dvh] relative flex flex-col pb-16 overflow-hidden">
-
       {/* Sticky Header */}
-      <div className="relative z-20 px-4 max-w-md w-full mx-auto">
-        {step === 'mood' && <StepHeader title="Stillness" subtitle="Begin your practice" sticky />}
-        {step === 'session' && <StepHeader title="Meditation" subtitle="Choose your session" onBack={() => setStep('mood')} sticky />}
-        {step === 'sound' && <StepHeader title="Meditation" subtitle="Pick a soundscape" onBack={() => setStep('session')} sticky />}
-        {step === 'play' && <StepHeader title="Meditation" subtitle="Breathe deeply" onBack={() => setStep('sound')} sticky />}
-        {step === 'reflect' && <StepHeader title="Reflection" subtitle="How do you feel now?" sticky />}
-        {step === 'quote' && <StepHeader title="Stillness" subtitle="A thought to carry with you" sticky />}
-      </div>
+      {step === 'mood' && <StepHeader title="Stillness" subtitle="Begin your practice" sticky />}
+      {step === 'session' && <StepHeader title="Meditation" subtitle="Choose your session" onBack={() => setStep('mood')} sticky />}
+      {step === 'sound' && <StepHeader title="Meditation" subtitle="Pick a soundscape" onBack={() => setStep('session')} sticky />}
+      {step === 'play' && <StepHeader title="Meditation" subtitle="Breathe deeply" onBack={() => setStep('sound')} sticky />}
+      {step === 'reflect' && <StepHeader title="Reflection" subtitle="How do you feel now?" sticky />}
+      {step === 'quote' && <StepHeader title="Stillness" subtitle="A thought to carry with you" sticky />}
 
       {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4">

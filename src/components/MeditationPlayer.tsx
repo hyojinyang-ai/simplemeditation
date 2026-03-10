@@ -144,6 +144,22 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
           animate={{ opacity: 1 }}
           className="relative flex flex-col items-center gap-10 pt-8"
         >
+          {/* Meditation Cat Image for specific sounds */}
+          {(resolvedSound === 'gong' || resolvedSound === 'singing-bowl') && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="mb-4"
+            >
+              <img
+                src="/images/meditation-cat-bowl.png"
+                alt="Meditation Cat"
+                className="w-32 h-32 object-contain"
+              />
+            </motion.div>
+          )}
+
           {/* Ambient floating visuals behind the player */}
           {playing && <AmbientVisuals sound={resolvedSound} />}
           {/* Pulsating circles + progress ring */}

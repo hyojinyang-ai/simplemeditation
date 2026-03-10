@@ -19,9 +19,9 @@ const TrackerPage = () => {
 
   return (
     <div ref={containerRef} className="min-h-screen relative pb-24 overflow-auto">
+      <StepHeader title="Journal" subtitle="Your meditation journey" sticky />
 
-      <div className="px-4 max-w-md mx-auto space-y-5">
-        <StepHeader title="Journal" subtitle="Your meditation journey" sticky />
+      <div className="px-4 max-w-md mx-auto space-y-5 mt-4">
         <PullToRefresh pullDistance={pullDistance} refreshing={refreshing} threshold={threshold} />
 
         {/* Tabs */}

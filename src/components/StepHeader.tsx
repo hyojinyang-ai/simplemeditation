@@ -13,9 +13,9 @@ const StepHeader = ({ title, subtitle, onBack, sticky = false }: StepHeaderProps
     <motion.div
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="sticky top-0 z-20 bg-background/80 backdrop-blur-lg pt-4 pb-3 w-full"
+      className="sticky top-0 z-20 w-full pt-6 pb-4 px-4"
     >
-      <div className="flex items-center justify-center relative">
+      <div className="flex items-center justify-center relative max-w-md mx-auto">
         {onBack && (
           <button
             onClick={onBack}
@@ -30,7 +30,7 @@ const StepHeader = ({ title, subtitle, onBack, sticky = false }: StepHeaderProps
         </h1>
       </div>
       {subtitle && (
-        <p className="text-muted-foreground text-xs mt-1 text-center">{subtitle}</p>
+        <p className="text-muted-foreground text-xs mt-1 text-center max-w-md mx-auto">{subtitle}</p>
       )}
     </motion.div>
   );

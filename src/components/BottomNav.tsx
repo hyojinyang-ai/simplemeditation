@@ -18,8 +18,8 @@ const BottomNav = () => {
           <Link
             key={to}
             to={to}
-            className={`flex flex-col items-center gap-0.5 px-4 py-2 rounded-xl transition-colors ${
-              pathname === to ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+            className={`flex flex-col items-center gap-0.5 px-4 py-2 rounded-xl transition-all duration-300 ease-out ${
+              pathname === to ? 'text-primary scale-105' : 'text-muted-foreground hover:text-foreground hover:scale-110 hover:bg-muted/30'
             }`}
           >
             <Icon size={20} strokeWidth={1.5} />

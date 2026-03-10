@@ -53,8 +53,8 @@ const StoicQuote = ({ quote, onContinue, onSave, saved }: StoicQuoteProps) => {
           <motion.button
             whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
             onClick={onSave}
-            className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide transition-all ${
-              saved ? 'text-accent' : 'text-foreground hover:bg-muted/50'
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide transition-all duration-300 ease-out ${
+              saved ? 'text-accent' : 'text-foreground hover:bg-muted/60 hover:shadow-md hover:scale-[1.02]'
             }`}
           >
             <Bookmark size={14} strokeWidth={1.5} className={saved ? 'fill-accent' : ''} />
@@ -64,7 +64,7 @@ const StoicQuote = ({ quote, onContinue, onSave, saved }: StoicQuoteProps) => {
         <motion.button
           whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
           onClick={onContinue}
-          className="inline-flex items-center gap-2 px-8 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide hover:bg-muted/50 transition-all"
+          className="inline-flex items-center gap-2 px-8 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide transition-all duration-300 ease-out hover:bg-muted/60 hover:shadow-md hover:scale-[1.02]"
         >
           Begin again
           <ArrowRight size={14} strokeWidth={1.5} />

@@ -2,13 +2,13 @@ import { create } from 'zustand';
 import {
   Frown, BatteryLow, Minus, Zap, AlertTriangle,
   CloudRain, Waves, TreePine, Bell, Disc3, Music, Shuffle,
-  Smile, Wind, Heart, Sun, Sparkles,
+  Smile, Wind, Heart, Sun, Sparkles, Circle, Bird, Flame,
 } from 'lucide-react';
 
 export type PreMood = 'stressed' | 'tired' | 'neutral' | 'anxious';
 export type PostMood = 'calm' | 'relieved' | 'peaceful' | 'grateful' | 'refreshed';
 export type Mood = PreMood | PostMood;
-export type SoundType = 'singing-bowl' | 'gong' | 'ambient-pad' | 'nature' | 'rain' | 'ocean' | 'random';
+export type SoundType = 'singing-bowl' | 'gong' | 'ambient-pad' | 'nature' | 'rain' | 'ocean' | 'wind' | 'birds' | 'fireplace' | 'random';
 
 export interface MoodEntry {
   id: string;
@@ -62,12 +62,15 @@ export const postMoodConfig: Record<PostMood, { icon: typeof Smile; label: strin
 };
 
 export const soundConfig: Record<SoundType, { icon: typeof Bell; label: string }> = {
-  'singing-bowl': { icon: Bell, label: 'Singing Bowl' },
+  'singing-bowl': { icon: Circle, label: 'Singing Bowl' },
   'gong': { icon: Disc3, label: 'Gong' },
   'ambient-pad': { icon: Music, label: 'Ambient Pad' },
   'nature': { icon: TreePine, label: 'Nature' },
   'rain': { icon: CloudRain, label: 'Rain' },
   'ocean': { icon: Waves, label: 'Ocean' },
+  'wind': { icon: Wind, label: 'Wind Chimes' },
+  'birds': { icon: Bird, label: 'Birds' },
+  'fireplace': { icon: Flame, label: 'Fireplace' },
   'random': { icon: Shuffle, label: 'Surprise Me' },
 };
 
