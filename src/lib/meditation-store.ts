@@ -23,7 +23,9 @@ export interface MoodEntry {
 
 interface MeditationState {
   entries: MoodEntry[];
+  isMeditating: boolean;
   addEntry: (entry: Omit<MoodEntry, 'id' | 'timestamp'>) => void;
+  setMeditating: (isActive: boolean) => void;
 }
 
 const loadEntries = (): MoodEntry[] => {
@@ -35,6 +37,7 @@ const loadEntries = (): MoodEntry[] => {
 
 export const useMeditationStore = create<MeditationState>((set) => ({
   entries: loadEntries(),
+  isMeditating: false,
   addEntry: (entry) =>
     set((state) => {
       const newEntries = [
@@ -44,6 +47,7 @@ export const useMeditationStore = create<MeditationState>((set) => ({
       localStorage.setItem('zen-mood-entries-v2', JSON.stringify(newEntries));
       return { entries: newEntries };
     }),
+  setMeditating: (isActive) => set({ isMeditating: isActive }),
 }));
 
 export const preMoodConfig: Record<PreMood, { icon: typeof Frown; label: string; color: string }> = {

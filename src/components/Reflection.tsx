@@ -30,12 +30,13 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
-                whileTap={{ scale: 0.88, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
+                whileTap={{ scale: 0.90, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+                whileHover={{ scale: 1.08, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
                 onClick={() => setSelected(mood)}
-                className={`flex flex-col items-center gap-1.5 p-2.5 rounded-2xl transition-all duration-300 ease-out min-w-[54px] ${
+                className={`flex flex-col items-center gap-1.5 p-2.5 rounded-2xl transition-all duration-200 ease-out min-w-[54px] ${
                   selected === mood
-                    ? `${config.color} ring-2 ring-primary/30 scale-110 shadow-md`
-                    : 'hover:bg-muted/60 hover:scale-105 hover:shadow-sm'
+                    ? `${config.color} glass-selected scale-110`
+                    : 'glass-button'
                 }`}
               >
                 <Icon size={20} strokeWidth={1.5} />
@@ -55,9 +56,10 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
             className="w-full glass rounded-2xl p-4 text-sm resize-none h-20 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-muted-foreground/50"
           />
           <motion.button
-            whileTap={{ scale: 0.94, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
+            whileTap={{ scale: 0.96, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+            whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
             onClick={() => onSubmit(selected, note || undefined)}
-            className="w-full py-3.5 rounded-2xl gradient-calm text-primary-foreground text-sm font-medium tracking-wide transition-all duration-300 ease-out hover:shadow-lg hover:scale-[1.02]"
+            className="w-full py-3.5 rounded-2xl glass-selected text-primary-foreground text-sm font-medium tracking-wide transition-all duration-200 ease-out"
           >
             Save & Continue
           </motion.button>

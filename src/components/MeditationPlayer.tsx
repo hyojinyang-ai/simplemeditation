@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, CheckCircle } from 'lucide-react';
 import { ambientEngine, resolveSound, AmbientSound } from '@/lib/ambient-engine';
-import { SoundType } from '@/lib/meditation-store';
+import { SoundType, useMeditationStore } from '@/lib/meditation-store';
 import { trackSessionStart, trackSessionComplete, trackSessionAbandoned } from '@/lib/analytics';
 import AmbientVisuals from './AmbientVisuals';
 
@@ -21,18 +21,20 @@ interface MeditationPlayerProps {
   onComplete: () => void;
   preMood?: string;
   postMood?: string;
+  autoPlay?: boolean;
 }
 
-const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood }: MeditationPlayerProps) => {
+const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoPlay = false }: MeditationPlayerProps) => {
   const totalSeconds = minutes * 60;
   const [remaining, setRemaining] = useState(totalSeconds);
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(autoPlay);
   const [completed, setCompleted] = useState(false);
   const [resolvedSound] = useState<AmbientSound>(() => resolveSound(sound));
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
   const [breathPhase, setBreathPhase] = useState(0);
   const breathTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const sessionStartTracked = useRef(false);
+  const { setMeditating } = useMeditationStore();
 
   // Breathing cycle controller
   useEffect(() => {
@@ -97,6 +99,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood }: Med
   useEffect(() => {
     if (playing) {
       ambientEngine.start(resolvedSound);
+      setMeditating(true);
       // Track session start only once
       if (!sessionStartTracked.current) {
         trackSessionStart(minutes, sound);
@@ -104,8 +107,9 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood }: Med
       }
     } else {
       ambientEngine.stop();
+      setMeditating(false);
     }
-  }, [playing, resolvedSound, minutes, sound]);
+  }, [playing, resolvedSound, minutes, sound, setMeditating]);
 
   useEffect(() => {
     // Cleanup: track abandonment if session was started but not completed
@@ -114,8 +118,9 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood }: Med
         trackSessionAbandoned(minutes, remaining, sound);
       }
       ambientEngine.stop();
+      setMeditating(false);
     };
-  }, [completed, remaining, totalSeconds, minutes, sound]);
+  }, [completed, remaining, totalSeconds, minutes, sound, setMeditating]);
 
   useEffect(() => {
     if (playing && remaining > 0) {
@@ -442,21 +447,38 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood }: Med
           {/* Ambient floating visuals behind the player */}
           {playing && <AmbientVisuals sound={resolvedSound} />}
 
-          {/* Timer and Play/Pause - stacked vertically */}
-          <div className="flex flex-col items-center justify-center flex-shrink-0 mt-8 mb-20 gap-3">
-            <span className="text-3xl sm:text-4xl font-display font-light tabular-nums tracking-tight text-foreground">
+          {/* Timer - centered */}
+          <div className="flex flex-col items-center justify-center flex-shrink-0 mt-8 mb-20 gap-2">
+            <span className="text-4xl sm:text-5xl font-display font-light tabular-nums tracking-tight text-foreground">
               {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
             </span>
-            {!playing && remaining === totalSeconds && (
-              <span className="text-xs text-foreground/40 tracking-wide">Tap play to begin</span>
+            {playing && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 }}
+                whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+                whileHover={{ scale: 1.05, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+                onClick={() => setPlaying(false)}
+                className="mt-2 px-5 py-2 rounded-full glass-button text-xs font-medium tracking-wide transition-all duration-200"
+              >
+                <Pause size={14} strokeWidth={1.5} className="inline mr-1.5" />
+                Pause
+              </motion.button>
             )}
-            <motion.button
-              whileTap={{ scale: 0.85, transition: { type: 'spring', stiffness: 600, damping: 15 } }}
-              onClick={() => setPlaying(!playing)}
-              className="w-14 h-14 rounded-full gradient-calm flex items-center justify-center text-primary-foreground flex-shrink-0 mt-1"
-            >
-              {playing ? <Pause size={20} strokeWidth={1.5} /> : <Play size={20} strokeWidth={1.5} className="ml-0.5" />}
-            </motion.button>
+            {!playing && remaining < totalSeconds && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+                whileHover={{ scale: 1.05, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+                onClick={() => setPlaying(true)}
+                className="mt-2 px-5 py-2 rounded-full glass-selected text-primary-foreground text-xs font-medium tracking-wide transition-all duration-200"
+              >
+                <Play size={14} strokeWidth={1.5} className="inline mr-1.5" />
+                Resume
+              </motion.button>
+            )}
           </div>
         </motion.div>
       )}

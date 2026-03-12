@@ -47,12 +47,13 @@ const SessionPicker = ({ onSelect, selected }: SessionPickerProps) => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.08 }}
-            whileTap={{ scale: 0.9, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
+            whileTap={{ scale: 0.96, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+            whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
             onClick={() => onSelect(session.minutes)}
-            className={`flex flex-row items-center gap-4 p-4 rounded-2xl transition-all duration-300 ease-out ${
+            className={`flex flex-row items-center gap-4 p-4 rounded-2xl transition-all duration-200 ease-out ${
               selected === session.minutes
-                ? 'gradient-calm text-primary-foreground shadow-soft scale-[1.02]'
-                : 'glass-strong hover:bg-muted/60 hover:scale-[1.02] hover:shadow-md'
+                ? 'glass-selected text-primary-foreground scale-[1.02]'
+                : 'glass-button'
             }`}
           >
             <Icon size={28} strokeWidth={1.5} className="flex-shrink-0" />

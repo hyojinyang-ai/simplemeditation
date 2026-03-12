@@ -117,11 +117,135 @@
   .shadow-glow {
     box-shadow: var(--shadow-glow);
   }
+
+  /* Apple Glassmorphism Styles with High Transparency */
   .glass {
-    @apply bg-card/70 backdrop-blur-xl border border-border/50;
+    @apply bg-white/20 backdrop-blur-xl border border-white/30;
+    background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    box-shadow:
+      0 8px 32px -8px rgba(0, 0, 0, 0.08),
+      inset 0 2px 4px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -2px 2px 0 rgba(0, 0, 0, 0.03);
   }
+
   .glass-strong {
-    @apply bg-card/85 backdrop-blur-2xl border border-border/40;
+    @apply bg-white/30 backdrop-blur-2xl border border-white/40;
+    background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    );
+    box-shadow:
+      0 8px 32px -8px rgba(0, 0, 0, 0.1),
+      inset 0 2px 4px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -2px 2px 0 rgba(0, 0, 0, 0.04);
+  }
+
+  .glass-button {
+    @apply backdrop-blur-xl border border-white/40;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.3) 100%
+    );
+    box-shadow:
+      0 4px 16px -4px rgba(0, 0, 0, 0.08),
+      0 2px 8px -2px rgba(0, 0, 0, 0.04),
+      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+      inset 0 2px 4px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 2px 0 rgba(0, 0, 0, 0.04);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  .glass-button:hover::before {
+    left: 100%;
+  }
+
+  .glass-button:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.4) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow:
+      0 8px 24px -4px rgba(0, 0, 0, 0.1),
+      0 4px 12px -2px rgba(0, 0, 0, 0.06),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+      inset 0 2px 6px 0 rgba(255, 255, 255, 0.8),
+      inset 0 -1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .glass-button:active {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.25) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow:
+      0 2px 8px -2px rgba(0, 0, 0, 0.1),
+      inset 0 2px 4px 0 rgba(0, 0, 0, 0.08),
+      inset 0 -1px 0 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .glass-selected {
+    @apply backdrop-blur-xl border;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.75) 0%,
+      hsl(var(--primary) / 0.6) 50%,
+      hsl(var(--primary) / 0.7) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow:
+      0 8px 32px -4px rgba(145, 106, 86, 0.3),
+      0 4px 16px -2px rgba(145, 106, 86, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+      inset 0 2px 4px 0 rgba(255, 255, 255, 0.35),
+      inset 0 -1px 2px 0 rgba(0, 0, 0, 0.12),
+      inset 0 0 40px 0 rgba(255, 255, 255, 0.12);
+    position: relative;
+  }
+
+  .glass-selected::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      transparent 100%
+    );
+    border-radius: inherit;
+    pointer-events: none;
   }
 }
 

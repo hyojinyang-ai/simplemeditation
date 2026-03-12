@@ -25,12 +25,13 @@ const MoodCheck = ({ onSelect, selected }: MoodCheckProps) => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06, type: 'spring', stiffness: 180 }}
-              whileTap={{ scale: 0.95, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
+              whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+              whileHover={{ scale: 1.05, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
               onClick={() => onSelect(mood)}
-              className={`flex-1 flex flex-col items-center gap-1.5 py-3 px-2 rounded-2xl transition-all duration-300 ease-out ${
+              className={`flex-1 flex flex-col items-center gap-1.5 py-3.5 px-2 rounded-2xl transition-all duration-200 ease-out ${
                 isSelected
-                  ? 'bg-primary text-primary-foreground ring-2 ring-primary/30 scale-[1.02] shadow-lg'
-                  : 'glass-strong hover:bg-muted/50 hover:scale-[1.03] hover:shadow-md'
+                  ? 'glass-selected text-primary-foreground scale-105'
+                  : 'glass-button'
               }`}
             >
               <Icon size={20} strokeWidth={1.5} />

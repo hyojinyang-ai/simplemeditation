@@ -51,20 +51,22 @@ const StoicQuote = ({ quote, onContinue, onSave, saved }: StoicQuoteProps) => {
       >
         {onSave && (
           <motion.button
-            whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
+            whileTap={{ scale: 0.94, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+            whileHover={{ scale: 1.04, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
             onClick={onSave}
-            className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide transition-all duration-300 ease-out ${
-              saved ? 'text-accent' : 'text-foreground hover:bg-muted/60 hover:shadow-md hover:scale-[1.02]'
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-medium tracking-wide transition-all duration-200 ease-out ${
+              saved ? 'glass-selected text-primary-foreground' : 'glass-button'
             }`}
           >
-            <Bookmark size={14} strokeWidth={1.5} className={saved ? 'fill-accent' : ''} />
+            <Bookmark size={14} strokeWidth={1.5} className={saved ? 'fill-current' : ''} />
             {saved ? 'Saved' : 'Save'}
           </motion.button>
         )}
         <motion.button
-          whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 500, damping: 15 } }}
+          whileTap={{ scale: 0.94, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+          whileHover={{ scale: 1.04, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
           onClick={onContinue}
-          className="inline-flex items-center gap-2 px-8 py-3 rounded-2xl glass-strong text-sm font-medium tracking-wide transition-all duration-300 ease-out hover:bg-muted/60 hover:shadow-md hover:scale-[1.02]"
+          className="inline-flex items-center gap-2 px-8 py-3 rounded-2xl glass-button text-sm font-medium tracking-wide transition-all duration-200 ease-out"
         >
           Begin again
           <ArrowRight size={14} strokeWidth={1.5} />

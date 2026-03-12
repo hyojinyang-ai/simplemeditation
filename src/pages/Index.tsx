@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import MoodCheck from '@/components/MoodCheck';
 import SessionPicker from '@/components/SessionPicker';
 import SoundPicker from '@/components/SoundPicker';
@@ -11,10 +12,12 @@ import { trackPageView, trackPreMoodSelection, trackPostMoodSelection, trackSoun
 
 import StepHeader from '@/components/StepHeader';
 
-type Step = 'mood' | 'session' | 'sound' | 'play' | 'reflect' | 'quote';
+type Step = 'mood' | 'session' | 'sound' | 'meditate' | 'reflect' | 'quote';
 
 
 const Index = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
   const [step, setStep] = useState<Step>('mood');
   const [preMood, setPreMood] = useState<PreMood>();
   const [postMood, setPostMood] = useState<PostMood>();
@@ -55,7 +58,8 @@ const Index = () => {
       trackSoundChange(sound, s);
     }
     setSound(s);
-    setTimeout(() => setStep('play'), 300);
+    // Auto-start meditation
+    setTimeout(() => setStep('meditate'), 300);
   };
 
   const handleMeditationComplete = useCallback(() => {
@@ -89,7 +93,7 @@ const Index = () => {
     }
   };
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setStep('mood');
     setPreMood(undefined);
     setPostMood(undefined);
@@ -97,7 +101,15 @@ const Index = () => {
     setSound(undefined);
     setSaved(false);
     setLastEntryId(undefined);
-  };
+  }, []);
+
+  // Reset to mood selection when navigating to home
+  useEffect(() => {
+    // Only reset if we're not already on the initial mood step
+    if (step !== 'mood') {
+      handleReset();
+    }
+  }, [pathname]); // Reset when route changes
 
 
   return (
@@ -106,7 +118,7 @@ const Index = () => {
       {step === 'mood' && <StepHeader title="Stillness" subtitle="Begin your practice" sticky />}
       {step === 'session' && <StepHeader title="Meditation" subtitle="Choose your session" onBack={() => setStep('mood')} sticky />}
       {step === 'sound' && <StepHeader title="Meditation" subtitle="Pick a soundscape" onBack={() => setStep('session')} sticky />}
-      {step === 'play' && <StepHeader title="Meditation" subtitle="Breathe deeply" onBack={() => setStep('sound')} sticky />}
+      {step === 'meditate' && <StepHeader title="Meditation" subtitle="Breathe deeply" sticky />}
       {step === 'reflect' && <StepHeader title="Reflection" subtitle="How do you feel now?" sticky />}
       {step === 'quote' && <StepHeader title="Stillness" subtitle="A thought to carry with you" sticky />}
 
@@ -146,13 +158,14 @@ const Index = () => {
               {step === 'mood' && <MoodCheck onSelect={handleMoodSelect} selected={preMood} />}
               {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} />}
               {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} />}
-              {step === 'play' && minutes && sound && (
+              {step === 'meditate' && minutes && sound && (
                 <MeditationPlayer
                   minutes={minutes}
                   sound={sound}
                   onComplete={handleMeditationComplete}
                   preMood={preMood}
                   postMood={postMood}
+                  autoPlay={true}
                 />
               )}
               {step === 'reflect' && <Reflection onSubmit={handleReflection} />}
