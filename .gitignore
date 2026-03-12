@@ -29,6 +29,3 @@ dist-ssr
 
 # Turborepo
 .turbo
-
-# pnpm
-pnpm-lock.yaml
