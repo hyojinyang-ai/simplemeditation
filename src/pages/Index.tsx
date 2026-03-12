@@ -7,6 +7,7 @@ import MeditationPlayer from '@/components/MeditationPlayer';
 import Reflection from '@/components/Reflection';
 import StoicQuote from '@/components/StoicQuote';
 import { PreMood, PostMood, SoundType, useMeditationStore, getRandomQuote } from '@/lib/meditation-store';
+import { trackPageView, trackPreMoodSelection, trackPostMoodSelection, trackSoundChange, trackQuoteSaved } from '@/lib/analytics';
 
 import StepHeader from '@/components/StepHeader';
 
@@ -16,6 +17,7 @@ type Step = 'mood' | 'session' | 'sound' | 'play' | 'reflect' | 'quote';
 const Index = () => {
   const [step, setStep] = useState<Step>('mood');
   const [preMood, setPreMood] = useState<PreMood>();
+  const [postMood, setPostMood] = useState<PostMood>();
   const [minutes, setMinutes] = useState<number>();
   const [sound, setSound] = useState<SoundType>();
   const [quote] = useState(() => getRandomQuote());
@@ -24,6 +26,11 @@ const Index = () => {
   const { addEntry, entries } = useMeditationStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const isHome = step === 'mood' || step === 'quote';
+
+  // Track page view on mount
+  useEffect(() => {
+    trackPageView('home');
+  }, []);
 
   useEffect(() => {
     if (isHome && videoRef.current) {
@@ -34,6 +41,7 @@ const Index = () => {
 
   const handleMoodSelect = (m: PreMood) => {
     setPreMood(m);
+    trackPreMoodSelection(m);
     setTimeout(() => setStep('session'), 300);
   };
 
@@ -43,6 +51,9 @@ const Index = () => {
   };
 
   const handleSoundSelect = (s: SoundType) => {
+    if (sound) {
+      trackSoundChange(sound, s);
+    }
     setSound(s);
     setTimeout(() => setStep('play'), 300);
   };
@@ -51,9 +62,13 @@ const Index = () => {
     setStep('reflect');
   }, []);
 
-  const handleReflection = (postMood: PostMood, note?: string) => {
+  const handleReflection = (mood: PostMood, note?: string) => {
+    setPostMood(mood);
+    if (preMood) {
+      trackPostMoodSelection(mood, preMood);
+    }
     if (preMood && minutes) {
-      addEntry({ preMood, postMood, note, sessionMinutes: minutes, sound });
+      addEntry({ preMood, postMood: mood, note, sessionMinutes: minutes, sound });
       // Get the latest entry id
       const store = useMeditationStore.getState();
       setLastEntryId(store.entries[store.entries.length - 1]?.id);
@@ -70,12 +85,14 @@ const Index = () => {
       localStorage.setItem('zen-mood-entries-v2', JSON.stringify(updated));
       useMeditationStore.setState({ entries: updated });
       setSaved(true);
+      trackQuoteSaved(quote.author);
     }
   };
 
   const handleReset = () => {
     setStep('mood');
     setPreMood(undefined);
+    setPostMood(undefined);
     setMinutes(undefined);
     setSound(undefined);
     setSaved(false);
@@ -130,7 +147,13 @@ const Index = () => {
               {step === 'session' && <SessionPicker onSelect={handleSessionSelect} selected={minutes} />}
               {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} />}
               {step === 'play' && minutes && sound && (
-                <MeditationPlayer minutes={minutes} sound={sound} onComplete={handleMeditationComplete} />
+                <MeditationPlayer
+                  minutes={minutes}
+                  sound={sound}
+                  onComplete={handleMeditationComplete}
+                  preMood={preMood}
+                  postMood={postMood}
+                />
               )}
               {step === 'reflect' && <Reflection onSubmit={handleReflection} />}
               {step === 'quote' && <StoicQuote quote={quote} onContinue={handleReset} onSave={handleSaveQuote} saved={saved} />}

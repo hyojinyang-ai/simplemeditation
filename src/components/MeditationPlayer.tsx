@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, CheckCircle } from 'lucide-react';
 import { ambientEngine, resolveSound, AmbientSound } from '@/lib/ambient-engine';
 import { SoundType } from '@/lib/meditation-store';
+import { trackSessionStart, trackSessionComplete, trackSessionAbandoned } from '@/lib/analytics';
 import AmbientVisuals from './AmbientVisuals';
 
 const BREATH_PHASES = [
@@ -18,9 +19,11 @@ interface MeditationPlayerProps {
   minutes: number;
   sound: SoundType;
   onComplete: () => void;
+  preMood?: string;
+  postMood?: string;
 }
 
-const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps) => {
+const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood }: MeditationPlayerProps) => {
   const totalSeconds = minutes * 60;
   const [remaining, setRemaining] = useState(totalSeconds);
   const [playing, setPlaying] = useState(false);
@@ -29,6 +32,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
   const [breathPhase, setBreathPhase] = useState(0);
   const breathTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const sessionStartTracked = useRef(false);
 
   // Breathing cycle controller
   useEffect(() => {
@@ -91,11 +95,27 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
   }, []);
 
   useEffect(() => {
-    if (playing) ambientEngine.start(resolvedSound);
-    else ambientEngine.stop();
-  }, [playing, resolvedSound]);
+    if (playing) {
+      ambientEngine.start(resolvedSound);
+      // Track session start only once
+      if (!sessionStartTracked.current) {
+        trackSessionStart(minutes, sound);
+        sessionStartTracked.current = true;
+      }
+    } else {
+      ambientEngine.stop();
+    }
+  }, [playing, resolvedSound, minutes, sound]);
 
-  useEffect(() => () => { ambientEngine.stop(); }, []);
+  useEffect(() => {
+    // Cleanup: track abandonment if session was started but not completed
+    return () => {
+      if (sessionStartTracked.current && !completed && remaining < totalSeconds) {
+        trackSessionAbandoned(minutes, remaining, sound);
+      }
+      ambientEngine.stop();
+    };
+  }, [completed, remaining, totalSeconds, minutes, sound]);
 
   useEffect(() => {
     if (playing && remaining > 0) {
@@ -105,6 +125,8 @@ const MeditationPlayer = ({ minutes, sound, onComplete }: MeditationPlayerProps)
             setPlaying(false);
             setCompleted(true);
             playCompletionFeedback();
+            // Track session completion
+            trackSessionComplete(minutes, sound, preMood || 'unknown', postMood);
             return 0;
           }
           return r - 1;

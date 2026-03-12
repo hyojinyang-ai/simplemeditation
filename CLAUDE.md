@@ -139,6 +139,27 @@ Supabase client is configured in `src/integrations/supabase/client.ts`. Environm
 
 Currently, the app uses localStorage for data persistence, but Supabase is available for future features.
 
+### Analytics & Tracking
+
+**Vercel Analytics** is integrated for tracking user visits and engagement:
+- Page views (home, tracker, analytics, settings)
+- Meditation sessions (start, complete, abandoned)
+- Mood tracking (pre/post meditation states and transformations)
+- Sound selections and changes
+- Feature usage (quotes saved, notes added, pull-to-refresh)
+- Audio errors and performance metrics
+
+**Implementation:**
+- Analytics utility: `src/lib/analytics.ts` - Centralized tracking functions
+- Component integration: Tracking is embedded in Index, MeditationPlayer, and all page components
+- Events use Vercel Analytics custom events via `track()` function
+
+**Documentation:**
+See `ANALYTICS.md` for complete event catalog, viewing instructions, and insights guide.
+
+**Viewing Data:**
+Deploy to Vercel and access the Analytics tab in your project dashboard to see all tracked metrics and user behavior patterns.
+
 ### Lovable Integration
 
 This project was initially created with Lovable. The `lovable-tagger` plugin is used in development mode to tag components for the Lovable editor. It's automatically filtered out in production builds.

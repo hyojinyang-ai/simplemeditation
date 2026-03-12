@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMeditationStore, preMoodConfig, postMoodConfig } from '@/lib/meditation-store';
 import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
+import { trackPageView, trackPullToRefresh } from '@/lib/analytics';
 
 import StepHeader from '@/components/StepHeader';
 import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
@@ -16,6 +17,18 @@ const TrackerPage = () => {
   const { containerRef, pullDistance, refreshing, threshold } = usePullToRefresh();
   const sorted = [...entries].sort((a, b) => b.timestamp - a.timestamp);
   const savedQuotes = sorted.filter(e => e.savedQuote);
+
+  // Track page view on mount
+  useEffect(() => {
+    trackPageView('tracker');
+  }, []);
+
+  // Track pull-to-refresh usage
+  useEffect(() => {
+    if (refreshing) {
+      trackPullToRefresh('tracker');
+    }
+  }, [refreshing]);
 
   return (
     <div ref={containerRef} className="min-h-screen relative pb-24 overflow-auto">

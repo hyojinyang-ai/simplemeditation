@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import StepHeader from '@/components/StepHeader';
+import { trackPageView } from '@/lib/analytics';
 
 const SettingsPage = () => {
+  useEffect(() => {
+    trackPageView('settings');
+  }, []);
   return (
     <div className="min-h-[100dvh] pb-24">
       <StepHeader title="Settings" subtitle="Customize your experience" sticky />
