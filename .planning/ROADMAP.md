@@ -32,10 +32,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Existing web app moved to apps/web/ and builds without errors
   4. Web app runs on localhost:8080 with all features working (meditation timer, mood tracking, analytics)
   5. meditation-core package scaffold exists with TypeScript configuration
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 01-01: TBD
+- [ ] 01-01-PLAN.md — Initialize Turborepo workspace and pnpm workspaces
+- [ ] 01-02-PLAN.md — Migrate web app to apps/web/
+- [ ] 01-03-PLAN.md — Create meditation-core package scaffold
 
 ### Phase 2: Shared Logic Extraction
 **Goal**: Core meditation logic extracted to shared package and consumed by web app
@@ -156,7 +158,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Monorepo Foundation | 0/? | Not started | - |
+| 1. Monorepo Foundation | 0/3 | Ready to execute | - |
 | 2. Shared Logic Extraction | 0/? | Not started | - |
 | 3. Mobile App Scaffold | 0/? | Not started | - |
 | 4. Audio System | 0/? | Not started | - |
