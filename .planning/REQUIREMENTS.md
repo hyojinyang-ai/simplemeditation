@@ -9,8 +9,8 @@ Requirements for initial iOS mobile release. Each maps to roadmap phases.
 
 ### Monorepo Foundation
 
-- [ ] **MONO-01**: Turborepo workspace structure created with apps/ and packages/ directories
-- [ ] **MONO-02**: pnpm workspaces configured with proper dependency management
+- [x] **MONO-01**: Turborepo workspace structure created with apps/ and packages/ directories
+- [x] **MONO-02**: pnpm workspaces configured with proper dependency management
 - [ ] **MONO-03**: Existing web app moved to apps/web/ and builds successfully
 - [ ] **MONO-04**: meditation-core package created in packages/ with TypeScript exports
 - [ ] **MONO-05**: Zustand stores extracted to meditation-core (useMeditationStore)
@@ -142,8 +142,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MONO-01 | Phase 1 | Pending |
-| MONO-02 | Phase 1 | Pending |
+| MONO-01 | Phase 1 | Complete |
+| MONO-02 | Phase 1 | Complete |
 | MONO-03 | Phase 1 | Pending |
 | MONO-04 | Phase 1 | Pending |
 | MONO-05 | Phase 2 | Pending |
@@ -200,4 +200,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-03-12*
-*Last updated: 2026-03-12 after roadmap creation*
+*Last updated: 2026-03-12 after plan 01-01 completion (MONO-01, MONO-02)*
