@@ -26,3 +26,9 @@ dist-ssr
 
 # bkit plugin
 .bkit/
+
+# Turborepo
+.turbo
+
+# pnpm
+pnpm-lock.yaml
