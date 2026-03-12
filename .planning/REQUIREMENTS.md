@@ -12,7 +12,7 @@ Requirements for initial iOS mobile release. Each maps to roadmap phases.
 - [x] **MONO-01**: Turborepo workspace structure created with apps/ and packages/ directories
 - [x] **MONO-02**: pnpm workspaces configured with proper dependency management
 - [ ] **MONO-03**: Existing web app moved to apps/web/ and builds successfully
-- [ ] **MONO-04**: meditation-core package created in packages/ with TypeScript exports
+- [x] **MONO-04**: meditation-core package created in packages/ with TypeScript exports
 - [ ] **MONO-05**: Zustand stores extracted to meditation-core (useMeditationStore)
 - [ ] **MONO-06**: TypeScript types extracted to meditation-core (Mood, Session, Entry)
 - [ ] **MONO-07**: Utility functions extracted to meditation-core (streak tracking, mood calculations)
@@ -145,7 +145,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MONO-01 | Phase 1 | Complete |
 | MONO-02 | Phase 1 | Complete |
 | MONO-03 | Phase 1 | Pending |
-| MONO-04 | Phase 1 | Pending |
+| MONO-04 | Phase 1 | Complete |
 | MONO-05 | Phase 2 | Pending |
 | MONO-06 | Phase 2 | Pending |
 | MONO-07 | Phase 2 | Pending |
