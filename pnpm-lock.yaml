@@ -235,6 +235,18 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.19.15)(jsdom@20.0.3)
 
+  packages/meditation-core:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@22.19.15)(jsdom@20.0.3)
+
   packages/typescript-config: {}
 
 packages:
