@@ -1,9 +1,11 @@
 {
+  "extends": "@repo/typescript-config/react.json",
   "compilerOptions": {
     "allowJs": true,
     "noImplicitAny": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
+    "outDir": "dist",
     "paths": {
       "@/*": [
         "./src/*"
@@ -12,6 +14,7 @@
     "skipLibCheck": true,
     "strictNullChecks": false
   },
+  "include": ["src"],
   "files": [],
   "references": [
     {
