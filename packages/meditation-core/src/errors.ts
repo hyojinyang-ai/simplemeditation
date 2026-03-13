@@ -21,7 +21,7 @@ export class MeditationError extends Error {
  * Storage operation failed (read/write/delete)
  */
 export class StorageError extends MeditationError {
-  constructor(message: string, public key?: string) {
+  constructor(message: string, public cause?: Error) {
     super(message);
     this.name = 'StorageError';
     Object.setPrototypeOf(this, StorageError.prototype);
