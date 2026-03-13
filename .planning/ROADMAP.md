@@ -47,14 +47,16 @@ Plans:
   1. Zustand meditation store exported from meditation-core and imported by web app
   2. TypeScript types (Mood, Session, Entry) defined in meditation-core and used by web app
   3. Utility functions (streak tracking, mood calculations) live in meditation-core
-  4. Storage adapter interface defined with getEntries, saveEntry, clearEntries methods
+  4. Storage adapter interface defined with getItem, setItem, removeItem methods
   5. Web storage adapter wraps localStorage and works with Zustand persist
   6. Web app imports all shared code from meditation-core without duplicating logic
   7. Web app functionality unchanged (all tests pass, manual verification confirms features work)
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 02-01: TBD
+- [ ] 02-01-PLAN.md — Create meditation-content package and extract types/storage interface to meditation-core
+- [ ] 02-02-PLAN.md — Extract Zustand store factory and utility functions to meditation-core
+- [ ] 02-03-PLAN.md — Integrate shared packages into web app with storage adapter
 
 ### Phase 3: Mobile App Scaffold
 **Goal**: iOS app exists with navigation, state management, and storage working
@@ -159,7 +161,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Monorepo Foundation | 2/3 | Complete    | 2026-03-12 |
-| 2. Shared Logic Extraction | 0/? | Not started | - |
+| 2. Shared Logic Extraction | 0/3 | Not started | - |
 | 3. Mobile App Scaffold | 0/? | Not started | - |
 | 4. Audio System | 0/? | Not started | - |
 | 5. Feature Parity | 0/? | Not started | - |
