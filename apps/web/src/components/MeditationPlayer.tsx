@@ -98,18 +98,27 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
 
   useEffect(() => {
     if (playing) {
-      ambientEngine.start(resolvedSound);
-      setMeditating(true);
-      // Track session start only once
-      if (!sessionStartTracked.current) {
-        trackSessionStart(minutes, sound);
-        sessionStartTracked.current = true;
+      // Start audio engine
+      try {
+        console.log('MeditationPlayer: Starting audio');
+        ambientEngine.start(resolvedSound);
+        setMeditating(true);
+        // Track session start only once
+        if (!sessionStartTracked.current) {
+          trackSessionStart(minutes, sound);
+          sessionStartTracked.current = true;
+        }
+      } catch (error) {
+        console.error('Failed to start meditation audio:', error);
+        // If autoplay fails, pause and let user manually start
+        setPlaying(false);
       }
     } else {
+      console.log('MeditationPlayer: Stopping audio');
       ambientEngine.stop();
       setMeditating(false);
     }
-  }, [playing, resolvedSound, minutes, sound, setMeditating]);
+  }, [playing, resolvedSound]);
 
   useEffect(() => {
     // Cleanup: track abandonment if session was started but not completed
@@ -472,7 +481,11 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
                 animate={{ opacity: 1, scale: 1 }}
                 whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
                 whileHover={{ scale: 1.05, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
-                onClick={() => setPlaying(true)}
+                onClick={() => {
+                  // User interaction - safe to start audio
+                  console.log('User clicked play - starting meditation');
+                  setPlaying(true);
+                }}
                 className="mt-2 px-5 py-2 rounded-full glass-selected text-primary-foreground text-xs font-medium tracking-wide transition-all duration-200"
               >
                 <Play size={14} strokeWidth={1.5} className="inline mr-1.5" />

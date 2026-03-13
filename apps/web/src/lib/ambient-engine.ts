@@ -32,6 +32,10 @@ class MeditationDrone {
     this.stop();
     try {
       const ctx = new AudioContext();
+      // Resume AudioContext if it's suspended (browser autoplay policy)
+      if (ctx.state === 'suspended') {
+        ctx.resume().catch(err => console.warn('AudioContext resume failed:', err));
+      }
       this.ctx = ctx;
 
       const master = ctx.createGain();
@@ -106,23 +110,49 @@ class MeditationDrone {
 class AmbientEngine {
   private audio: HTMLAudioElement | null = null;
   private fadeInterval: ReturnType<typeof setInterval> | null = null;
+  private fadeOutInterval: ReturnType<typeof setInterval> | null = null;
   private drone = new MeditationDrone();
   private _soundVolume = 0.7; // ambient sound at 70%, drone fills the rest
+  private currentSound: AmbientSound | null = null;
 
   start(sound: AmbientSound) {
-    this.stop();
+    // Don't restart if same sound is already playing
+    if (this.currentSound === sound && this.audio) {
+      console.log(`Already playing ${sound}, skipping restart`);
+      return;
+    }
+
+    // Immediately stop any existing audio
+    this.stopImmediate();
+
+    console.log(`Starting ambient sound: ${sound}`);
+    this.currentSound = sound;
 
     const audio = new Audio(SOUND_FILES[sound]);
     audio.loop = true;
     audio.volume = 0;
-    audio.play().catch(() => {});
+
+    // Play audio with better error handling
+    audio.play()
+      .then(() => {
+        console.log(`✓ Playing ambient sound: ${sound}`);
+      })
+      .catch((error) => {
+        console.error('❌ Audio playback failed:', error);
+        console.log('Tip: User interaction may be required to start audio playback.');
+      });
+
     this.audio = audio;
 
     // Fade in ambient sound
     let vol = 0;
     this.fadeInterval = setInterval(() => {
+      if (!this.audio) {
+        if (this.fadeInterval) clearInterval(this.fadeInterval);
+        return;
+      }
       vol = Math.min(vol + 0.035, this._soundVolume);
-      audio.volume = vol;
+      this.audio.volume = vol;
       if (vol >= this._soundVolume && this.fadeInterval) {
         clearInterval(this.fadeInterval);
         this.fadeInterval = null;
@@ -133,25 +163,73 @@ class AmbientEngine {
     this.drone.start(0.1);
   }
 
+  // Immediate stop without fade (used when starting new sound)
+  private stopImmediate() {
+    // Clear any fade intervals
+    if (this.fadeInterval) {
+      clearInterval(this.fadeInterval);
+      this.fadeInterval = null;
+    }
+    if (this.fadeOutInterval) {
+      clearInterval(this.fadeOutInterval);
+      this.fadeOutInterval = null;
+    }
+
+    // Immediately stop audio
+    if (this.audio) {
+      try {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.audio.src = '';
+      } catch (e) {
+        console.warn('Error stopping audio:', e);
+      }
+      this.audio = null;
+    }
+
+    this.currentSound = null;
+    this.drone.stop();
+  }
+
   stop() {
+    console.log('Stopping ambient engine');
+
+    // Clear fade in interval
     if (this.fadeInterval) {
       clearInterval(this.fadeInterval);
       this.fadeInterval = null;
     }
 
+    // Clear any existing fade out interval
+    if (this.fadeOutInterval) {
+      clearInterval(this.fadeOutInterval);
+      this.fadeOutInterval = null;
+    }
+
     if (this.audio) {
       const audio = this.audio;
       let vol = audio.volume;
-      const fadeOut = setInterval(() => {
+
+      this.fadeOutInterval = setInterval(() => {
         vol = Math.max(vol - 0.07, 0);
-        audio.volume = vol;
+        try {
+          audio.volume = vol;
+        } catch (e) {}
+
         if (vol <= 0) {
-          clearInterval(fadeOut);
-          audio.pause();
-          audio.src = '';
+          if (this.fadeOutInterval) {
+            clearInterval(this.fadeOutInterval);
+            this.fadeOutInterval = null;
+          }
+          try {
+            audio.pause();
+            audio.src = '';
+          } catch (e) {}
         }
       }, 50);
+
       this.audio = null;
+      this.currentSound = null;
     }
 
     this.drone.stop();

@@ -27,8 +27,8 @@ const BottomNav = () => {
   ];
 
   const handleNavClick = (to: string, e: React.MouseEvent) => {
-    // If navigating to Home while meditating, confirm first
-    if (to === '/' && isMeditating && pathname !== '/') {
+    // If navigating to Home while meditating, confirm first (regardless of current page)
+    if (to === '/' && isMeditating) {
       e.preventDefault();
       setShowConfirm(true);
     }

@@ -166,7 +166,7 @@ const Index = () => {
                   onComplete={handleMeditationComplete}
                   preMood={preMood}
                   postMood={postMood}
-                  autoPlay={false}
+                  autoPlay={true}
                 />
               )}
               {step === 'reflect' && <Reflection onSubmit={handleReflection} />}
