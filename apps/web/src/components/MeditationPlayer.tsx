@@ -466,7 +466,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
                 Pause
               </motion.button>
             )}
-            {!playing && remaining < totalSeconds && (
+            {!playing && (
               <motion.button
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -476,7 +476,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
                 className="mt-2 px-5 py-2 rounded-full glass-selected text-primary-foreground text-xs font-medium tracking-wide transition-all duration-200"
               >
                 <Play size={14} strokeWidth={1.5} className="inline mr-1.5" />
-                Resume
+                {remaining === totalSeconds ? 'Begin' : 'Resume'}
               </motion.button>
             )}
           </div>
