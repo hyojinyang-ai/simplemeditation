@@ -7,7 +7,8 @@ import SoundPicker from '@/components/SoundPicker';
 import MeditationPlayer from '@/components/MeditationPlayer';
 import Reflection from '@/components/Reflection';
 import StoicQuote from '@/components/StoicQuote';
-import { PreMood, PostMood, SoundType, useMeditationStore, getRandomQuote } from '@/lib/meditation-store';
+import { type PreMood, type PostMood, type SoundType, useMeditationStore } from '@/lib/meditation-store';
+import { getRandomQuote } from '@repo/meditation-content';
 import { trackPageView, trackPreMoodSelection, trackPostMoodSelection, trackSoundChange, trackQuoteSaved } from '@/lib/analytics';
 
 import StepHeader from '@/components/StepHeader';

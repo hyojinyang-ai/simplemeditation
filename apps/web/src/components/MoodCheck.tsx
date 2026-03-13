@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { PreMood, preMoodConfig } from '@/lib/meditation-store';
+import { type PreMood } from '@/lib/meditation-store';
+import { preMoodConfig } from '@/lib/web-mood-config';
 
 interface MoodCheckProps {
   onSelect: (mood: PreMood) => void;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useMeditationStore, preMoodConfig, postMoodConfig } from '@/lib/meditation-store';
+import { useMeditationStore } from '@/lib/meditation-store';
+import { preMoodConfig, postMoodConfig } from '@/lib/web-mood-config';
 import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
 import { trackPageView, trackPullToRefresh } from '@/lib/analytics';

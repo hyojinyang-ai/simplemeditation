@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { SoundType, soundConfig } from '@/lib/meditation-store';
+import { type SoundType } from '@/lib/meditation-store';
+import { soundConfig } from '@/lib/web-mood-config';
 import { Music2 } from 'lucide-react';
 
 interface SoundPickerProps {

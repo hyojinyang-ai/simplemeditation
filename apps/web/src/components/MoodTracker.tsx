@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { useMeditationStore, preMoodConfig, PreMood } from '@/lib/meditation-store';
+import { useMeditationStore, type PreMood } from '@/lib/meditation-store';
+import { preMoodConfig } from '@/lib/web-mood-config';
 import { subDays, startOfDay, format } from 'date-fns';
 
 const MoodTracker = () => {

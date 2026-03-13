@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { PostMood, postMoodConfig } from '@/lib/meditation-store';
+import { type PostMood } from '@/lib/meditation-store';
+import { postMoodConfig } from '@/lib/web-mood-config';
 import { useState } from 'react';
 import { Feather } from 'lucide-react';
 

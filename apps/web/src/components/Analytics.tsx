@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
-import { useMeditationStore, preMoodConfig, postMoodConfig, PreMood, PostMood, preMoodToValue } from '@/lib/meditation-store';
+import { useMeditationStore, type PreMood, type PostMood } from '@/lib/meditation-store';
+import { preMoodConfig, postMoodConfig } from '@/lib/web-mood-config';
+import { preMoodToValue } from '@repo/meditation-core';
 import { subDays, startOfDay, format } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { Activity, Clock, Flame, FileText, BarChart3 } from 'lucide-react';
