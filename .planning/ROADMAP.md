@@ -37,7 +37,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01-PLAN.md — Initialize Turborepo workspace and pnpm workspaces (4 tasks, 7 min)
 - [ ] 01-02-PLAN.md — Migrate web app to apps/web/
-- [ ] 01-03-PLAN.md — Create meditation-core package scaffold
+- [x] 01-03-PLAN.md — Create meditation-core package scaffold (2 tasks, 3 min)
 
 ### Phase 2: Shared Logic Extraction
 **Goal**: Core meditation logic extracted to shared package and consumed by web app
@@ -54,7 +54,7 @@ Plans:
 **Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 02-01-PLAN.md — Create meditation-content package and extract types/storage interface to meditation-core
+- [x] 02-01-PLAN.md — Create meditation-content package and extract types/storage interface to meditation-core (3 tasks, 5 min)
 - [ ] 02-02-PLAN.md — Extract Zustand store factory and utility functions to meditation-core
 - [ ] 02-03-PLAN.md — Integrate shared packages into web app with storage adapter
 
@@ -161,7 +161,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Monorepo Foundation | 2/3 | Complete    | 2026-03-12 |
-| 2. Shared Logic Extraction | 0/3 | Not started | - |
+| 2. Shared Logic Extraction | 1/3 | In progress | - |
 | 3. Mobile App Scaffold | 0/? | Not started | - |
 | 4. Audio System | 0/? | Not started | - |
 | 5. Feature Parity | 0/? | Not started | - |

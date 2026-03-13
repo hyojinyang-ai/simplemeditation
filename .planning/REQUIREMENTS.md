@@ -14,11 +14,11 @@ Requirements for initial iOS mobile release. Each maps to roadmap phases.
 - [x] **MONO-03**: Existing web app moved to apps/web/ and builds successfully
 - [x] **MONO-04**: meditation-core package created in packages/ with TypeScript exports
 - [ ] **MONO-05**: Zustand stores extracted to meditation-core (useMeditationStore)
-- [ ] **MONO-06**: TypeScript types extracted to meditation-core (Mood, Session, Entry)
+- [x] **MONO-06**: TypeScript types extracted to meditation-core (PreMood, PostMood, MoodEntry, SoundType)
 - [ ] **MONO-07**: Utility functions extracted to meditation-core (streak tracking, mood calculations)
-- [ ] **MONO-08**: Storage adapter interface defined (getEntries, saveEntry, clearEntries methods)
+- [x] **MONO-08**: Storage adapter interface defined (StateStorage with getItem, setItem, removeItem)
 - [ ] **MONO-09**: Web storage adapter implemented wrapping localStorage
-- [ ] **MONO-10**: Mobile storage adapter interface prepared (MMKV implementation in mobile phase)
+- [x] **MONO-10**: Mobile storage adapter interface prepared (StateStorage ready for MMKV in Phase 3)
 
 ### Mobile App
 
@@ -147,11 +147,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MONO-03 | Phase 1 | Complete |
 | MONO-04 | Phase 1 | Complete |
 | MONO-05 | Phase 2 | Pending |
-| MONO-06 | Phase 2 | Pending |
+| MONO-06 | Phase 2 | Complete |
 | MONO-07 | Phase 2 | Pending |
-| MONO-08 | Phase 2 | Pending |
+| MONO-08 | Phase 2 | Complete |
 | MONO-09 | Phase 2 | Pending |
-| MONO-10 | Phase 2 | Pending |
+| MONO-10 | Phase 2 | Complete |
 | APP-01 | Phase 3 | Pending |
 | APP-02 | Phase 3 | Pending |
 | APP-03 | Phase 3 | Pending |
@@ -200,4 +200,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-03-12*
-*Last updated: 2026-03-12 after plan 01-01 completion (MONO-01, MONO-02)*
+*Last updated: 2026-03-13 after plan 02-01 completion (MONO-06, MONO-08, MONO-10)*
