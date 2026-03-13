@@ -1,36 +1,16 @@
 /**
  * Platform-agnostic storage adapter interface
  *
- * Compatible with Zustand persist middleware.
+ * Re-exported from Zustand persist middleware for convenience.
  * - Web apps use localStorage (synchronous)
  * - Mobile apps use MMKV (can be async)
  *
  * This interface enables cross-platform store persistence without
  * coupling business logic to platform-specific storage implementations.
  */
-export interface StateStorage {
-  /**
-   * Get item from storage
-   * @param name - Storage key
-   * @returns Stored value as string, null if not found, or Promise resolving to either
-   */
-  getItem: (name: string) => string | null | Promise<string | null>;
+export type { StateStorage } from 'zustand/middleware';
 
-  /**
-   * Set item in storage
-   * @param name - Storage key
-   * @param value - Value to store (as string)
-   * @returns void or Promise<void> for async storage
-   */
-  setItem: (name: string, value: string) => void | Promise<void>;
-
-  /**
-   * Remove item from storage
-   * @param name - Storage key
-   * @returns void or Promise<void> for async storage
-   */
-  removeItem: (name: string) => void | Promise<void>;
-}
+import type { StateStorage } from 'zustand/middleware';
 
 /**
  * Create a storage adapter with optional validation

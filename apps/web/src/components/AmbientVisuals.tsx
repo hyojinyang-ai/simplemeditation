@@ -11,6 +11,9 @@ const SOUND_TO_THEME: Record<AmbientSound, VisualTheme> = {
   'nature': 'fireflies',
   'rain': 'ripples',
   'ocean': 'ripples',
+  'wind': 'aurora',
+  'birds': 'fireflies',
+  'fireplace': 'aurora',
 };
 
 // Color palettes per theme (HSL values for inline styles)
