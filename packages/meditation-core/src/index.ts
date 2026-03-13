@@ -14,3 +14,37 @@ export const PACKAGE_VERSION = '0.0.0';
 export function validatePackage(): boolean {
   return true;
 }
+
+// Core types and interfaces
+export type {
+  PreMood,
+  PostMood,
+  Mood,
+  SoundType,
+  MoodEntry,
+} from './types';
+
+export {
+  preMoodLabels,
+  preMoodColors,
+  postMoodLabels,
+  postMoodColors,
+  preMoodToValue,
+  postMoodToValue,
+} from './types';
+
+// Storage interfaces
+export type { StateStorage } from './storage';
+export { createStorageAdapter } from './storage';
+
+// Error classes and type guards
+export {
+  MeditationError,
+  StorageError,
+  SerializationError,
+  StoreInitError,
+  isStorageError,
+  isSerializationError,
+  isStoreInitError,
+  isMeditationError,
+} from './errors';
