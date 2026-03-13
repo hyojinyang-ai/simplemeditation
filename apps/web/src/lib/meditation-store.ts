@@ -1,3 +1,7 @@
+// DEPRECATED: Migrated to @repo/meditation-core. Kept temporarily for rollback safety.
+// To rollback: uncomment the code below and comment out the new implementation.
+
+/*
 import { create } from 'zustand';
 import {
   Frown, BatteryLow, Minus, Zap, AlertTriangle,
@@ -99,3 +103,34 @@ export const stoicQuotes = [
 export const getRandomQuote = () => stoicQuotes[Math.floor(Math.random() * stoicQuotes.length)];
 export const preMoodToValue: Record<PreMood, number> = { stressed: 1, anxious: 2, tired: 2, neutral: 3 };
 export const postMoodToValue: Record<PostMood, number> = { calm: 4, relieved: 4, peaceful: 5, grateful: 5, refreshed: 5 };
+*/
+
+// ============================================================================
+// NEW IMPLEMENTATION: Using shared packages
+// ============================================================================
+
+import { createMeditationStore } from '@repo/meditation-core';
+import { webStorageAdapter } from './web-storage-adapter';
+
+/**
+ * Meditation store instance using shared meditation-core package
+ * with localStorage persistence via web storage adapter.
+ *
+ * Storage key 'zen-mood-entries-v2' preserves existing user data.
+ */
+export const useMeditationStore = createMeditationStore(
+  webStorageAdapter,
+  'zen-mood-entries-v2'
+);
+
+/**
+ * Re-export types from meditation-core for backward compatibility
+ * Components can continue importing from this file without changes
+ */
+export type {
+  PreMood,
+  PostMood,
+  Mood,
+  SoundType,
+  MoodEntry,
+} from '@repo/meditation-core';
