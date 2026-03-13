@@ -29,8 +29,6 @@ export {
   preMoodColors,
   postMoodLabels,
   postMoodColors,
-  preMoodToValue,
-  postMoodToValue,
 } from './types';
 
 // Storage interfaces
@@ -48,3 +46,9 @@ export {
   isStoreInitError,
   isMeditationError,
 } from './errors';
+
+// Store factory and state
+export { createMeditationStore, type MeditationState } from './store';
+
+// Utility functions
+export { calculateStreak, preMoodToValue, postMoodToValue } from './utilities';

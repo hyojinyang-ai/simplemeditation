@@ -106,7 +106,7 @@ describe('createMeditationStore', () => {
     expect(storedData).not.toBeNull();
 
     // Verify it's valid JSON with state
-    const parsedData = JSON.parse(storedData!);
+    const parsedData = JSON.parse(storedData as string);
     expect(parsedData.state).toBeDefined();
     expect(parsedData.state.entries).toHaveLength(1);
   });

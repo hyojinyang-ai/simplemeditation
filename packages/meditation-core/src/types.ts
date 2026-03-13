@@ -62,24 +62,3 @@ export const postMoodColors: Record<PostMood, string> = {
   grateful: 'bg-zen-green-light text-zen-green',
   refreshed: 'bg-zen-rose-light text-zen-rose',
 };
-
-/**
- * Convert pre-meditation moods to numeric values for analytics
- */
-export const preMoodToValue: Record<PreMood, number> = {
-  stressed: 1,
-  anxious: 2,
-  tired: 2,
-  neutral: 3,
-};
-
-/**
- * Convert post-meditation moods to numeric values for analytics
- */
-export const postMoodToValue: Record<PostMood, number> = {
-  calm: 4,
-  relieved: 4,
-  peaceful: 5,
-  grateful: 5,
-  refreshed: 5,
-};
