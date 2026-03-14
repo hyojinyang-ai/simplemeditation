@@ -27,9 +27,10 @@ const Index = () => {
   const [quote] = useState(() => getRandomQuote());
   const [saved, setSaved] = useState(false);
   const [lastEntryId, setLastEntryId] = useState<string>();
-  const { addEntry, entries } = useMeditationStore();
+  const { addEntry, entries, isMeditating } = useMeditationStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const isHome = step === 'mood' || step === 'quote';
+  const prevMeditatingRef = useRef<boolean>(false);
 
   // Track page view on mount
   useEffect(() => {
@@ -54,14 +55,14 @@ const Index = () => {
     setTimeout(() => setStep('sound'), 300);
   };
 
-  const handleSoundSelect = (s: SoundType) => {
+  const handleSoundSelect = useCallback((s: SoundType) => {
     if (sound) {
       trackSoundChange(sound, s);
     }
     setSound(s);
     // Auto-start meditation
     setTimeout(() => setStep('meditate'), 300);
-  };
+  }, [sound]);
 
   const handleMeditationComplete = useCallback(() => {
     setStep('reflect');
@@ -112,6 +113,17 @@ const Index = () => {
     }
   }, [pathname]); // Reset when route changes
 
+  // Reset to mood when meditation is stopped from outside (e.g., Home button)
+  useEffect(() => {
+    // Only reset if meditation was active and then stopped (transition from true to false)
+    if (prevMeditatingRef.current && !isMeditating && step === 'meditate') {
+      console.log('[Index] Meditation stopped externally, resetting to mood');
+      handleReset();
+    }
+    // Update the ref to current value for next render
+    prevMeditatingRef.current = isMeditating;
+  }, [isMeditating, step, handleReset]);
+
 
   return (
     <div className="min-h-[100dvh] relative flex flex-col overflow-hidden">
@@ -161,6 +173,7 @@ const Index = () => {
               {step === 'sound' && <SoundPicker onSelect={handleSoundSelect} selected={sound} />}
               {step === 'meditate' && minutes && sound && (
                 <MeditationPlayer
+                  key={`meditation-${sound}-${minutes}`}
                   minutes={minutes}
                   sound={sound}
                   onComplete={handleMeditationComplete}

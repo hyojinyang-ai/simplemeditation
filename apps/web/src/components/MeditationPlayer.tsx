@@ -25,16 +25,38 @@ interface MeditationPlayerProps {
 }
 
 const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoPlay = false }: MeditationPlayerProps) => {
+  console.log(`[MeditationPlayer] Component render - sound: ${sound}, autoPlay: ${autoPlay}, minutes: ${minutes}`);
+
   const totalSeconds = minutes * 60;
   const [remaining, setRemaining] = useState(totalSeconds);
-  const [playing, setPlaying] = useState(autoPlay);
+  const [playing, setPlaying] = useState(() => {
+    console.log(`[MeditationPlayer] Initializing playing state: ${autoPlay}`);
+    return autoPlay;
+  });
   const [completed, setCompleted] = useState(false);
-  const [resolvedSound] = useState<AmbientSound>(() => resolveSound(sound));
+  const [resolvedSound] = useState<AmbientSound>(() => {
+    const resolved = resolveSound(sound);
+    console.log(`[MeditationPlayer] Resolved sound: ${sound} -> ${resolved}`);
+    return resolved;
+  });
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
   const [breathPhase, setBreathPhase] = useState(0);
   const breathTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const sessionStartTracked = useRef(false);
   const { setMeditating } = useMeditationStore();
+
+  // Log when component mounts/unmounts
+  useEffect(() => {
+    console.log(`[MeditationPlayer] Component MOUNTED`);
+    return () => {
+      console.log(`[MeditationPlayer] Component UNMOUNTING`);
+    };
+  }, []);
+
+  // Log prop changes
+  useEffect(() => {
+    console.log(`[MeditationPlayer] 📝 Props changed - minutes: ${minutes}, sound: ${sound}, autoPlay: ${autoPlay}`);
+  }, [minutes, sound, autoPlay]);
 
   // Breathing cycle controller
   useEffect(() => {
@@ -97,10 +119,12 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
   }, []);
 
   useEffect(() => {
+    console.log(`[MeditationPlayer] ⚡ useEffect RUNNING - playing: ${playing}, resolvedSound: ${resolvedSound}`);
+
     if (playing) {
       // Start audio engine
       try {
-        console.log('MeditationPlayer: Starting audio');
+        console.log('[MeditationPlayer] 🎵 playing=true, calling ambientEngine.start()');
         ambientEngine.start(resolvedSound);
         setMeditating(true);
         // Track session start only once
@@ -109,27 +133,32 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
           sessionStartTracked.current = true;
         }
       } catch (error) {
-        console.error('Failed to start meditation audio:', error);
+        console.error('[MeditationPlayer] Failed to start meditation audio:', error);
         // If autoplay fails, pause and let user manually start
+        console.log('[MeditationPlayer] Setting playing to FALSE due to error');
         setPlaying(false);
       }
     } else {
-      console.log('MeditationPlayer: Stopping audio');
+      console.log('[MeditationPlayer] 🛑 playing=false, calling ambientEngine.stop()');
       ambientEngine.stop();
       setMeditating(false);
     }
   }, [playing, resolvedSound]);
 
   useEffect(() => {
-    // Cleanup: track abandonment if session was started but not completed
+    // Cleanup: only run on component unmount
     return () => {
-      if (sessionStartTracked.current && !completed && remaining < totalSeconds) {
+      console.log('[MeditationPlayer] Cleanup on unmount');
+      const wasPlaying = sessionStartTracked.current && !completed;
+      if (wasPlaying && remaining < totalSeconds) {
+        console.log('[MeditationPlayer] Tracking session abandonment');
         trackSessionAbandoned(minutes, remaining, sound);
       }
       ambientEngine.stop();
       setMeditating(false);
     };
-  }, [completed, remaining, totalSeconds, minutes, sound, setMeditating]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount/unmount
 
   useEffect(() => {
     if (playing && remaining > 0) {

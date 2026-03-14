@@ -116,33 +116,55 @@ class AmbientEngine {
   private currentSound: AmbientSound | null = null;
 
   start(sound: AmbientSound) {
+    console.log(`[AmbientEngine] start() called with sound: ${sound}`);
+    console.log(`[AmbientEngine] Current state - currentSound: ${this.currentSound}, audio exists: ${!!this.audio}`);
+
     // Don't restart if same sound is already playing
     if (this.currentSound === sound && this.audio) {
-      console.log(`Already playing ${sound}, skipping restart`);
+      console.log(`[AmbientEngine] Already playing ${sound}, skipping restart`);
       return;
     }
 
     // Immediately stop any existing audio
+    console.log(`[AmbientEngine] Calling stopImmediate()`);
     this.stopImmediate();
 
-    console.log(`Starting ambient sound: ${sound}`);
+    console.log(`[AmbientEngine] Creating new Audio element for: ${sound}`);
     this.currentSound = sound;
 
     const audio = new Audio(SOUND_FILES[sound]);
     audio.loop = true;
     audio.volume = 0;
 
+    // Add event listeners for debugging
+    audio.addEventListener('ended', () => {
+      console.log(`[AmbientEngine] ❌ Audio ENDED event fired (should not happen with loop=true)`);
+    });
+
+    audio.addEventListener('pause', () => {
+      console.log(`[AmbientEngine] Audio PAUSED`);
+    });
+
+    audio.addEventListener('play', () => {
+      console.log(`[AmbientEngine] Audio PLAY event`);
+    });
+
+    audio.addEventListener('error', (e) => {
+      console.error(`[AmbientEngine] Audio ERROR:`, e);
+    });
+
     // Play audio with better error handling
     audio.play()
       .then(() => {
-        console.log(`✓ Playing ambient sound: ${sound}`);
+        console.log(`[AmbientEngine] ✓ Audio play() promise resolved - sound: ${sound}, loop: ${audio.loop}, duration: ${audio.duration}`);
       })
       .catch((error) => {
-        console.error('❌ Audio playback failed:', error);
+        console.error('[AmbientEngine] ❌ Audio playback failed:', error);
         console.log('Tip: User interaction may be required to start audio playback.');
       });
 
     this.audio = audio;
+    console.log(`[AmbientEngine] Audio element stored, starting fade in`);
 
     // Fade in ambient sound
     let vol = 0;
@@ -165,34 +187,41 @@ class AmbientEngine {
 
   // Immediate stop without fade (used when starting new sound)
   private stopImmediate() {
+    console.log(`[AmbientEngine] stopImmediate() called`);
+
     // Clear any fade intervals
     if (this.fadeInterval) {
+      console.log(`[AmbientEngine] Clearing fadeInterval`);
       clearInterval(this.fadeInterval);
       this.fadeInterval = null;
     }
     if (this.fadeOutInterval) {
+      console.log(`[AmbientEngine] Clearing fadeOutInterval`);
       clearInterval(this.fadeOutInterval);
       this.fadeOutInterval = null;
     }
 
     // Immediately stop audio
     if (this.audio) {
+      console.log(`[AmbientEngine] Stopping existing audio element`);
       try {
         this.audio.pause();
         this.audio.currentTime = 0;
         this.audio.src = '';
+        console.log(`[AmbientEngine] Audio element cleaned up`);
       } catch (e) {
-        console.warn('Error stopping audio:', e);
+        console.warn('[AmbientEngine] Error stopping audio:', e);
       }
       this.audio = null;
     }
 
     this.currentSound = null;
+    console.log(`[AmbientEngine] Stopping drone`);
     this.drone.stop();
   }
 
   stop() {
-    console.log('Stopping ambient engine');
+    console.log('[AmbientEngine] stop() called');
 
     // Clear fade in interval
     if (this.fadeInterval) {
