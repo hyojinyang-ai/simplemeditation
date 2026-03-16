@@ -2,9 +2,10 @@
 phase: 03
 slug: mobile-app-scaffold
 status: draft
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-03-16
+updated: 2026-03-16
 ---
 
 # Phase 03 — Validation Strategy
@@ -38,13 +39,17 @@ created: 2026-03-16
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 03-01-01 | 01 | 0 | APP-01 | setup | `test -d apps/mobile && expo --version` | ❌ W0 | ⬜ pending |
-| 03-01-02 | 01 | 1 | APP-01 | integration | `pnpm --filter meditation-mobile test` | ❌ W0 | ⬜ pending |
-| 03-02-01 | 02 | 1 | APP-02 | integration | `pnpm --filter meditation-mobile test` | ✅ (from 01) | ⬜ pending |
-| 03-03-01 | 03 | 1 | APP-03 | unit | `pnpm --filter meditation-mobile test` | ✅ (from 01) | ⬜ pending |
-| 03-04-01 | 04 | 2 | APP-04, APP-05 | unit | `pnpm --filter meditation-mobile test` | ✅ (from 01) | ⬜ pending |
-| 03-05-01 | 05 | 2 | APP-06, APP-07 | unit | `pnpm --filter meditation-mobile test` | ✅ (from 01) | ⬜ pending |
-| 03-06-01 | 06 | 3 | APP-08 | e2e | manual iOS Simulator launch | N/A (manual) | ⬜ pending |
+| 03-02-01 | 02 | 0 | APP-03, APP-04, APP-05 | setup | `cd apps/mobile && npm test -- --version` | ✅ W0 | ⬜ pending |
+| 03-02-02 | 02 | 0 | APP-03, APP-04 | unit | `cd apps/mobile && npm test -- --testPathPattern="TabLayout\|Paper"` | ✅ W0 | ⬜ pending |
+| 03-02-03 | 02 | 0 | APP-05, APP-06, APP-07 | unit | `cd apps/mobile && npm test -- --testPathPattern="storage\|persistence\|integration"` | ✅ W0 | ⬜ pending |
+| 03-01-01 | 01 | 1 | APP-01 | setup | `ls apps/mobile/app.json && cat apps/mobile/package.json \| grep '@repo/meditation-core'` | ❌ W1 | ⬜ pending |
+| 03-01-02 | 01 | 1 | APP-02 | integration | `grep -c "Tabs.Screen" apps/mobile/app/(tabs)/_layout.tsx` | ❌ W1 | ⬜ pending |
+| 03-01-03 | 01 | 1 | APP-03, APP-04 | integration | `grep "PaperProvider" apps/mobile/app/_layout.tsx && grep "SafeAreaProvider" apps/mobile/app/_layout.tsx` | ❌ W1 | ⬜ pending |
+| 03-01-04 | 01 | 1 | APP-04 | integration | `grep "from 'react-native-paper'" apps/mobile/app/(tabs)/index.tsx` | ❌ W1 | ⬜ pending |
+| 03-03-01 | 03 | 2 | APP-06 | integration | `cat apps/mobile/lib/storage.ts \| grep "StateStorage"` | ❌ W2 | ⬜ pending |
+| 03-03-02 | 03 | 2 | APP-07 | integration | `cat apps/mobile/lib/store.ts \| grep "createMeditationStore"` | ❌ W2 | ⬜ pending |
+| 03-03-03 | 03 | 2 | APP-08 | integration | `grep "useMeditationStore" apps/mobile/app/(tabs)/index.tsx` | ❌ W2 | ⬜ pending |
+| 03-03-04 | 03 | 2 | APP-08 | manual | Human verification (checkpoint) | N/A | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -52,13 +57,16 @@ created: 2026-03-16
 
 ## Wave 0 Requirements
 
-- [ ] `apps/mobile/jest.config.js` — Jest configuration with jest-expo preset
-- [ ] `apps/mobile/__tests__/setup.test.ts` — Verify app renders without crashes
-- [ ] `apps/mobile/__tests__/navigation.test.ts` — Verify tab navigation exists
-- [ ] `apps/mobile/__tests__/storage-adapter.test.ts` — Verify MMKV storage adapter
-- [ ] `apps/mobile/__tests__/meditation-core-import.test.ts` — Verify meditation-core imports
+Wave 0 (Plan 03-02) creates test infrastructure before implementation:
 
-Wave 0 creates Jest infrastructure and 5 test files before implementation tasks.
+- [x] `apps/mobile/jest.config.js` — Jest configuration with jest-expo preset
+- [x] `apps/mobile/__tests__/TabLayout.test.tsx` — Verify 4 tabs render (APP-03)
+- [x] `apps/mobile/__tests__/Paper.test.tsx` — Verify Paper components render (APP-04)
+- [x] `apps/mobile/__tests__/store-integration.test.tsx` — Verify meditation-core imports (APP-05)
+- [x] `apps/mobile/lib/__tests__/mmkv-storage.test.ts` — Verify MMKV storage adapter (APP-06)
+- [x] `apps/mobile/lib/__tests__/store-persistence.test.ts` — Verify Zustand + MMKV integration (APP-07)
+
+Wave 0 creates Jest infrastructure and 5 test files before Wave 1 implementation tasks.
 
 ---
 
@@ -74,11 +82,11 @@ Wave 0 creates Jest infrastructure and 5 test files before implementation tasks.
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 15s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 15s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** ✅ compliant (revised 2026-03-16)
