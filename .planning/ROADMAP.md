@@ -51,12 +51,13 @@ Plans:
   5. Web storage adapter wraps localStorage and works with Zustand persist
   6. Web app imports all shared code from meditation-core without duplicating logic
   7. Web app functionality unchanged (all tests pass, manual verification confirms features work)
-**Plans**: 3 plans in 3 waves
+**Plans**: 4 plans in 1 wave
 
 Plans:
 - [x] 02-01-PLAN.md — Create meditation-content package and extract types/storage interface to meditation-core (3 tasks, 5 min)
-- [ ] 02-02-PLAN.md — Extract Zustand store factory and utility functions to meditation-core
-- [ ] 02-03-PLAN.md — Integrate shared packages into web app with storage adapter
+- [x] 02-02-PLAN.md — Extract Zustand store factory and utility functions to meditation-core (3 tasks, 4 min)
+- [x] 02-03-PLAN.md — Integrate shared packages into web app with storage adapter (6 tasks, 180 min)
+- [ ] 02-04-PLAN.md — Replace inline streak calculation with shared utility (gap closure)
 
 ### Phase 3: Mobile App Scaffold
 **Goal**: iOS app exists with navigation, state management, and storage working
@@ -161,7 +162,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Monorepo Foundation | 2/3 | Complete    | 2026-03-12 |
-| 2. Shared Logic Extraction | 3/3 | Complete   | 2026-03-16 |
+| 2. Shared Logic Extraction | 3/4 | Gap closure | - |
 | 3. Mobile App Scaffold | 0/? | Not started | - |
 | 4. Audio System | 0/? | Not started | - |
 | 5. Feature Parity | 0/? | Not started | - |
