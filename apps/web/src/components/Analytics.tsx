@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useMeditationStore, type PreMood, type PostMood } from '@/lib/meditation-store';
 import { preMoodConfig, postMoodConfig } from '@/lib/web-mood-config';
-import { preMoodToValue } from '@repo/meditation-core';
+import { preMoodToValue, calculateStreak } from '@repo/meditation-core';
 import { subDays, startOfDay, format } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { Activity, Clock, Flame, FileText, BarChart3 } from 'lucide-react';
@@ -25,13 +25,7 @@ const Analytics = () => {
   const totalSessions = entries.filter((e) => e.sessionMinutes).length;
   const totalMinutes = entries.reduce((sum, e) => sum + (e.sessionMinutes || 0), 0);
 
-  let streak = 0;
-  for (let i = 0; i < 365; i++) {
-    const day = startOfDay(subDays(new Date(), i)).getTime();
-    const hasEntry = entries.some((e) => e.timestamp >= day && e.timestamp < day + 86400000);
-    if (hasEntry) streak++;
-    else break;
-  }
+  const streak = calculateStreak(entries);
 
   const last14 = Array.from({ length: 14 }, (_, i) => {
     const date = subDays(new Date(), 13 - i);
