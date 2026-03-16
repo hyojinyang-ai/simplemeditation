@@ -57,7 +57,7 @@ Plans:
 - [x] 02-01-PLAN.md — Create meditation-content package and extract types/storage interface to meditation-core (3 tasks, 5 min)
 - [x] 02-02-PLAN.md — Extract Zustand store factory and utility functions to meditation-core (3 tasks, 4 min)
 - [x] 02-03-PLAN.md — Integrate shared packages into web app with storage adapter (6 tasks, 180 min)
-- [ ] 02-04-PLAN.md — Replace inline streak calculation with shared utility (gap closure)
+- [x] 02-04-PLAN.md — Replace inline streak calculation with shared utility (1 task, 1 min)
 
 ### Phase 3: Mobile App Scaffold
 **Goal**: iOS app exists with navigation, state management, and storage working
