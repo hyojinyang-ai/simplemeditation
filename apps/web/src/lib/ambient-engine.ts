@@ -93,7 +93,18 @@ class MeditationDrone {
     }
   }
 
-  stop() {
+  stop(immediate = false) {
+    if (immediate) {
+      // Immediate stop for when starting a new session
+      this.oscillators.forEach((o) => { try { o.stop(); } catch {} });
+      this.oscillators = [];
+      if (this.lfo) { try { this.lfo.stop(); } catch {} this.lfo = null; }
+      if (this.ctx) { try { this.ctx.close(); } catch {} this.ctx = null; }
+      this.masterGain = null;
+      return;
+    }
+
+    // Graceful fade out for normal stop
     if (this.masterGain && this.ctx) {
       this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 2);
     }
@@ -216,8 +227,8 @@ class AmbientEngine {
     }
 
     this.currentSound = null;
-    console.log(`[AmbientEngine] Stopping drone`);
-    this.drone.stop();
+    console.log(`[AmbientEngine] Stopping drone immediately`);
+    this.drone.stop(true); // Pass immediate=true to prevent overlap
   }
 
   stop() {
