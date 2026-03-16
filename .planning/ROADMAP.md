@@ -72,10 +72,12 @@ Plans:
   6. Zustand persist middleware uses mobile storage adapter (not localStorage)
   7. User can create a test meditation entry and it persists after app restart
   8. App launches without crashes and displays navigation shell
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — Create Expo app with tab navigation and Material Design UI (4 tasks)
+- [ ] 03-02-PLAN.md — Build test infrastructure with jest-expo (3 tasks)
+- [ ] 03-03-PLAN.md — Implement MMKV storage and integrate meditation store (3 tasks + checkpoint)
 
 ### Phase 4: Audio System
 **Goal**: User can meditate with dual-layer audio (ambient sounds + meditation drone) on mobile
@@ -162,8 +164,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Monorepo Foundation | 2/3 | Complete    | 2026-03-12 |
-| 2. Shared Logic Extraction | 3/4 | Gap closure | - |
-| 3. Mobile App Scaffold | 0/? | Not started | - |
+| 2. Shared Logic Extraction | 4/4 | Complete | 2026-03-16 |
+| 3. Mobile App Scaffold | 0/3 | Not started | - |
 | 4. Audio System | 0/? | Not started | - |
 | 5. Feature Parity | 0/? | Not started | - |
 | 6. Native Features | 0/? | Not started | - |
