@@ -1,73 +1,83 @@
-# Welcome to your Lovable project
+# Stillness
 
-## Project info
+Stillness is a mobile-first meditation web app built with React, TypeScript, and Vite. It helps people build a daily mindfulness practice with guided breathing, ambient soundscapes, mood tracking, and reflective quotes.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## What ships today
 
-## How can I edit this code?
+- Guided meditation sessions with ambient audio
+- Mood check-in before and after meditation
+- Local journal/history stored in the browser
+- Analytics dashboard for personal progress
+- Vercel Analytics for product usage insights
 
-There are several ways of editing your application.
+## Product model
 
-**Use Lovable**
+This version is a frontend-only product.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- User data is stored in browser `localStorage`
+- There is no login, sync, or cloud backup yet
+- Users keep their data on the device/browser they use
 
-Changes made via Lovable will be committed automatically to this repo.
+That makes it fast and inexpensive to launch, but you should treat it as an MVP until cross-device sync and account recovery are added.
 
-**Use your preferred IDE**
+## Local development
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Requirements:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js 20+
+- `pnpm` 10+
 
-Follow these steps:
+Install and run:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+pnpm install
+pnpm dev
 ```
 
-**Edit a file directly in GitHub**
+The web app runs on `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Testing and production build
 
-**Use GitHub Codespaces**
+```bash
+pnpm --filter @repo/web test
+pnpm build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Production files are generated in `apps/web/dist`.
 
-## What technologies are used for this project?
+## Deploy to Vercel
 
-This project is built with:
+This repository is already configured for Vercel deployment.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Vercel project settings
 
-## How can I deploy this project?
+- Install command: `pnpm install --frozen-lockfile`
+- Build command: `pnpm run build`
+- Output directory: `apps/web/dist`
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### Launch steps
 
-## Can I connect a custom domain to my Lovable project?
+1. Push this repository to GitHub.
+2. Import the repository into Vercel.
+3. Confirm the build settings above.
+4. Deploy to production.
+5. Add your custom domain in Vercel.
+6. Point DNS from your registrar to Vercel.
+7. Re-test the live site on mobile and desktop.
 
-Yes, you can!
+## Launch checklist
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Confirm the home page, tracker, analytics, and settings pages load on the production URL
+- Verify deep links like `/tracker` and `/analytics` work on refresh
+- Test one full meditation session with sound on iPhone Safari and Android Chrome
+- Confirm Vercel Analytics events appear in the dashboard
+- Check favicon, title, and social preview
+- Review copy, privacy policy, and support contact before public launch
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Recommended next product steps
+
+- Add accounts and cloud sync
+- Add privacy policy and terms pages
+- Add onboarding and reminder settings
+- Add crash/error monitoring
+- Add performance monitoring and bundle budgets

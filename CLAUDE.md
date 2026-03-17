@@ -45,7 +45,7 @@ npm run preview
 - **UI Components**: shadcn/ui (Radix UI primitives)
 - **State Management**: Zustand
 - **Data Fetching**: TanStack Query (React Query)
-- **Backend**: Supabase (configured but optional)
+- **Persistence**: Browser localStorage via shared meditation-core store
 - **Routing**: React Router v6
 - **Testing**: Vitest with Testing Library
 
@@ -73,8 +73,6 @@ src/
 │   ├── use-mobile.tsx
 │   ├── use-pull-to-refresh.ts
 │   └── use-toast.ts
-├── integrations/     # External service integrations
-│   └── supabase/
 └── App.tsx           # Root component with providers
 ```
 
@@ -131,13 +129,13 @@ npx shadcn@latest add [component-name]
 
 Do NOT manually edit these files unless fixing bugs. They are meant to be composed, not modified.
 
-### Supabase Integration
+### Persistence Model
 
-Supabase client is configured in `src/integrations/supabase/client.ts`. Environment variables required:
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_PUBLISHABLE_KEY`
+The current product stores meditation history locally in the browser using `localStorage`.
 
-Currently, the app uses localStorage for data persistence, but Supabase is available for future features.
+- Storage key: `zen-mood-entries-v2`
+- No authentication or cross-device sync
+- Clearing browser data removes the saved history
 
 ### Analytics & Tracking
 
@@ -184,11 +182,8 @@ This project was initially created with Lovable. The `lovable-tagger` plugin is 
 - Testing Library utilities available for component testing
 
 ### Environment Variables
-Create `.env` file with:
-```
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_key
-```
+
+No environment variables are currently required for core product behavior.
 
 ## Important Patterns
 

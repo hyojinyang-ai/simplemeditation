@@ -10,6 +10,7 @@ import StoicQuote from '@/components/StoicQuote';
 import { type PreMood, type PostMood, type SoundType, useMeditationStore } from '@/lib/meditation-store';
 import { getRandomQuote } from '@repo/meditation-content';
 import { trackPageView, trackPreMoodSelection, trackPostMoodSelection, trackSoundChange, trackQuoteSaved } from '@/lib/analytics';
+import { usePageMeta } from '@/hooks/use-page-meta';
 
 import StepHeader from '@/components/StepHeader';
 
@@ -17,6 +18,11 @@ type Step = 'mood' | 'session' | 'sound' | 'meditate' | 'reflect' | 'quote';
 
 
 const Index = () => {
+  usePageMeta({
+    title: 'Stillness — Guided Meditation & Mindfulness',
+    description: 'Begin a calming meditation session with gentle breathing, ambient soundscapes, and mindful reflection.',
+  });
+
   const location = useLocation();
   const pathname = location.pathname;
   const [step, setStep] = useState<Step>('mood');

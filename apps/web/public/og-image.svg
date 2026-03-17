@@ -1,0 +1,41 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="70" x2="1080" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F9F4EC"/>
+      <stop offset="0.55" stop-color="#F2E9DA"/>
+      <stop offset="1" stop-color="#DDE7D7"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(880 160) rotate(137.057) scale(312.87 274.444)">
+      <stop stop-color="#FFF7D9" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#FFF7D9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ring" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 316) rotate(90) scale(138)">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F4EFE6"/>
+    </radialGradient>
+    <filter id="blur-xl" x="0" y="0" width="1200" height="630" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" rx="36" fill="url(#bg)"/>
+  <g filter="url(#blur-xl)">
+    <circle cx="220" cy="120" r="120" fill="#E4F0E1" fill-opacity="0.9"/>
+    <circle cx="1040" cy="500" r="180" fill="#E7DCC7" fill-opacity="0.8"/>
+    <circle cx="880" cy="160" r="220" fill="url(#glow)"/>
+  </g>
+
+  <path d="M170 486C270 436 409 450 514 524" stroke="#D9CCB6" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 14"/>
+  <path d="M766 110C844 132 925 198 972 283" stroke="#D5E2CE" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 14"/>
+
+  <circle cx="600" cy="316" r="134" fill="url(#ring)" stroke="#E7DDCE" stroke-width="2"/>
+  <circle cx="600" cy="316" r="102" stroke="#D6C8B0" stroke-width="2" stroke-dasharray="2 12"/>
+  <circle cx="600" cy="316" r="56" fill="#F5EEE1"/>
+  <path d="M600 242C639.765 242 672 274.235 672 314C672 353.765 639.765 386 600 386C560.235 386 528 353.765 528 314C528 274.235 560.235 242 600 242Z" stroke="#8E9E8B" stroke-width="4"/>
+  <path d="M600 264V365" stroke="#8E9E8B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M549 315H650" stroke="#8E9E8B" stroke-width="4" stroke-linecap="round"/>
+
+  <text x="600" y="118" text-anchor="middle" fill="#8E9E8B" font-family="Georgia, 'Times New Roman', serif" font-size="28" letter-spacing="6">GUIDED MEDITATION</text>
+  <text x="600" y="492" text-anchor="middle" fill="#2F3C31" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-weight="700">Stillness</text>
+  <text x="600" y="540" text-anchor="middle" fill="#5C665A" font-family="Arial, Helvetica, sans-serif" font-size="28" letter-spacing="0.5">Ambient soundscapes, mindful reflection, and calm daily practice.</text>
+</svg>

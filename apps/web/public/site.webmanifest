@@ -1,0 +1,16 @@
+{
+  "name": "Stillness",
+  "short_name": "Stillness",
+  "description": "Guided meditation, ambient soundscapes, and mindful reflection in a calm mobile-first app.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f3ee",
+  "theme_color": "#f7f3ee",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}

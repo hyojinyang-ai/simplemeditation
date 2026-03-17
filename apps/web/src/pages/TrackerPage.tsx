@@ -5,6 +5,7 @@ import { preMoodConfig, postMoodConfig } from '@/lib/web-mood-config';
 import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
 import { trackPageView, trackPullToRefresh } from '@/lib/analytics';
+import { usePageMeta } from '@/hooks/use-page-meta';
 
 import StepHeader from '@/components/StepHeader';
 import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
@@ -13,6 +14,11 @@ import PullToRefresh from '@/components/PullToRefresh';
 type Tab = 'sessions' | 'quotes';
 
 const TrackerPage = () => {
+  usePageMeta({
+    title: 'Journal — Stillness',
+    description: 'Review your meditation sessions, saved reflections, and memorable quotes in your Stillness journal.',
+  });
+
   const { entries } = useMeditationStore();
   const [tab, setTab] = useState<Tab>('sessions');
   const { containerRef, pullDistance, refreshing, threshold } = usePullToRefresh();

@@ -1,7 +1,13 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { usePageMeta } from "@/hooks/use-page-meta";
 
 const NotFound = () => {
+  usePageMeta({
+    title: 'Page Not Found — Stillness',
+    description: 'The page you were looking for could not be found.',
+  });
+
   const location = useLocation();
 
   useEffect(() => {
