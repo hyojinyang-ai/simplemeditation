@@ -90,4 +90,17 @@ describe('ambientEngine', () => {
     expect(FakeAudio.instances).toHaveLength(2);
     expect(FakeAudio.instances[1].play).toHaveBeenCalled();
   });
+
+  it('forces cleanup if stop is called again during fade-out', () => {
+    ambientEngine.start('wind');
+    const audio = FakeAudio.instances[0];
+
+    ambientEngine.stop();
+    ambientEngine.stop();
+
+    expect(audio.pause).toHaveBeenCalled();
+    expect(audio.currentTime).toBe(0);
+    expect(audio.removeAttribute).toHaveBeenCalledWith('src');
+    expect(audio.load).toHaveBeenCalled();
+  });
 });

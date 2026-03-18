@@ -278,6 +278,15 @@ class AmbientEngine {
   stop() {
     console.log('[AmbientEngine] stop() called');
 
+    // If we're already fading out, a second stop means the caller is
+    // tearing down the session entirely. Clean up immediately so audio
+    // cannot survive route changes or unmount timing.
+    if (this.fadeOutInterval) {
+      console.log('[AmbientEngine] stop() called during fade-out, forcing cleanup');
+      this.stopImmediate();
+      return;
+    }
+
     this.clearIntervals();
 
     if (this.audio) {
