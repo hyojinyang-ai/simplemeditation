@@ -1,4 +1,4 @@
-import { act, render } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import MeditationPlayer from '../MeditationPlayer';
 import { useMeditationStore } from '@/lib/meditation-store';
@@ -85,5 +85,26 @@ describe('MeditationPlayer', () => {
     expect(startMock).toHaveBeenCalledTimes(1);
     expect(stopMock).toHaveBeenCalled();
     expect(useMeditationStore.getState().isMeditating).toBe(false);
+  });
+
+  it('keeps the session active when paused so the user can resume', () => {
+    render(
+      <MeditationPlayer
+        minutes={3}
+        sound="rain"
+        onComplete={vi.fn()}
+        autoPlay
+      />
+    );
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /pause/i }));
+
+    expect(stopMock).toHaveBeenCalled();
+    expect(useMeditationStore.getState().isMeditating).toBe(true);
+    expect(screen.getByRole('button', { name: /resume/i })).toBeInTheDocument();
   });
 });

@@ -151,7 +151,6 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
     } else {
       console.log('[MeditationPlayer] 🛑 playing=false, calling ambientEngine.stop()');
       ambientEngine.stop();
-      setMeditating(false);
     }
   }, [playing, resolvedSound]);
 
