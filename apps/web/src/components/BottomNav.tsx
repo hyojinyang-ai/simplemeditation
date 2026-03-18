@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, BarChart3, History, Settings } from 'lucide-react';
 import { useMeditationStore } from '@/lib/meditation-store';
+import { ambientEngine } from '@/lib/ambient-engine';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -35,6 +36,7 @@ const BottomNav = () => {
   };
 
   const handleConfirmStop = () => {
+    ambientEngine.stop();
     setMeditating(false);
     setShowConfirm(false);
     navigate('/');

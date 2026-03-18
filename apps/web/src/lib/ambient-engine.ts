@@ -27,10 +27,15 @@ class MeditationDrone {
   private oscillators: OscillatorNode[] = [];
   private masterGain: GainNode | null = null;
   private lfo: OscillatorNode | null = null;
+  private stopTimeout: ReturnType<typeof setTimeout> | null = null;
 
   start(volume = 0.12) {
-    this.stop();
+    this.stop(true);
     try {
+      if (this.stopTimeout) {
+        clearTimeout(this.stopTimeout);
+        this.stopTimeout = null;
+      }
       const ctx = new AudioContext();
       // Resume AudioContext if it's suspended (browser autoplay policy)
       if (ctx.state === 'suspended') {
@@ -94,6 +99,11 @@ class MeditationDrone {
   }
 
   stop(immediate = false) {
+    if (this.stopTimeout) {
+      clearTimeout(this.stopTimeout);
+      this.stopTimeout = null;
+    }
+
     if (immediate) {
       // Immediate stop for when starting a new session
       this.oscillators.forEach((o) => { try { o.stop(); } catch {} });
@@ -108,23 +118,74 @@ class MeditationDrone {
     if (this.masterGain && this.ctx) {
       this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 2);
     }
-    setTimeout(() => {
-      this.oscillators.forEach((o) => { try { o.stop(); } catch {} });
-      this.oscillators = [];
-      if (this.lfo) { try { this.lfo.stop(); } catch {} this.lfo = null; }
-      if (this.ctx) { try { this.ctx.close(); } catch {} this.ctx = null; }
-      this.masterGain = null;
+    const ctx = this.ctx;
+    const lfo = this.lfo;
+    const masterGain = this.masterGain;
+    const oscillators = [...this.oscillators];
+
+    this.stopTimeout = setTimeout(() => {
+      oscillators.forEach((o) => { try { o.stop(); } catch {} });
+      if (lfo) { try { lfo.stop(); } catch {} }
+      if (ctx) { try { ctx.close(); } catch {} }
+
+      if (this.ctx === ctx) {
+        this.ctx = null;
+      }
+      if (this.lfo === lfo) {
+        this.lfo = null;
+      }
+      if (this.masterGain === masterGain) {
+        this.masterGain = null;
+      }
+      if (this.oscillators === oscillators) {
+        this.oscillators = [];
+      } else {
+        this.oscillators = this.oscillators.filter((oscillator) => !oscillators.includes(oscillator));
+      }
+
+      this.stopTimeout = null;
     }, 2200);
   }
 }
 
 class AmbientEngine {
   private audio: HTMLAudioElement | null = null;
+  private activeAudios = new Set<HTMLAudioElement>();
   private fadeInterval: ReturnType<typeof setInterval> | null = null;
   private fadeOutInterval: ReturnType<typeof setInterval> | null = null;
   private drone = new MeditationDrone();
   private _soundVolume = 0.7; // ambient sound at 70%, drone fills the rest
   private currentSound: AmbientSound | null = null;
+
+  private clearIntervals() {
+    if (this.fadeInterval) {
+      console.log(`[AmbientEngine] Clearing fadeInterval`);
+      clearInterval(this.fadeInterval);
+      this.fadeInterval = null;
+    }
+    if (this.fadeOutInterval) {
+      console.log(`[AmbientEngine] Clearing fadeOutInterval`);
+      clearInterval(this.fadeOutInterval);
+      this.fadeOutInterval = null;
+    }
+  }
+
+  private cleanupAudio(audio: HTMLAudioElement) {
+    try {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.removeAttribute('src');
+      audio.load();
+      console.log(`[AmbientEngine] Audio element cleaned up`);
+    } catch (e) {
+      console.warn('[AmbientEngine] Error stopping audio:', e);
+    } finally {
+      this.activeAudios.delete(audio);
+      if (this.audio === audio) {
+        this.audio = null;
+      }
+    }
+  }
 
   start(sound: AmbientSound) {
     console.log(`[AmbientEngine] start() called with sound: ${sound}`);
@@ -175,6 +236,7 @@ class AmbientEngine {
       });
 
     this.audio = audio;
+    this.activeAudios.add(audio);
     console.log(`[AmbientEngine] Audio element stored, starting fade in`);
 
     // Fade in ambient sound
@@ -200,30 +262,12 @@ class AmbientEngine {
   private stopImmediate() {
     console.log(`[AmbientEngine] stopImmediate() called`);
 
-    // Clear any fade intervals
-    if (this.fadeInterval) {
-      console.log(`[AmbientEngine] Clearing fadeInterval`);
-      clearInterval(this.fadeInterval);
-      this.fadeInterval = null;
-    }
-    if (this.fadeOutInterval) {
-      console.log(`[AmbientEngine] Clearing fadeOutInterval`);
-      clearInterval(this.fadeOutInterval);
-      this.fadeOutInterval = null;
-    }
+    this.clearIntervals();
 
-    // Immediately stop audio
-    if (this.audio) {
-      console.log(`[AmbientEngine] Stopping existing audio element`);
-      try {
-        this.audio.pause();
-        this.audio.currentTime = 0;
-        this.audio.src = '';
-        console.log(`[AmbientEngine] Audio element cleaned up`);
-      } catch (e) {
-        console.warn('[AmbientEngine] Error stopping audio:', e);
-      }
-      this.audio = null;
+    // Immediately stop every known audio element
+    if (this.activeAudios.size > 0) {
+      console.log(`[AmbientEngine] Stopping ${this.activeAudios.size} active audio element(s)`);
+      [...this.activeAudios].forEach((audio) => this.cleanupAudio(audio));
     }
 
     this.currentSound = null;
@@ -234,17 +278,7 @@ class AmbientEngine {
   stop() {
     console.log('[AmbientEngine] stop() called');
 
-    // Clear fade in interval
-    if (this.fadeInterval) {
-      clearInterval(this.fadeInterval);
-      this.fadeInterval = null;
-    }
-
-    // Clear any existing fade out interval
-    if (this.fadeOutInterval) {
-      clearInterval(this.fadeOutInterval);
-      this.fadeOutInterval = null;
-    }
+    this.clearIntervals();
 
     if (this.audio) {
       const audio = this.audio;
@@ -254,24 +288,20 @@ class AmbientEngine {
         vol = Math.max(vol - 0.07, 0);
         try {
           audio.volume = vol;
-        } catch (e) {}
+        } catch {}
 
         if (vol <= 0) {
           if (this.fadeOutInterval) {
             clearInterval(this.fadeOutInterval);
             this.fadeOutInterval = null;
           }
-          try {
-            audio.pause();
-            audio.src = '';
-          } catch (e) {}
+          this.cleanupAudio(audio);
         }
       }, 50);
-
-      this.audio = null;
-      this.currentSound = null;
     }
 
+    this.audio = null;
+    this.currentSound = null;
     this.drone.stop();
   }
 }
