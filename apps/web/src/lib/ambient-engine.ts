@@ -13,6 +13,10 @@ const SOUND_FILES: Record<AmbientSound, string> = {
   'fireplace': '/sounds/fireplace.mp3',
 };
 
+// Keep the engine focused on the selected ambient track.
+// The synthetic drone layer was creating a second simultaneous sound.
+const ENABLE_MEDITATION_DRONE = false;
+
 // Generative meditation drone frequencies (Hz) — peaceful harmonic intervals
 const DRONE_NOTES = [
   { freq: 136.1, label: 'Om' },       // C#3 – Om frequency
@@ -254,8 +258,9 @@ class AmbientEngine {
       }
     }, 50);
 
-    // Start meditation drone layer
-    this.drone.start(0.1);
+    if (ENABLE_MEDITATION_DRONE) {
+      this.drone.start(0.1);
+    }
   }
 
   // Immediate stop without fade (used when starting new sound)
@@ -271,8 +276,10 @@ class AmbientEngine {
     }
 
     this.currentSound = null;
-    console.log(`[AmbientEngine] Stopping drone immediately`);
-    this.drone.stop(true); // Pass immediate=true to prevent overlap
+    if (ENABLE_MEDITATION_DRONE) {
+      console.log(`[AmbientEngine] Stopping drone immediately`);
+      this.drone.stop(true); // Pass immediate=true to prevent overlap
+    }
   }
 
   stop() {
@@ -311,7 +318,9 @@ class AmbientEngine {
 
     this.audio = null;
     this.currentSound = null;
-    this.drone.stop();
+    if (ENABLE_MEDITATION_DRONE) {
+      this.drone.stop();
+    }
   }
 }
 
