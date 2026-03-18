@@ -4,103 +4,132 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-SimpleMeditation is a meditation app built with React, TypeScript, and Vite. It provides guided meditation sessions with ambient sounds, mood tracking, and analytics. The app is designed for mobile-first experiences with a clean, zen-inspired UI.
+Stillness (formerly SimpleMeditation) is a meditation app built with React, TypeScript, and Vite. It provides guided meditation sessions with ambient sounds, mood tracking, and analytics. The app is designed for mobile-first experiences with a clean, zen-inspired UI.
+
+This is a **Turborepo monorepo** with pnpm workspaces. The codebase is structured into multiple packages for better modularity and code sharing.
 
 ## Development Commands
 
+**Root-level commands** (from repository root):
+
 ```bash
 # Install dependencies
-npm install
-# or if using Bun
-bun install
+pnpm install
 
-# Start development server (runs on http://localhost:8080)
-npm run dev
+# Start development server (runs web app on http://localhost:8080)
+pnpm dev
 
-# Build for production
-npm run build
+# Build all packages
+pnpm build
 
-# Build for development mode (preserves console logs, debug info)
-npm run build:dev
+# Run linter across all packages
+pnpm lint
 
-# Run linter
-npm run lint
+# Run tests across all packages
+pnpm test
+```
 
-# Run all tests
-npm run test
+**Package-specific commands** (from repository root):
 
-# Run tests in watch mode
-npm test:watch
+```bash
+# Run commands for specific packages using --filter
+pnpm --filter @repo/web dev
+pnpm --filter @repo/web build
+pnpm --filter @repo/web test
+pnpm --filter @repo/web test:watch
+pnpm --filter @repo/web lint
+
+# Build for development mode (preserves console logs)
+pnpm --filter @repo/web build:dev
 
 # Preview production build
-npm run preview
+pnpm --filter @repo/web preview
 ```
 
-## Architecture
+## Monorepo Architecture
 
-### Tech Stack
+### Package Structure
+
+```
+apps/
+└── web/                          # Main web application (@repo/web)
+    ├── src/
+    │   ├── components/           # React components
+    │   │   └── ui/              # shadcn/ui primitives (DO NOT edit manually)
+    │   ├── pages/               # Route pages
+    │   ├── lib/                 # Web-specific utilities
+    │   ├── hooks/               # Custom React hooks
+    │   └── App.tsx
+    └── package.json
+
+packages/
+├── meditation-core/              # Shared meditation logic (@repo/meditation-core)
+│   ├── src/
+│   │   ├── types.ts            # Core types (PreMood, PostMood, MoodEntry)
+│   │   ├── store.ts            # Zustand store factory
+│   │   ├── storage.ts          # Storage adapters
+│   │   ├── errors.ts           # Error classes
+│   │   └── utilities.ts        # Business logic utilities
+│   └── package.json
+├── meditation-content/           # Content library (@repo/meditation-content)
+│   ├── src/
+│   │   └── quotes.ts           # Stoic quotes collection
+│   └── package.json
+└── typescript-config/            # Shared TypeScript configs
+    └── package.json
+```
+
+### Package Dependencies
+
+- **@repo/web**: Depends on `@repo/meditation-core` and `@repo/meditation-content`
+- **@repo/meditation-core**: Standalone package with Zustand store logic
+- **@repo/meditation-content**: Standalone package with meditation content (quotes, etc.)
+
+### Migration Status
+
+The codebase recently migrated from a single-package structure to this monorepo. Core meditation logic has been extracted into `@repo/meditation-core`. Legacy files in `apps/web/src/lib/meditation-store.ts` are marked as DEPRECATED but kept for rollback safety.
+
+## Tech Stack
+
 - **Framework**: React 18 with TypeScript
 - **Build Tool**: Vite 5 with SWC
+- **Monorepo**: Turborepo + pnpm workspaces
 - **Styling**: Tailwind CSS with custom zen color palette
 - **UI Components**: shadcn/ui (Radix UI primitives)
-- **State Management**: Zustand
-- **Data Fetching**: TanStack Query (React Query)
-- **Persistence**: Browser localStorage via shared meditation-core store
+- **State Management**: Zustand (via `@repo/meditation-core`)
+- **Persistence**: Browser localStorage
 - **Routing**: React Router v6
 - **Testing**: Vitest with Testing Library
+- **Analytics**: Vercel Analytics
 
-### Project Structure
-
-```
-src/
-├── components/        # Custom components
-│   ├── ui/           # shadcn/ui primitives (DO NOT edit manually)
-│   ├── AmbientVisuals.tsx
-│   ├── Analytics.tsx
-│   ├── MeditationPlayer.tsx
-│   ├── MoodTracker.tsx
-│   └── ...
-├── pages/            # Route pages
-│   ├── Index.tsx     # Home page with meditation player
-│   ├── TrackerPage.tsx
-│   ├── AnalyticsPage.tsx
-│   └── SettingsPage.tsx
-├── lib/              # Core logic
-│   ├── meditation-store.ts  # Zustand store for entries
-│   ├── ambient-engine.ts    # Web Audio API engine
-│   └── utils.ts
-├── hooks/            # Custom React hooks
-│   ├── use-mobile.tsx
-│   ├── use-pull-to-refresh.ts
-│   └── use-toast.ts
-└── App.tsx           # Root component with providers
-```
+## Key Architecture Patterns
 
 ### State Management
 
-**Zustand Store** (`lib/meditation-store.ts`):
-- Manages meditation entries with pre/post mood tracking
+**Zustand Store** (`packages/meditation-core/src/store.ts`):
+- Centralized meditation state management
+- Factory pattern: `createMeditationStore(storage)`
 - Persists to localStorage with key `zen-mood-entries-v2`
 - Each entry includes: id, preMood, postMood, timestamp, note, sessionMinutes, sound, savedQuote
 
-**Mood Types**:
+**Mood Types** (defined in `@repo/meditation-core`):
 - Pre-meditation: `stressed`, `tired`, `neutral`, `anxious`
 - Post-meditation: `calm`, `relieved`, `peaceful`, `grateful`, `refreshed`
 
 ### Audio System
 
-**Ambient Engine** (`lib/ambient-engine.ts`):
+**Ambient Engine** (`apps/web/src/lib/ambient-engine.ts`):
 - Dual-layer audio: pre-recorded ambient sounds + generative meditation drone
 - Uses Web Audio API for real-time synthesis
-- Ambient sounds: singing-bowl, gong, ambient-pad, nature, rain, ocean
+- Ambient sounds: singing-bowl, gong, ambient-pad, nature, rain, ocean, wind, birds, fireplace
 - Meditation drone: harmonic oscillators based on Om frequency (136.1 Hz) and Solfeggio tones
-- Audio files located in `public/sounds/`
+- Audio files located in `apps/web/public/sounds/`
 
 **Important**: Audio playback requires user interaction to start (browser autoplay policies).
 
 ### Routing
 
-Four main routes:
+Four main routes (in `apps/web/src/`):
 - `/` - Home page with meditation player
 - `/tracker` - Mood tracking interface
 - `/analytics` - Charts and statistics
@@ -110,20 +139,21 @@ Bottom navigation persists across all pages.
 
 ### Styling
 
-**Custom Tailwind Theme**:
+**Custom Tailwind Theme** (`apps/web/tailwind.config.js`):
 - Zen color palette: `zen-blue`, `zen-lavender`, `zen-green`, `zen-sky`, `zen-rose`
 - Each color has `-light` and some have `-deep` variants
 - Custom animations: `breathe`, `float`, `fade-in`, `shimmer`
 - Fonts: Sora (display), Inter (body)
 - HSL-based color system for theme consistency
 
-**Path Alias**: `@/` maps to `src/`
+**Path Alias**: `@/` maps to `apps/web/src/`
 
 ### shadcn/ui Components
 
-UI components in `src/components/ui/` are auto-generated by shadcn/ui CLI. To add new components:
+UI components in `apps/web/src/components/ui/` are auto-generated. To add new components:
 
 ```bash
+cd apps/web
 npx shadcn@latest add [component-name]
 ```
 
@@ -131,65 +161,65 @@ Do NOT manually edit these files unless fixing bugs. They are meant to be compos
 
 ### Persistence Model
 
-The current product stores meditation history locally in the browser using `localStorage`.
-
+Data is stored locally in the browser using `localStorage`:
 - Storage key: `zen-mood-entries-v2`
 - No authentication or cross-device sync
-- Clearing browser data removes the saved history
+- Clearing browser data removes saved history
 
 ### Analytics & Tracking
 
-**Vercel Analytics** is integrated for tracking user visits and engagement:
-- Page views (home, tracker, analytics, settings)
-- Meditation sessions (start, complete, abandoned)
-- Mood tracking (pre/post meditation states and transformations)
-- Sound selections and changes
-- Feature usage (quotes saved, notes added, pull-to-refresh)
+**Vercel Analytics** tracks user engagement:
+- Page views, meditation sessions, mood transformations
+- Sound selections, feature usage (quotes saved, notes added)
 - Audio errors and performance metrics
 
-**Implementation:**
-- Analytics utility: `src/lib/analytics.ts` - Centralized tracking functions
-- Component integration: Tracking is embedded in Index, MeditationPlayer, and all page components
-- Events use Vercel Analytics custom events via `track()` function
+**Implementation**:
+- Analytics utility: `apps/web/src/lib/analytics.ts`
+- Component integration: Tracking embedded in Index, MeditationPlayer, and page components
 
-**Documentation:**
-See `ANALYTICS.md` for complete event catalog, viewing instructions, and insights guide.
-
-**Viewing Data:**
-Deploy to Vercel and access the Analytics tab in your project dashboard to see all tracked metrics and user behavior patterns.
-
-### Lovable Integration
-
-This project was initially created with Lovable. The `lovable-tagger` plugin is used in development mode to tag components for the Lovable editor. It's automatically filtered out in production builds.
+**Documentation**: See `ANALYTICS.md` for complete event catalog.
 
 ## Development Guidelines
 
 ### Adding New Meditation Sounds
-1. Add audio file to `public/sounds/`
-2. Update `SOUND_FILES` mapping in `lib/ambient-engine.ts`
-3. Add sound type to `SoundType` union and `soundConfig` in `lib/meditation-store.ts`
+1. Add audio file to `apps/web/public/sounds/`
+2. Update `SOUND_FILES` mapping in `apps/web/src/lib/ambient-engine.ts`
+3. Add sound type to `SoundType` in `packages/meditation-core/src/types.ts`
 4. Update `SoundPicker` component UI
 
 ### Adding New Moods
-1. Update `PreMood` or `PostMood` type in `lib/meditation-store.ts`
-2. Add configuration to `preMoodConfig` or `postMoodConfig` with icon, label, color
-3. Update `MoodCheck` component to display new option
+1. Update `PreMood` or `PostMood` type in `packages/meditation-core/src/types.ts`
+2. Add configuration to mood labels/colors in the same file
+3. Update `MoodCheck` component in web app
+
+### Working with Shared Packages
+
+When making changes to `@repo/meditation-core` or `@repo/meditation-content`:
+1. Make changes in the package source (`packages/*/src/`)
+2. The web app will hot-reload automatically (no build step needed for TS-only packages)
+3. Export new functionality from the package's `index.ts`
+4. Import in web app: `import { ... } from '@repo/meditation-core'`
 
 ### Testing
-- Test files are located in `src/test/`
-- Setup file: `src/test/setup.ts`
-- Use Vitest for unit tests with jsdom environment
-- Testing Library utilities available for component testing
 
-### Environment Variables
+Run tests from repository root:
+```bash
+# All packages
+pnpm test
 
-No environment variables are currently required for core product behavior.
+# Specific package
+pnpm --filter @repo/web test
+pnpm --filter @repo/meditation-core test
+```
+
+Test files use Vitest with jsdom environment. Setup files are in `src/test/setup.ts` within each package.
 
 ## Important Patterns
 
-- **Mobile-first**: UI is designed for mobile with responsive breakpoints
+- **Monorepo**: Use Turborepo's `--filter` flag for package-specific commands
+- **Mobile-first**: UI designed for mobile with responsive breakpoints
 - **Pull-to-refresh**: Custom hook `use-pull-to-refresh` for native-like experience
-- **Local storage**: Primary data persistence layer (key: `zen-mood-entries-v2`)
+- **Local storage**: Primary data persistence (key: `zen-mood-entries-v2`)
 - **Graceful audio handling**: All audio operations wrapped in try-catch for browser compatibility
 - **Theme system**: Uses `next-themes` with `class` attribute strategy (light mode default)
 
@@ -198,4 +228,5 @@ No environment variables are currently required for core product behavior.
 - Audio requires user interaction to start (call `audio.play()` after user tap/click)
 - Meditation drone uses Web Audio API which may not work in all browsers
 - localStorage is cleared when user clears browser data
-- Component tagging only runs in development mode
+- Legacy meditation store file (`apps/web/src/lib/meditation-store.ts`) is deprecated but kept for rollback
+- Component tagging (lovable-tagger) only runs in development mode
