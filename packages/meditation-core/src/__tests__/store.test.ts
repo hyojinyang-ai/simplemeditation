@@ -88,6 +88,33 @@ describe('createMeditationStore', () => {
     expect(store.getState().isMeditating).toBe(false);
   });
 
+  it('updateEntry merges updates without replacing id or timestamp', () => {
+    store.getState().addEntry({
+      preMood: 'neutral',
+      postMood: 'calm',
+      sessionMinutes: 10,
+      sound: 'rain',
+    });
+
+    const originalEntry = store.getState().entries[0];
+
+    store.getState().updateEntry(originalEntry.id, {
+      note: 'Saved after deploy-safe update',
+      savedQuote: { text: 'Stay present.', author: 'Stillness' },
+      id: 'should-not-change',
+      timestamp: 0,
+    });
+
+    const updatedEntry = store.getState().entries[0];
+    expect(updatedEntry.id).toBe(originalEntry.id);
+    expect(updatedEntry.timestamp).toBe(originalEntry.timestamp);
+    expect(updatedEntry.note).toBe('Saved after deploy-safe update');
+    expect(updatedEntry.savedQuote).toEqual({
+      text: 'Stay present.',
+      author: 'Stillness',
+    });
+  });
+
   it('persist middleware saves to storage after addEntry', () => {
     const mockStorage = createMockStorage();
     const persistedStore = createMeditationStore(mockStorage, 'persist-test');

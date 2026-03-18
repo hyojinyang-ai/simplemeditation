@@ -33,7 +33,7 @@ const Index = () => {
   const [quote] = useState(() => getRandomQuote());
   const [saved, setSaved] = useState(false);
   const [lastEntryId, setLastEntryId] = useState<string>();
-  const { addEntry, entries, isMeditating } = useMeditationStore();
+  const { addEntry, updateEntry, entries, isMeditating } = useMeditationStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const isHome = step === 'mood' || step === 'quote';
   const prevMeditatingRef = useRef<boolean>(false);
@@ -90,12 +90,7 @@ const Index = () => {
 
   const handleSaveQuote = () => {
     if (lastEntryId) {
-      const store = useMeditationStore.getState();
-      const updated = store.entries.map(e =>
-        e.id === lastEntryId ? { ...e, savedQuote: quote } : e
-      );
-      localStorage.setItem('zen-mood-entries-v2', JSON.stringify(updated));
-      useMeditationStore.setState({ entries: updated });
+      updateEntry(lastEntryId, { savedQuote: quote });
       setSaved(true);
       trackQuoteSaved(quote.author);
     }

@@ -22,6 +22,14 @@ export interface MeditationState {
   addEntry: (entry: Omit<MoodEntry, 'id' | 'timestamp'>) => void;
 
   /**
+   * Update an existing meditation entry by id.
+   *
+   * @param entryId - Existing meditation entry id
+   * @param updates - Partial fields to merge into the entry
+   */
+  updateEntry: (entryId: string, updates: Partial<MoodEntry>) => void;
+
+  /**
    * Set whether user is currently meditating.
    *
    * @param isActive - True if meditation session is active
@@ -68,6 +76,13 @@ export function createMeditationStore(
                 timestamp: Date.now(),
               },
             ],
+          })),
+
+        updateEntry: (entryId, updates) =>
+          set((state) => ({
+            entries: state.entries.map((entry) =>
+              entry.id === entryId ? { ...entry, ...updates, id: entry.id, timestamp: entry.timestamp } : entry
+            ),
           })),
 
         setMeditating: (isActive) => set({ isMeditating: isActive }),
