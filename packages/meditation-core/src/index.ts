@@ -48,7 +48,7 @@ export {
 } from './errors';
 
 // Store factory and state
-export { createMeditationStore, type MeditationState } from './store';
+export { createMeditationStore, type MeditationState, type MeditationStore } from './store';
 
 // Utility functions
 export { calculateStreak, preMoodToValue, postMoodToValue } from './utilities';

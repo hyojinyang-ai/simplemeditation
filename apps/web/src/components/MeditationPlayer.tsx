@@ -43,6 +43,8 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
   const [breathPhase, setBreathPhase] = useState(0);
   const breathTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const sessionStartTracked = useRef(false);
+  const completedRef = useRef(false);
+  const remainingRef = useRef(totalSeconds);
   const { setMeditating } = useMeditationStore();
 
   // Log when component mounts/unmounts
@@ -74,6 +76,14 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
     breathTimerRef.current = setTimeout(tick, BREATH_PHASES[0].duration);
     return () => clearTimeout(breathTimerRef.current);
   }, [playing]);
+
+  useEffect(() => {
+    completedRef.current = completed;
+  }, [completed]);
+
+  useEffect(() => {
+    remainingRef.current = remaining;
+  }, [remaining]);
 
   const playCompletionFeedback = useCallback(() => {
     // Vibration feedback
@@ -149,10 +159,10 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
     // Cleanup: only run on component unmount
     return () => {
       console.log('[MeditationPlayer] Cleanup on unmount');
-      const wasPlaying = sessionStartTracked.current && !completed;
-      if (wasPlaying && remaining < totalSeconds) {
+      const wasAbandoned = sessionStartTracked.current && !completedRef.current;
+      if (wasAbandoned && remainingRef.current < totalSeconds) {
         console.log('[MeditationPlayer] Tracking session abandonment');
-        trackSessionAbandoned(minutes, remaining, sound);
+        trackSessionAbandoned(minutes, remainingRef.current, sound);
       }
       ambientEngine.stop();
       setMeditating(false);
@@ -165,6 +175,8 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
       intervalRef.current = setInterval(() => {
         setRemaining((r) => {
           if (r <= 1) {
+            ambientEngine.stop();
+            setMeditating(false);
             setPlaying(false);
             setCompleted(true);
             playCompletionFeedback();

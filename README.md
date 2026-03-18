@@ -36,6 +36,35 @@ pnpm dev
 
 The web app runs on `http://localhost:8080`.
 
+## iOS app scaffold
+
+There is now an Expo-based iOS workspace app in `apps/ios`.
+
+Install dependencies and start it with:
+
+```bash
+pnpm install
+pnpm ios
+```
+
+Or run the Expo dev server directly:
+
+```bash
+pnpm --filter @repo/ios start
+```
+
+What the first iOS pass includes:
+
+- Native meditation flow for mood, session length, sound selection, timer, reflection, and quote saving
+- Local persistence with AsyncStorage
+- Shared domain logic via `@repo/meditation-core`
+- Shared quote/content via `@repo/meditation-content`
+
+What still needs a follow-up pass:
+
+- Native ambient audio playback parity with the web app
+- App Store production assets and release signing
+
 ## Testing and production build
 
 ```bash

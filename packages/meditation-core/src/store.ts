@@ -1,5 +1,5 @@
-import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { createStore } from 'zustand/vanilla';
 import type { StateStorage } from './storage';
 import type { MoodEntry } from './types';
 
@@ -52,7 +52,7 @@ export function createMeditationStore(
   storage: StateStorage,
   storageKey: string = 'meditation-entries'
 ) {
-  return create<MeditationState>()(
+  return createStore<MeditationState>()(
     persist(
       (set) => ({
         entries: [],
@@ -79,3 +79,5 @@ export function createMeditationStore(
     )
   );
 }
+
+export type MeditationStore = ReturnType<typeof createMeditationStore>;

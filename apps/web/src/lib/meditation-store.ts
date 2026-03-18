@@ -110,6 +110,9 @@ export const postMoodToValue: Record<PostMood, number> = { calm: 4, relieved: 4,
 // ============================================================================
 
 import { createMeditationStore } from '@repo/meditation-core';
+import type { MeditationState } from '@repo/meditation-core';
+import { useStore } from 'zustand';
+import type { StoreApi } from 'zustand/vanilla';
 import { webStorageAdapter } from './web-storage-adapter';
 
 /**
@@ -118,9 +121,27 @@ import { webStorageAdapter } from './web-storage-adapter';
  *
  * Storage key 'zen-mood-entries-v2' preserves existing user data.
  */
-export const useMeditationStore = createMeditationStore(
+const meditationStore = createMeditationStore(
   webStorageAdapter,
   'zen-mood-entries-v2'
+);
+
+type MeditationSelector<T> = (state: MeditationState) => T;
+
+type BoundMeditationStore = {
+  (): MeditationState;
+  <T>(selector: MeditationSelector<T>): T;
+} & Pick<StoreApi<MeditationState>, 'getState' | 'setState' | 'subscribe'>;
+
+const identity = (state: MeditationState) => state;
+
+export const useMeditationStore = Object.assign(
+  ((selector?: MeditationSelector<unknown>) => useStore(meditationStore, selector ?? identity)) as BoundMeditationStore,
+  {
+    getState: meditationStore.getState,
+    setState: meditationStore.setState,
+    subscribe: meditationStore.subscribe,
+  }
 );
 
 /**
