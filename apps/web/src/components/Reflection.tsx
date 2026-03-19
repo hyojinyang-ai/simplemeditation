@@ -21,31 +21,29 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
         <p className="text-muted-foreground text-sm">Notice any shifts</p>
       </div>
 
-      <div className="glass-strong rounded-3xl p-5">
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-          {moods.map(([mood, config], i) => {
-            const Icon = config.icon;
-            return (
-              <motion.button
-                key={mood}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.06 }}
-                whileTap={{ scale: 0.90, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
-                whileHover={{ scale: 1.08, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
-                onClick={() => setSelected(mood)}
-                className={`flex flex-none items-center gap-1.5 rounded-2xl px-3 py-3 transition-all duration-200 ease-out ${
-                  selected === mood
-                    ? 'glass-selected text-primary-foreground scale-105'
-                    : 'glass-button'
-                }`}
-              >
-                <Icon size={20} strokeWidth={1.5} />
-                <span className="whitespace-nowrap text-[11px] font-medium tracking-wide">{config.label}</span>
-              </motion.button>
-            );
-          })}
-        </div>
+      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+        {moods.map(([mood, config], i) => {
+          const Icon = config.icon;
+          return (
+            <motion.button
+              key={mood}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06, type: 'spring', stiffness: 180 }}
+              whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+              whileHover={{ scale: 1.05, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+              onClick={() => setSelected(mood)}
+              className={`flex flex-none flex-col items-center gap-1.5 py-3.5 px-3 rounded-2xl transition-all duration-200 ease-out ${
+                selected === mood
+                  ? 'glass-selected text-primary-foreground scale-105'
+                  : 'glass-button'
+              }`}
+            >
+              <Icon size={20} strokeWidth={1.5} />
+              <span className="whitespace-nowrap text-xs font-medium tracking-wide">{config.label}</span>
+            </motion.button>
+          );
+        })}
       </div>
 
       {selected && (
