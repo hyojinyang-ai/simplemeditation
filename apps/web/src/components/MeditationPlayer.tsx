@@ -19,12 +19,21 @@ interface MeditationPlayerProps {
   minutes: number;
   sound: SoundType;
   onComplete: () => void;
+  onCountdownComplete?: () => void;
   preMood?: string;
   postMood?: string;
   autoPlay?: boolean;
 }
 
-const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoPlay = false }: MeditationPlayerProps) => {
+const MeditationPlayer = ({
+  minutes,
+  sound,
+  onComplete,
+  onCountdownComplete,
+  preMood,
+  postMood,
+  autoPlay = false,
+}: MeditationPlayerProps) => {
   console.log(`[MeditationPlayer] Component render - sound: ${sound}, autoPlay: ${autoPlay}, minutes: ${minutes}`);
 
   const totalSeconds = minutes * 60;
@@ -178,6 +187,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
             setMeditating(false);
             setPlaying(false);
             setCompleted(true);
+            onCountdownComplete?.();
             playCompletionFeedback();
             // Track session completion
             trackSessionComplete(minutes, sound, preMood || 'unknown', postMood);
@@ -188,7 +198,7 @@ const MeditationPlayer = ({ minutes, sound, onComplete, preMood, postMood, autoP
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [playing, remaining, playCompletionFeedback]);
+  }, [minutes, onCountdownComplete, playCompletionFeedback, playing, postMood, preMood, remaining, setMeditating, sound]);
 
   useEffect(() => {
     if (completed) {

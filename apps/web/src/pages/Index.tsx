@@ -38,6 +38,7 @@ const Index = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const isHome = step === 'mood' || step === 'quote';
   const prevMeditatingRef = useRef<boolean>(false);
+  const completingSessionRef = useRef(false);
 
   // Track page view on mount
   useEffect(() => {
@@ -72,7 +73,12 @@ const Index = () => {
   }, [sound]);
 
   const handleMeditationComplete = useCallback(() => {
+    completingSessionRef.current = false;
     setStep('reflect');
+  }, []);
+
+  const handleMeditationCountdownComplete = useCallback(() => {
+    completingSessionRef.current = true;
   }, []);
 
   const handleReflection = (mood: PostMood, note?: string) => {
@@ -99,6 +105,7 @@ const Index = () => {
   };
 
   const handleReset = useCallback(() => {
+    completingSessionRef.current = false;
     setStep('mood');
     setPreMood(undefined);
     setPostMood(undefined);
@@ -128,7 +135,7 @@ const Index = () => {
   // Reset to mood when meditation is stopped from outside (e.g., Home button)
   useEffect(() => {
     // Only reset if meditation was active and then stopped (transition from true to false)
-    if (prevMeditatingRef.current && !isMeditating && step === 'meditate') {
+    if (prevMeditatingRef.current && !isMeditating && step === 'meditate' && !completingSessionRef.current) {
       console.log('[Index] Meditation stopped externally, resetting to mood');
       handleReset();
     }
@@ -189,6 +196,7 @@ const Index = () => {
                   minutes={minutes}
                   sound={sound}
                   onComplete={handleMeditationComplete}
+                  onCountdownComplete={handleMeditationCountdownComplete}
                   preMood={preMood}
                   postMood={postMood}
                   autoPlay={true}

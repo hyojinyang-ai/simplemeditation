@@ -32,8 +32,22 @@ vi.mock('@/hooks/use-page-meta', () => ({
 }));
 
 vi.mock('@/components/MeditationPlayer', () => ({
-  default: ({ onComplete }: { onComplete: () => void }) => (
-    <button onClick={onComplete} type="button">
+  default: ({
+    onComplete,
+    onCountdownComplete,
+  }: {
+    onComplete: () => void;
+    onCountdownComplete?: () => void;
+  }) => (
+    <button
+      onClick={() => {
+        useMeditationStore.getState().setMeditating(true);
+        onCountdownComplete?.();
+        useMeditationStore.getState().setMeditating(false);
+        onComplete();
+      }}
+      type="button"
+    >
       Finish meditation
     </button>
   ),
