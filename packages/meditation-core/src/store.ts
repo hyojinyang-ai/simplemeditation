@@ -19,7 +19,7 @@ export interface MeditationState {
    *
    * @param entry - Meditation entry without id and timestamp
    */
-  addEntry: (entry: Omit<MoodEntry, 'id' | 'timestamp'>) => void;
+  addEntry: (entry: Omit<MoodEntry, 'id' | 'timestamp'>) => MoodEntry;
 
   /**
    * Update an existing meditation entry by id.
@@ -66,17 +66,19 @@ export function createMeditationStore(
         entries: [],
         isMeditating: false,
 
-        addEntry: (entry) =>
+        addEntry: (entry) => {
+          const createdEntry: MoodEntry = {
+            ...entry,
+            id: crypto.randomUUID(),
+            timestamp: Date.now(),
+          };
+
           set((state) => ({
-            entries: [
-              ...state.entries,
-              {
-                ...entry,
-                id: crypto.randomUUID(),
-                timestamp: Date.now(),
-              },
-            ],
-          })),
+            entries: [...state.entries, createdEntry],
+          }));
+
+          return createdEntry;
+        },
 
         updateEntry: (entryId, updates) =>
           set((state) => ({

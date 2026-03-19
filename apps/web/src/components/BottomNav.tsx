@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, BarChart3, History, Settings } from 'lucide-react';
 import { useMeditationStore } from '@/lib/meditation-store';
 import { ambientEngine } from '@/lib/ambient-engine';
+import { HOME_RESET_EVENT } from '@/lib/navigation-events';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,6 +33,12 @@ const BottomNav = () => {
     if (to === '/' && isMeditating) {
       e.preventDefault();
       setShowConfirm(true);
+      return;
+    }
+
+    if (to === '/' && pathname === '/') {
+      e.preventDefault();
+      window.dispatchEvent(new Event(HOME_RESET_EVENT));
     }
   };
 

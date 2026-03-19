@@ -22,7 +22,7 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
       </div>
 
       <div className="glass-strong rounded-3xl p-5">
-        <div className="flex justify-center gap-2.5">
+        <div className="grid grid-cols-5 gap-2">
           {moods.map(([mood, config], i) => {
             const Icon = config.icon;
             return (
@@ -34,14 +34,14 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
                 whileTap={{ scale: 0.90, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
                 whileHover={{ scale: 1.08, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
                 onClick={() => setSelected(mood)}
-                className={`flex flex-col items-center gap-1.5 p-2.5 rounded-2xl transition-all duration-200 ease-out min-w-[54px] ${
+                className={`flex min-w-0 flex-col items-center gap-1.5 rounded-2xl px-1 py-3 transition-all duration-200 ease-out ${
                   selected === mood
-                    ? `${config.color} glass-selected scale-110`
+                    ? 'glass-selected text-primary-foreground scale-105'
                     : 'glass-button'
                 }`}
               >
                 <Icon size={20} strokeWidth={1.5} />
-                <span className="text-[10px] font-medium tracking-wide">{config.label}</span>
+                <span className="text-center text-[10px] font-medium leading-tight tracking-wide">{config.label}</span>
               </motion.button>
             );
           })}

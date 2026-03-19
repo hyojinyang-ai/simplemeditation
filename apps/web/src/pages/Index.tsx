@@ -9,8 +9,9 @@ import Reflection from '@/components/Reflection';
 import StoicQuote from '@/components/StoicQuote';
 import { type PreMood, type PostMood, type SoundType, useMeditationStore } from '@/lib/meditation-store';
 import { getRandomQuote } from '@repo/meditation-content';
-import { trackPageView, trackPreMoodSelection, trackPostMoodSelection, trackSoundChange, trackQuoteSaved } from '@/lib/analytics';
+import { trackNoteAdded, trackPageView, trackPreMoodSelection, trackPostMoodSelection, trackSoundChange, trackQuoteSaved } from '@/lib/analytics';
 import { usePageMeta } from '@/hooks/use-page-meta';
+import { HOME_RESET_EVENT } from '@/lib/navigation-events';
 
 import StepHeader from '@/components/StepHeader';
 
@@ -80,10 +81,11 @@ const Index = () => {
       trackPostMoodSelection(mood, preMood);
     }
     if (preMood && minutes) {
-      addEntry({ preMood, postMood: mood, note, sessionMinutes: minutes, sound });
-      // Get the latest entry id
-      const store = useMeditationStore.getState();
-      setLastEntryId(store.entries[store.entries.length - 1]?.id);
+      const createdEntry = addEntry({ preMood, postMood: mood, note, sessionMinutes: minutes, sound });
+      setLastEntryId(createdEntry.id);
+      if (note?.trim()) {
+        trackNoteAdded(minutes);
+      }
     }
     setStep('quote');
   };
@@ -113,6 +115,15 @@ const Index = () => {
       handleReset();
     }
   }, [pathname]); // Reset when route changes
+
+  useEffect(() => {
+    const handleHomeReset = () => {
+      handleReset();
+    };
+
+    window.addEventListener(HOME_RESET_EVENT, handleHomeReset);
+    return () => window.removeEventListener(HOME_RESET_EVENT, handleHomeReset);
+  }, [handleReset]);
 
   // Reset to mood when meditation is stopped from outside (e.g., Home button)
   useEffect(() => {

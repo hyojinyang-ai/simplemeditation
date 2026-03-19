@@ -23,7 +23,7 @@ describe('createMeditationStore', () => {
   });
 
   it('addEntry generates unique id with UUID format', () => {
-    store.getState().addEntry({
+    const createdEntry = store.getState().addEntry({
       preMood: 'stressed',
       postMood: 'calm',
       sessionMinutes: 10,
@@ -32,6 +32,7 @@ describe('createMeditationStore', () => {
 
     const entries = store.getState().entries;
     expect(entries).toHaveLength(1);
+    expect(createdEntry).toEqual(entries[0]);
     expect(entries[0].id).toBeDefined();
     expect(typeof entries[0].id).toBe('string');
     // UUID format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
