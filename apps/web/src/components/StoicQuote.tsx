@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
-import { Leaf, ArrowRight, Bookmark } from 'lucide-react';
+import { Leaf, Bookmark, Check } from 'lucide-react';
 
 interface StoicQuoteProps {
   quote: { text: string; author: string };
-  onContinue: () => void;
+  onGoHome: () => void;
+  onViewJournal: () => void;
+  onViewInsights: () => void;
   onSave?: () => void;
   saved?: boolean;
 }
 
-const StoicQuote = ({ quote, onContinue, onSave, saved }: StoicQuoteProps) => {
+const StoicQuote = ({ quote, onGoHome, onViewJournal, onViewInsights, onSave, saved }: StoicQuoteProps) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -22,6 +24,16 @@ const StoicQuote = ({ quote, onContinue, onSave, saved }: StoicQuoteProps) => {
         transition={{ delay: 0.3, type: 'spring', stiffness: 100 }}
       >
         <Leaf size={32} strokeWidth={1.5} className="mx-auto text-accent" />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
+        className="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-medium text-accent"
+      >
+        <Check size={16} strokeWidth={2} />
+        Saved
       </motion.div>
 
       <div className="glass-strong rounded-3xl p-8 space-y-4">
@@ -47,30 +59,47 @@ const StoicQuote = ({ quote, onContinue, onSave, saved }: StoicQuoteProps) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="flex items-center justify-center gap-3"
+        className="space-y-3"
       >
         {onSave && (
           <motion.button
             whileTap={{ scale: 0.94, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
             whileHover={{ scale: 1.04, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
             onClick={onSave}
-            className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-medium tracking-wide transition-all duration-200 ease-out ${
+            className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-medium tracking-wide transition-all duration-200 ease-out ${
               saved ? 'glass-selected text-primary-foreground' : 'glass-button'
             }`}
           >
-            <Bookmark size={14} strokeWidth={1.5} className={saved ? 'fill-current' : ''} />
-            {saved ? 'Saved' : 'Save'}
+            {saved ? <Check size={14} strokeWidth={2} /> : <Bookmark size={14} strokeWidth={1.5} className={saved ? 'fill-current' : ''} />}
+            {saved ? 'Quote saved' : 'Save quote'}
           </motion.button>
         )}
-        <motion.button
-          whileTap={{ scale: 0.94, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
-          whileHover={{ scale: 1.04, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
-          onClick={onContinue}
-          className="inline-flex items-center gap-2 px-8 py-3 rounded-2xl glass-button text-sm font-medium tracking-wide transition-all duration-200 ease-out"
-        >
-          Begin again
-          <ArrowRight size={14} strokeWidth={1.5} />
-        </motion.button>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <motion.button
+            whileTap={{ scale: 0.96, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+            whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+            onClick={onViewJournal}
+            className="rounded-2xl glass-button px-4 py-3 text-sm font-medium tracking-wide transition-all duration-200 ease-out"
+          >
+            View journal
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.96, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+            whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+            onClick={onViewInsights}
+            className="rounded-2xl glass-button px-4 py-3 text-sm font-medium tracking-wide transition-all duration-200 ease-out"
+          >
+            View insights
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.96, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
+            whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+            onClick={onGoHome}
+            className="rounded-2xl glass-button px-4 py-3 text-sm font-medium tracking-wide transition-all duration-200 ease-out"
+          >
+            Go home
+          </motion.button>
+        </div>
       </motion.div>
     </motion.div>
   );

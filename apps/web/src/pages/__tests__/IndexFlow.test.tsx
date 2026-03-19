@@ -89,7 +89,10 @@ describe('Index meditation flow', () => {
       target: { value: 'I feel much steadier now.' },
     });
     fireEvent.click(screen.getByText('Save & Continue'));
-    expect(await screen.findByText('Begin again')).toBeInTheDocument();
+    expect(await screen.findByText('Saved')).toBeInTheDocument();
+    expect(screen.getByText('View journal')).toBeInTheDocument();
+    expect(screen.getByText('View insights')).toBeInTheDocument();
+    expect(screen.getByText('Go home')).toBeInTheDocument();
 
     await waitFor(() => {
       expect(useMeditationStore.getState().entries).toHaveLength(1);
@@ -102,7 +105,7 @@ describe('Index meditation flow', () => {
     expect(savedEntry.sessionMinutes).toBe(3);
     expect(savedEntry.sound).toBe('rain');
 
-    fireEvent.click(screen.getByText('Save'));
+    fireEvent.click(screen.getByText('Save quote'));
 
     await waitFor(() => {
       expect(useMeditationStore.getState().entries[0].savedQuote).toEqual({
@@ -111,7 +114,9 @@ describe('Index meditation flow', () => {
       });
     });
 
-    fireEvent.click(screen.getByText('Home'));
+    expect(screen.getByText('Quote saved')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('Go home'));
     expect(await screen.findByText('How are you feeling?')).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Journal'));

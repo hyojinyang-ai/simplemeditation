@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MoodCheck from '@/components/MoodCheck';
 import SessionPicker from '@/components/SessionPicker';
 import SoundPicker from '@/components/SoundPicker';
@@ -25,6 +25,7 @@ const Index = () => {
   });
 
   const location = useLocation();
+  const navigate = useNavigate();
   const pathname = location.pathname;
   const [step, setStep] = useState<Step>('mood');
   const [preMood, setPreMood] = useState<PreMood>();
@@ -203,7 +204,16 @@ const Index = () => {
                 />
               )}
               {step === 'reflect' && <Reflection onSubmit={handleReflection} />}
-              {step === 'quote' && <StoicQuote quote={quote} onContinue={handleReset} onSave={handleSaveQuote} saved={saved} />}
+              {step === 'quote' && (
+                <StoicQuote
+                  quote={quote}
+                  onGoHome={handleReset}
+                  onViewJournal={() => navigate('/tracker')}
+                  onViewInsights={() => navigate('/analytics')}
+                  onSave={handleSaveQuote}
+                  saved={saved}
+                />
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
