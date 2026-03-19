@@ -21,7 +21,7 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
         <p className="text-muted-foreground text-sm">Notice any shifts</p>
       </div>
 
-      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+      <div className="grid grid-cols-5 gap-1.5">
         {moods.map(([mood, config], i) => {
           const Icon = config.icon;
           return (
@@ -33,14 +33,14 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
               whileTap={{ scale: 0.92, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
               whileHover={{ scale: 1.05, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
               onClick={() => setSelected(mood)}
-              className={`flex flex-none flex-col items-center gap-1.5 py-3.5 px-3 rounded-2xl transition-all duration-200 ease-out ${
+              className={`flex min-w-0 flex-col items-center gap-1.5 rounded-2xl px-1.5 py-3.5 transition-all duration-200 ease-out ${
                 selected === mood
                   ? 'glass-selected text-primary-foreground scale-105'
                   : 'glass-button'
               }`}
             >
               <Icon size={20} strokeWidth={1.5} />
-              <span className="whitespace-nowrap text-xs font-medium tracking-wide">{config.label}</span>
+              <span className="text-center text-[11px] font-medium leading-tight tracking-normal">{config.label}</span>
             </motion.button>
           );
         })}
