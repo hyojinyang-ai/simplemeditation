@@ -35,11 +35,33 @@ const isDynamicImportFailure = (value: unknown) => {
   );
 };
 
+const isStaleAssetLoad = (target: EventTarget | null) => {
+  if (target instanceof HTMLLinkElement) {
+    return target.rel === "stylesheet" && target.href.includes("/assets/");
+  }
+
+  if (target instanceof HTMLScriptElement) {
+    return target.src.includes("/assets/");
+  }
+
+  return false;
+};
+
 window.addEventListener("error", (event) => {
   if (isDynamicImportFailure(event.error ?? event.message)) {
     void recoverFromStaleChunk();
   }
 });
+
+window.addEventListener(
+  "error",
+  (event) => {
+    if (isStaleAssetLoad(event.target)) {
+      void recoverFromStaleChunk();
+    }
+  },
+  true
+);
 
 window.addEventListener("unhandledrejection", (event) => {
   if (isDynamicImportFailure(event.reason)) {
