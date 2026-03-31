@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Leaf, Bookmark, Check } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 
 interface StoicQuoteProps {
   quote: { text: string; author: string };
@@ -11,6 +12,8 @@ interface StoicQuoteProps {
 }
 
 const StoicQuote = ({ quote, onGoHome, onViewJournal, onViewInsights, onSave, saved }: StoicQuoteProps) => {
+  const { t } = useI18n();
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -33,7 +36,7 @@ const StoicQuote = ({ quote, onGoHome, onViewJournal, onViewInsights, onSave, sa
         className="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-medium text-accent"
       >
         <Check size={16} strokeWidth={2} />
-        Saved
+        {t('saved')}
       </motion.div>
 
       <div className="glass-strong rounded-3xl p-8 space-y-4">
@@ -71,7 +74,7 @@ const StoicQuote = ({ quote, onGoHome, onViewJournal, onViewInsights, onSave, sa
             }`}
           >
             {saved ? <Check size={14} strokeWidth={2} /> : <Bookmark size={14} strokeWidth={1.5} className={saved ? 'fill-current' : ''} />}
-            {saved ? 'Quote saved' : 'Save quote'}
+            {saved ? t('quote_saved') : t('save_quote')}
           </motion.button>
         )}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -81,7 +84,7 @@ const StoicQuote = ({ quote, onGoHome, onViewJournal, onViewInsights, onSave, sa
             onClick={onViewJournal}
             className="rounded-2xl glass-button px-4 py-3 text-sm font-medium tracking-wide transition-all duration-200 ease-out"
           >
-            View journal
+            {t('view_journal')}
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.96, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
@@ -89,7 +92,7 @@ const StoicQuote = ({ quote, onGoHome, onViewJournal, onViewInsights, onSave, sa
             onClick={onViewInsights}
             className="rounded-2xl glass-button px-4 py-3 text-sm font-medium tracking-wide transition-all duration-200 ease-out"
           >
-            View insights
+            {t('view_insights')}
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.96, transition: { type: 'spring', stiffness: 600, damping: 20 } }}
@@ -97,7 +100,7 @@ const StoicQuote = ({ quote, onGoHome, onViewJournal, onViewInsights, onSave, sa
             onClick={onGoHome}
             className="rounded-2xl glass-button px-4 py-3 text-sm font-medium tracking-wide transition-all duration-200 ease-out"
           >
-            Go home
+            {t('go_home')}
           </motion.button>
         </div>
       </motion.div>

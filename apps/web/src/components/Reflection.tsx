@@ -3,12 +3,14 @@ import { type PostMood } from '@/lib/meditation-store';
 import { postMoodConfig } from '@/lib/web-mood-config';
 import { useState } from 'react';
 import { Feather } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 
 interface ReflectionProps {
   onSubmit: (mood: PostMood, note?: string) => void;
 }
 
 const Reflection = ({ onSubmit }: ReflectionProps) => {
+  const { t } = useI18n();
   const [selected, setSelected] = useState<PostMood>();
   const [note, setNote] = useState('');
   const moods = Object.entries(postMoodConfig) as [PostMood, typeof postMoodConfig[PostMood]][];
@@ -17,8 +19,8 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
       <div className="text-center space-y-2">
         <Feather size={28} strokeWidth={1.5} className="mx-auto text-muted-foreground" />
-        <h2 className="text-2xl font-display font-medium tracking-tight">How do you feel now?</h2>
-        <p className="text-muted-foreground text-sm">Notice any shifts</p>
+        <h2 className="text-2xl font-display font-medium tracking-tight">{t('how_feel_now')}</h2>
+        <p className="text-muted-foreground text-sm">{t('notice_shifts')}</p>
       </div>
 
       <div className="grid grid-cols-5 gap-1.5">
@@ -40,7 +42,7 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
               }`}
             >
               <Icon size={20} strokeWidth={1.5} />
-              <span className="text-center text-[11px] font-medium leading-tight tracking-normal">{config.label}</span>
+              <span className="text-center text-[11px] font-medium leading-tight tracking-normal">{t(`mood.${mood}`)}</span>
             </motion.button>
           );
         })}
@@ -51,7 +53,7 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
-            placeholder="Add a note about your session… (optional)"
+            placeholder={t('add_note')}
             className="w-full glass rounded-2xl p-4 text-sm resize-none h-20 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-muted-foreground/50"
           />
           <motion.button
@@ -60,7 +62,7 @@ const Reflection = ({ onSubmit }: ReflectionProps) => {
             onClick={() => onSubmit(selected, note || undefined)}
             className="w-full py-3.5 rounded-2xl glass-selected text-primary-foreground text-sm font-medium tracking-wide transition-all duration-200 ease-out"
           >
-            Save & Continue
+            {t('save_continue')}
           </motion.button>
         </motion.div>
       )}

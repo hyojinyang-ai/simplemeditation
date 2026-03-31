@@ -5,6 +5,7 @@ import { preMoodToValue, calculateStreak } from '@repo/meditation-core';
 import { subDays, startOfDay, format } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { Activity, Clock, Flame, FileText, BarChart3 } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 
 import StepHeader from '@/components/StepHeader';
 import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
@@ -19,6 +20,7 @@ const CHART_COLORS = [
 ];
 
 const Analytics = () => {
+  const { t } = useI18n();
   const { entries } = useMeditationStore();
   const { containerRef, pullDistance, refreshing, threshold } = usePullToRefresh();
 
@@ -38,13 +40,13 @@ const Analytics = () => {
   });
 
   const preMoodDist = (Object.keys(preMoodConfig) as PreMood[]).map((mood, i) => ({
-    name: preMoodConfig[mood].label,
+    name: t(`mood.${mood}`),
     value: entries.filter((e) => e.preMood === mood).length,
     fill: CHART_COLORS[i % CHART_COLORS.length],
   })).filter((d) => d.value > 0);
 
   const postMoodDist = (Object.keys(postMoodConfig) as PostMood[]).map((mood, i) => ({
-    name: postMoodConfig[mood].label,
+    name: t(`mood.${mood}`),
     value: entries.filter((e) => e.postMood === mood).length,
     fill: CHART_COLORS[i % CHART_COLORS.length],
   })).filter((d) => d.value > 0);
@@ -58,15 +60,15 @@ const Analytics = () => {
   });
 
   const stats = [
-    { label: 'Sessions', value: totalSessions, icon: Activity },
-    { label: 'Minutes', value: totalMinutes, icon: Clock },
-    { label: 'Streak', value: `${streak}d`, icon: Flame },
-    { label: 'Entries', value: entries.length, icon: FileText },
+    { label: t('sessions'), value: totalSessions, icon: Activity },
+    { label: t('minutes'), value: totalMinutes, icon: Clock },
+    { label: t('streak'), value: `${streak}d`, icon: Flame },
+    { label: t('entries'), value: entries.length, icon: FileText },
   ];
 
   return (
     <div ref={containerRef} className="min-h-screen relative pb-24 overflow-auto">
-      <StepHeader title="Insights" subtitle="Your mindfulness journey" sticky />
+      <StepHeader title={t('insights')} subtitle={t('your_mindfulness_journey')} sticky />
 
       <div className="px-4 max-w-md mx-auto space-y-5 mt-4">
         <PullToRefresh pullDistance={pullDistance} refreshing={refreshing} threshold={threshold} />
@@ -94,7 +96,7 @@ const Analytics = () => {
         {entries.length > 0 && (
           <>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass-strong rounded-2xl p-4 space-y-3">
-              <h3 className="text-sm font-display font-medium tracking-tight">Daily Sessions</h3>
+              <h3 className="text-sm font-display font-medium tracking-tight">{t('daily_sessions')}</h3>
               <ResponsiveContainer width="100%" height={160}>
                 <BarChart data={last14}>
                   <XAxis dataKey="date" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} interval={2} />
@@ -106,7 +108,7 @@ const Analytics = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-strong rounded-2xl p-4 space-y-3">
-              <h3 className="text-sm font-display font-medium tracking-tight">Minutes Meditated</h3>
+              <h3 className="text-sm font-display font-medium tracking-tight">{t('minutes_meditated')}</h3>
               <ResponsiveContainer width="100%" height={140}>
                 <LineChart data={last14}>
                   <XAxis dataKey="date" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} interval={2} />
@@ -121,8 +123,8 @@ const Analytics = () => {
 
         {moodTrend.some((d) => d.mood !== null) && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="glass-strong rounded-2xl p-4 space-y-3">
-            <h3 className="text-sm font-display font-medium tracking-tight">Mood Trend</h3>
-            <p className="text-[11px] text-muted-foreground -mt-1">Pre-session average (1–5)</p>
+            <h3 className="text-sm font-display font-medium tracking-tight">{t('mood_trend')}</h3>
+            <p className="text-[11px] text-muted-foreground -mt-1">{t('pre_session_avg')}</p>
             <ResponsiveContainer width="100%" height={140}>
               <LineChart data={moodTrend.filter((d) => d.mood !== null)}>
                 <XAxis dataKey="date" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} interval={2} />
@@ -137,7 +139,7 @@ const Analytics = () => {
         {preMoodDist.length > 0 && (
           <div className="grid grid-cols-2 gap-3">
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-strong rounded-2xl p-4 space-y-2">
-              <h3 className="text-xs font-display font-medium tracking-tight">Before</h3>
+              <h3 className="text-xs font-display font-medium tracking-tight">{t('before')}</h3>
               <ResponsiveContainer width="100%" height={120}>
                 <PieChart>
                   <Pie data={preMoodDist} dataKey="value" cx="50%" cy="50%" outerRadius={45} innerRadius={25} paddingAngle={3}>
@@ -157,7 +159,7 @@ const Analytics = () => {
             </motion.div>
             {postMoodDist.length > 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="glass-strong rounded-2xl p-4 space-y-2">
-                <h3 className="text-xs font-display font-medium tracking-tight">After</h3>
+                <h3 className="text-xs font-display font-medium tracking-tight">{t('after')}</h3>
                 <ResponsiveContainer width="100%" height={120}>
                   <PieChart>
                     <Pie data={postMoodDist} dataKey="value" cx="50%" cy="50%" outerRadius={45} innerRadius={25} paddingAngle={3}>
@@ -182,7 +184,7 @@ const Analytics = () => {
         {entries.length === 0 && (
           <div className="text-center py-12 space-y-3">
             <BarChart3 size={36} strokeWidth={1.5} className="mx-auto text-muted-foreground" />
-            <p className="text-muted-foreground text-sm">Complete sessions to see insights here.</p>
+            <p className="text-muted-foreground text-sm">{t('complete_for_insights')}</p>
           </div>
         )}
       </div>

@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import BottomNav from '../BottomNav';
 import { useMeditationStore } from '@/lib/meditation-store';
+import { I18nProvider } from '@/lib/i18n';
 
 const { stopMock } = vi.hoisted(() => ({
   stopMock: vi.fn(),
@@ -22,9 +23,11 @@ describe('BottomNav', () => {
 
   it('stops audio immediately when confirming a session stop', async () => {
     render(
-      <MemoryRouter initialEntries={['/tracker']}>
-        <BottomNav />
-      </MemoryRouter>
+      <I18nProvider>
+        <MemoryRouter initialEntries={['/tracker']}>
+          <BottomNav />
+        </MemoryRouter>
+      </I18nProvider>
     );
 
     fireEvent.click(screen.getByText('Home'));

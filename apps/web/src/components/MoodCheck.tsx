@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { type PreMood } from '@/lib/meditation-store';
 import { preMoodConfig } from '@/lib/web-mood-config';
+import { useI18n } from '@/lib/i18n';
 
 interface MoodCheckProps {
   onSelect: (mood: PreMood) => void;
@@ -8,13 +9,14 @@ interface MoodCheckProps {
 }
 
 const MoodCheck = ({ onSelect, selected }: MoodCheckProps) => {
+  const { t } = useI18n();
   const moods = Object.entries(preMoodConfig) as [PreMood, typeof preMoodConfig[PreMood]][];
 
   return (
     <div className="space-y-6">
       <div className="text-center space-y-1.5">
-        <h2 className="text-2xl font-display font-medium tracking-tight">How are you feeling?</h2>
-        <p className="text-muted-foreground text-sm">Check in with yourself</p>
+        <h2 className="text-2xl font-display font-medium tracking-tight">{t('how_feeling')}</h2>
+        <p className="text-muted-foreground text-sm">{t('check_in')}</p>
       </div>
       <div className="flex gap-2">
         {moods.map(([mood, config], i) => {
@@ -36,7 +38,7 @@ const MoodCheck = ({ onSelect, selected }: MoodCheckProps) => {
               }`}
             >
               <Icon size={20} strokeWidth={1.5} />
-              <span className="text-xs font-medium tracking-wide">{config.label}</span>
+              <span className="text-xs font-medium tracking-wide">{t(`mood.${mood}`)}</span>
             </motion.button>
           );
         })}

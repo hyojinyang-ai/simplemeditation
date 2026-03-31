@@ -6,6 +6,7 @@ import TrackerPage from '../TrackerPage';
 import AnalyticsPage from '../AnalyticsPage';
 import BottomNav from '@/components/BottomNav';
 import { useMeditationStore } from '@/lib/meditation-store';
+import { I18nProvider } from '@/lib/i18n';
 
 vi.mock('@repo/meditation-content', () => ({
   getRandomQuote: () => ({
@@ -67,14 +68,16 @@ describe('Index meditation flow', () => {
 
   it('saves the completed session, allows quote saving, shows journal and insights data, and resets home state from the result screen', async () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/tracker" element={<TrackerPage />} />
-          <Route path="/analytics" element={<AnalyticsPage />} />
-        </Routes>
-        <BottomNav />
-      </MemoryRouter>
+      <I18nProvider>
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/tracker" element={<TrackerPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
+          </Routes>
+          <BottomNav />
+        </MemoryRouter>
+      </I18nProvider>
     );
 
     fireEvent.click(screen.getByText('Stressed'));

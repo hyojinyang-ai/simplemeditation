@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 
 interface StepHeaderProps {
   title: string;
@@ -9,6 +10,8 @@ interface StepHeaderProps {
 }
 
 const StepHeader = ({ title, subtitle, onBack, sticky = false }: StepHeaderProps) => {
+  const { t } = useI18n();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -8 }}
@@ -22,7 +25,7 @@ const StepHeader = ({ title, subtitle, onBack, sticky = false }: StepHeaderProps
             className="absolute left-0 flex items-center gap-0.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <ChevronLeft size={18} strokeWidth={1.5} />
-            <span>Back</span>
+            <span>{t('back')}</span>
           </button>
         )}
         <h1 className="text-lg font-display font-medium tracking-tight text-foreground">

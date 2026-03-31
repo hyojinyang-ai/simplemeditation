@@ -5,12 +5,13 @@ import { ambientEngine, resolveSound, AmbientSound } from '@/lib/ambient-engine'
 import { SoundType, useMeditationStore } from '@/lib/meditation-store';
 import { trackSessionStart, trackSessionComplete, trackSessionAbandoned } from '@/lib/analytics';
 import AmbientVisuals from './AmbientVisuals';
+import { useI18n } from '@/lib/i18n';
 
 const BREATH_PHASES = [
-  { label: 'Inhale', duration: 4000 },
-  { label: 'Hold', duration: 2000 },
-  { label: 'Exhale', duration: 4000 },
-  { label: 'Hold', duration: 2000 },
+  { key: 'inhale', duration: 4000 },
+  { key: 'hold', duration: 2000 },
+  { key: 'exhale', duration: 4000 },
+  { key: 'hold', duration: 2000 },
 ] as const;
 
 const TOTAL_CYCLE = BREATH_PHASES.reduce((s, p) => s + p.duration, 0); // 12s
@@ -34,6 +35,7 @@ const MeditationPlayer = ({
   postMood,
   autoPlay = false,
 }: MeditationPlayerProps) => {
+  const { t } = useI18n();
   console.log(`[MeditationPlayer] Component render - sound: ${sound}, autoPlay: ${autoPlay}, minutes: ${minutes}`);
 
   const totalSeconds = minutes * 60;
@@ -221,7 +223,7 @@ const MeditationPlayer = ({
           className="text-center space-y-4 py-12"
         >
           <CheckCircle size={48} strokeWidth={1.5} className="mx-auto text-accent" />
-          <h2 className="text-2xl font-display font-medium text-foreground tracking-tight">Session Complete</h2>
+          <h2 className="text-2xl font-display font-medium text-foreground tracking-tight">{t('session_complete')}</h2>
         </motion.div>
       ) : (
         <motion.div
@@ -256,7 +258,7 @@ const MeditationPlayer = ({
                     transition={{ duration: 0.4 }}
                     className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
-                    {BREATH_PHASES[breathPhase].label}
+                    {t(BREATH_PHASES[breathPhase].key)}
                   </motion.span>
                 </AnimatePresence>
               )}
@@ -286,7 +288,7 @@ const MeditationPlayer = ({
                     transition={{ duration: 0.4 }}
                     className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
-                    {BREATH_PHASES[breathPhase].label}
+                    {t(BREATH_PHASES[breathPhase].key)}
                   </motion.span>
                 </AnimatePresence>
               )}
@@ -316,7 +318,7 @@ const MeditationPlayer = ({
                     transition={{ duration: 0.4 }}
                     className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
-                    {BREATH_PHASES[breathPhase].label}
+                    {t(BREATH_PHASES[breathPhase].key)}
                   </motion.span>
                 </AnimatePresence>
               )}
@@ -346,7 +348,7 @@ const MeditationPlayer = ({
                     transition={{ duration: 0.4 }}
                     className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
-                    {BREATH_PHASES[breathPhase].label}
+                    {t(BREATH_PHASES[breathPhase].key)}
                   </motion.span>
                 </AnimatePresence>
               )}
@@ -376,7 +378,7 @@ const MeditationPlayer = ({
                     transition={{ duration: 0.4 }}
                     className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
-                    {BREATH_PHASES[breathPhase].label}
+                    {t(BREATH_PHASES[breathPhase].key)}
                   </motion.span>
                 </AnimatePresence>
               )}
@@ -406,7 +408,7 @@ const MeditationPlayer = ({
                     transition={{ duration: 0.4 }}
                     className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
-                    {BREATH_PHASES[breathPhase].label}
+                    {t(BREATH_PHASES[breathPhase].key)}
                   </motion.span>
                 </AnimatePresence>
               )}
@@ -436,7 +438,7 @@ const MeditationPlayer = ({
                     transition={{ duration: 0.4 }}
                     className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
-                    {BREATH_PHASES[breathPhase].label}
+                    {t(BREATH_PHASES[breathPhase].key)}
                   </motion.span>
                 </AnimatePresence>
               )}
@@ -466,7 +468,7 @@ const MeditationPlayer = ({
                     transition={{ duration: 0.4 }}
                     className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
-                    {BREATH_PHASES[breathPhase].label}
+                    {t(BREATH_PHASES[breathPhase].key)}
                   </motion.span>
                 </AnimatePresence>
               )}
@@ -496,7 +498,7 @@ const MeditationPlayer = ({
                     transition={{ duration: 0.4 }}
                     className="text-base text-foreground/70 tracking-widest uppercase font-light"
                   >
-                    {BREATH_PHASES[breathPhase].label}
+                    {t(BREATH_PHASES[breathPhase].key)}
                   </motion.span>
                 </AnimatePresence>
               )}
@@ -522,7 +524,7 @@ const MeditationPlayer = ({
                 className="mt-2 px-5 py-2 rounded-full glass-button text-xs font-medium tracking-wide transition-all duration-200"
               >
                 <Pause size={14} strokeWidth={1.5} className="inline mr-1.5" />
-                Pause
+                {t('pause')}
               </motion.button>
             )}
             {!playing && (
@@ -539,7 +541,7 @@ const MeditationPlayer = ({
                 className="mt-2 px-5 py-2 rounded-full glass-selected text-primary-foreground text-xs font-medium tracking-wide transition-all duration-200"
               >
                 <Play size={14} strokeWidth={1.5} className="inline mr-1.5" />
-                {remaining === totalSeconds ? 'Begin' : 'Resume'}
+                {remaining === totalSeconds ? t('begin') : t('resume')}
               </motion.button>
             )}
           </div>

@@ -12,6 +12,7 @@ import { getRandomQuote } from '@repo/meditation-content';
 import { trackNoteAdded, trackPageView, trackPreMoodSelection, trackPostMoodSelection, trackSoundChange, trackQuoteSaved } from '@/lib/analytics';
 import { usePageMeta } from '@/hooks/use-page-meta';
 import { HOME_RESET_EVENT } from '@/lib/navigation-events';
+import { useI18n } from '@/lib/i18n';
 
 import StepHeader from '@/components/StepHeader';
 
@@ -24,6 +25,7 @@ const Index = () => {
     description: 'Begin a calming meditation session with gentle breathing, ambient soundscapes, and mindful reflection.',
   });
 
+  const { t } = useI18n();
   const location = useLocation();
   const navigate = useNavigate();
   const pathname = location.pathname;
@@ -80,6 +82,11 @@ const Index = () => {
 
   const handleMeditationCountdownComplete = useCallback(() => {
     completingSessionRef.current = true;
+  }, []);
+
+  const handleMeditationBack = useCallback(() => {
+    // Setting step to 'sound' unmounts MeditationPlayer, which stops audio
+    setStep('sound');
   }, []);
 
   const handleReflection = (mood: PostMood, note?: string) => {
@@ -148,12 +155,12 @@ const Index = () => {
   return (
     <div className="min-h-[100dvh] relative flex flex-col overflow-hidden">
       {/* Sticky Header */}
-      {step === 'mood' && <StepHeader title="Stillness" subtitle="Begin your practice" sticky />}
-      {step === 'session' && <StepHeader title="Meditation" subtitle="Choose your session" onBack={() => setStep('mood')} sticky />}
-      {step === 'sound' && <StepHeader title="Meditation" subtitle="Pick a soundscape" onBack={() => setStep('session')} sticky />}
-      {step === 'meditate' && <StepHeader title="Meditation" subtitle="Breathe deeply" sticky />}
-      {step === 'reflect' && <StepHeader title="Reflection" subtitle="How do you feel now?" sticky />}
-      {step === 'quote' && <StepHeader title="Stillness" subtitle="A thought to carry with you" sticky />}
+      {step === 'mood' && <StepHeader title={t('stillness')} subtitle={t('begin_practice')} sticky />}
+      {step === 'session' && <StepHeader title={t('meditation')} subtitle={t('choose_session')} onBack={() => setStep('mood')} sticky />}
+      {step === 'sound' && <StepHeader title={t('meditation')} subtitle={t('pick_soundscape')} onBack={() => setStep('session')} sticky />}
+      {step === 'meditate' && <StepHeader title={t('meditation')} subtitle={t('breathe_deeply')} onBack={handleMeditationBack} sticky />}
+      {step === 'reflect' && <StepHeader title={t('reflection')} subtitle={t('how_feel_now')} sticky />}
+      {step === 'quote' && <StepHeader title={t('stillness')} subtitle={t('thought_carry')} sticky />}
 
       {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 pb-28">
@@ -162,7 +169,7 @@ const Index = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ 
+              transition={{
                 opacity: { delay: 0.2, duration: 0.4 },
                 scale: { delay: 0.2, type: 'spring', stiffness: 120 },
               }}

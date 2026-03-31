@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { BookOpen, Bookmark, Leaf, Quote } from 'lucide-react';
 import { trackPageView, trackPullToRefresh } from '@/lib/analytics';
 import { usePageMeta } from '@/hooks/use-page-meta';
+import { useI18n } from '@/lib/i18n';
 
 import StepHeader from '@/components/StepHeader';
 import { usePullToRefresh } from '@/hooks/use-pull-to-refresh';
@@ -19,6 +20,7 @@ const TrackerPage = () => {
     description: 'Review your meditation sessions, saved reflections, and memorable quotes in your Stillness journal.',
   });
 
+  const { t } = useI18n();
   const { entries } = useMeditationStore();
   const [tab, setTab] = useState<Tab>('sessions');
   const { containerRef, pullDistance, refreshing, threshold } = usePullToRefresh();
@@ -39,7 +41,7 @@ const TrackerPage = () => {
 
   return (
     <div ref={containerRef} className="min-h-screen relative pb-24 overflow-auto">
-      <StepHeader title="Journal" subtitle="Your meditation journey" sticky />
+      <StepHeader title={t('journal')} subtitle={t('your_meditation_journey')} sticky />
 
       <div className="px-4 max-w-md mx-auto space-y-5 mt-4">
         <PullToRefresh pullDistance={pullDistance} refreshing={refreshing} threshold={threshold} />
@@ -53,7 +55,7 @@ const TrackerPage = () => {
             }`}
           >
             <BookOpen size={14} strokeWidth={1.5} />
-            Sessions
+            {t('sessions')}
           </button>
           <button
             onClick={() => setTab('quotes')}
@@ -62,7 +64,7 @@ const TrackerPage = () => {
             }`}
           >
             <Bookmark size={14} strokeWidth={1.5} />
-            Saved Quotes
+            {t('saved_quotes')}
             {savedQuotes.length > 0 && (
               <span className="text-[10px] bg-accent/20 text-accent px-1.5 py-0.5 rounded-full leading-none">
                 {savedQuotes.length}
@@ -84,7 +86,7 @@ const TrackerPage = () => {
               {sorted.length === 0 && (
                 <div className="text-center py-16 space-y-3">
                   <BookOpen size={36} strokeWidth={1.5} className="mx-auto text-muted-foreground" />
-                  <p className="text-muted-foreground text-sm">No sessions yet. Complete a meditation to start tracking.</p>
+                  <p className="text-muted-foreground text-sm">{t('no_sessions_yet')}</p>
                 </div>
               )}
 
@@ -110,7 +112,7 @@ const TrackerPage = () => {
                         )}
                         {entry.sessionMinutes && (
                           <span className="text-xs text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-lg">
-                            {entry.sessionMinutes} min
+                            {entry.sessionMinutes} {t('min')}
                           </span>
                         )}
                       </div>
@@ -119,16 +121,16 @@ const TrackerPage = () => {
                     <div className="flex items-center gap-2">
                       <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-medium ${preConfig.color}`}>
                         <PreIcon size={14} strokeWidth={1.5} />
-                        {preConfig.label}
+                        {t(`mood.${entry.preMood}`)}
                       </div>
                       {postConfig && (() => {
                         const PostIcon = postConfig.icon;
                         return (
                           <>
-                            <span className="text-muted-foreground text-xs">→</span>
+                            <span className="text-muted-foreground text-xs">&rarr;</span>
                             <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-medium ${postConfig.color}`}>
                               <PostIcon size={14} strokeWidth={1.5} />
-                              {postConfig.label}
+                              {t(`mood.${entry.postMood}`)}
                             </div>
                           </>
                         );
@@ -164,7 +166,7 @@ const TrackerPage = () => {
               {savedQuotes.length === 0 && (
                 <div className="text-center py-16 space-y-3">
                   <Leaf size={36} strokeWidth={1.5} className="mx-auto text-muted-foreground" />
-                  <p className="text-muted-foreground text-sm">No saved quotes yet. Save a quote after your next session.</p>
+                  <p className="text-muted-foreground text-sm">{t('no_saved_quotes')}</p>
                 </div>
               )}
 

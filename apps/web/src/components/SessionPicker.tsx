@@ -1,20 +1,23 @@
 import { motion } from 'framer-motion';
 import { Zap, CircleDot, Waves, Target, Focus } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 
 interface SessionPickerProps {
   onSelect: (minutes: number) => void;
   selected?: number;
 }
 
-const sessions = [
-  { minutes: 3, description: 'Quick reset', icon: Zap },
-  { minutes: 5, description: 'Find center', icon: CircleDot },
-  { minutes: 10, description: 'Deep calm', icon: Waves },
-  { minutes: 30, description: 'Focus mode', icon: Target },
-  { minutes: 45, description: 'Deep focus', icon: Focus },
-];
-
 const SessionPicker = ({ onSelect, selected }: SessionPickerProps) => {
+  const { t } = useI18n();
+
+  const sessions = [
+    { minutes: 3, descriptionKey: 'quick_reset', icon: Zap },
+    { minutes: 5, descriptionKey: 'find_center', icon: CircleDot },
+    { minutes: 10, descriptionKey: 'deep_calm', icon: Waves },
+    { minutes: 30, descriptionKey: 'focus_mode', icon: Target },
+    { minutes: 45, descriptionKey: 'deep_focus', icon: Focus },
+  ];
+
   return (
     <div className="flex flex-col gap-4">
       {/* Decorative video element */}
@@ -61,12 +64,12 @@ const SessionPicker = ({ onSelect, selected }: SessionPickerProps) => {
               <span className={`text-base font-display font-medium tracking-tight ${
                 selected === session.minutes ? 'text-primary-foreground' : 'text-foreground'
               }`}>
-                {session.description}
+                {t(session.descriptionKey)}
               </span>
               <span className={`text-xs ${
                 selected === session.minutes ? 'text-primary-foreground/70' : 'text-muted-foreground'
               }`}>
-                {session.minutes} min
+                {session.minutes} {t('min')}
               </span>
             </div>
           </motion.button>

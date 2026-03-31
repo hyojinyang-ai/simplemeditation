@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { type SoundType } from '@/lib/meditation-store';
 import { soundConfig } from '@/lib/web-mood-config';
 import { Music2 } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 
 interface SoundPickerProps {
   onSelect: (sound: SoundType) => void;
@@ -9,6 +10,7 @@ interface SoundPickerProps {
 }
 
 const SoundPicker = ({ onSelect, selected }: SoundPickerProps) => {
+  const { t } = useI18n();
   const allSounds = Object.entries(soundConfig) as [SoundType, typeof soundConfig[SoundType]][];
   const regularSounds = allSounds.filter(([sound]) => sound !== 'random');
   const randomSound = allSounds.find(([sound]) => sound === 'random');
@@ -50,7 +52,7 @@ const SoundPicker = ({ onSelect, selected }: SoundPickerProps) => {
               }`}
             >
               <Icon size={20} strokeWidth={1.5} />
-              <span className="text-[11px] font-medium tracking-wide text-center leading-tight">{config.label}</span>
+              <span className="text-[11px] font-medium tracking-wide text-center leading-tight">{t(`sound.${sound}`)}</span>
             </motion.button>
           );
         })}
@@ -76,7 +78,7 @@ const SoundPicker = ({ onSelect, selected }: SoundPickerProps) => {
             }`}
           >
             <Icon size={22} strokeWidth={1.5} />
-            <span className="text-base font-medium tracking-wide">{config.label}</span>
+            <span className="text-base font-medium tracking-wide">{t(`sound.${sound}`)}</span>
           </motion.button>
         );
       })()}

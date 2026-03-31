@@ -14,18 +14,20 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useState } from 'react';
+import { useI18n } from '@/lib/i18n';
 
 const BottomNav = () => {
+  const { t } = useI18n();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { isMeditating, setMeditating } = useMeditationStore();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const links = [
-    { to: '/', icon: Home, label: 'Home' },
-    { to: '/tracker', icon: History, label: 'Journal' },
-    { to: '/analytics', icon: BarChart3, label: 'Insights' },
-    { to: '/settings', icon: Settings, label: 'Settings' },
+    { to: '/', icon: Home, labelKey: 'home' },
+    { to: '/tracker', icon: History, labelKey: 'journal' },
+    { to: '/analytics', icon: BarChart3, labelKey: 'insights' },
+    { to: '/settings', icon: Settings, labelKey: 'settings' },
   ];
 
   const handleNavClick = (to: string, e: React.MouseEvent) => {
@@ -54,15 +56,15 @@ const BottomNav = () => {
       <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
         <AlertDialogContent className="glass-strong border-white/40">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-foreground">Stop meditation?</AlertDialogTitle>
+            <AlertDialogTitle className="text-foreground">{t('stop_meditation')}</AlertDialogTitle>
             <AlertDialogDescription className="text-muted-foreground">
-              Your meditation session is still in progress. Are you sure you want to stop and return home?
+              {t('meditation_in_progress')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="glass-button">Continue meditating</AlertDialogCancel>
+            <AlertDialogCancel className="glass-button">{t('continue_meditating')}</AlertDialogCancel>
             <AlertDialogAction onClick={handleConfirmStop} className="glass-selected text-primary-foreground">
-              Stop session
+              {t('stop_session')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -70,7 +72,7 @@ const BottomNav = () => {
 
       <nav className="fixed bottom-0 left-0 right-0 glass-strong z-50 border-t border-border/30">
         <div className="max-w-md mx-auto flex justify-around py-2">
-          {links.map(({ to, icon: Icon, label }) => (
+          {links.map(({ to, icon: Icon, labelKey }) => (
             <Link
               key={to}
               to={to}
@@ -80,7 +82,7 @@ const BottomNav = () => {
               }`}
             >
               <Icon size={20} strokeWidth={1.5} />
-              <span className="text-[10px] font-medium">{label}</span>
+              <span className="text-[10px] font-medium">{t(labelKey)}</span>
             </Link>
           ))}
         </div>
