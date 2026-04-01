@@ -7,6 +7,7 @@ Stillness is a mobile-first meditation web app built with React, TypeScript, and
 - Guided meditation sessions with ambient audio
 - Mood check-in before and after meditation
 - Local journal/history stored in the browser
+- Optional passwordless email sync with Supabase
 - Analytics dashboard for personal progress
 - Vercel Analytics for product usage insights
 
@@ -14,11 +15,11 @@ Stillness is a mobile-first meditation web app built with React, TypeScript, and
 
 This version is a frontend-only product.
 
-- User data is stored in browser `localStorage`
-- There is no login, sync, or cloud backup yet
-- Users keep their data on the device/browser they use
+- User data is stored in browser `localStorage` by default
+- Optional cloud sync is available when Supabase is configured
+- Users can keep data local-only or connect the same history across devices
 
-That makes it fast and inexpensive to launch, but you should treat it as an MVP until cross-device sync and account recovery are added.
+That keeps the app lightweight, but you should still treat it as an MVP until the sync flow includes production account recovery, richer conflict handling, and mobile parity.
 
 ## Local development
 
@@ -35,6 +36,17 @@ pnpm dev
 ```
 
 The web app runs on `http://localhost:8080`.
+
+### Optional cross-device sync setup
+
+Add these variables in `apps/web/.env.local`:
+
+```bash
+VITE_SUPABASE_URL=your-project-url
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
+
+Then apply the database migration in `supabase/migrations/20260320_create_meditation_entries.sql`.
 
 ## iOS app scaffold
 
