@@ -46,6 +46,13 @@ VITE_SUPABASE_URL=your-project-url
 VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
+You can also use:
+
+```bash
+VITE_SUPABASE_PROJECT_ID=your-project-id
+VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+```
+
 Then apply the database migration in `supabase/migrations/20260320_create_meditation_entries.sql`.
 
 ## iOS app scaffold
